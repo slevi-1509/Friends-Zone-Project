@@ -1,5 +1,3 @@
-Project : Users and Movies database system with Node.js and MongoDB
-
 Objective:
 
 Create a client side with React to register and login for users.
