@@ -1,0 +1,317 @@
+#postsContainer{
+  position:absolute; left:30%; top:0;
+  max-width:30rem;
+  align-self: center;
+}
+
+#searchAndSortDiv{
+  position:fixed;
+  min-width: 20rem;
+  margin-left:18rem; 
+}
+
+#searchAndSortDiv label{
+  color: rgb(192, 192, 36);
+  width:fit-content;
+}
+
+.modal-header{
+  padding: 0 1rem 0 1.5rem;
+}
+
+#postsPageHeader{
+  display:flex;
+  flex-direction: column;
+  position: fixed;
+  z-index: 10;
+  width: 100%;
+  background-color: transparent;
+}
+
+#postsBody{
+  display:flex;
+  flex-direction: column;
+  position:fixed;
+  top:12rem;
+  overflow: auto;
+  height: 40rem;
+  z-index: 1;
+  align-items: left;
+  width: fit-content;
+  scrollbar-width: none;
+}
+
+#postContainer{
+    display:flex;
+    flex-direction: column;
+    width:40rem;
+    left:2%;
+    font-size: 1.2rem;
+
+}
+
+#utilitySection{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 10rem;
+  margin-top: -10px;
+}
+
+#postsTitle{
+  font-family: "Creepster", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 7rem;
+  margin-top: 0px;
+  width:20rem;
+  height:fit-content;
+  background: -webkit-linear-gradient(90deg, rgba(255,0,0,1) 2%, rgba(24,140,200,1) 45%, rgba(255,4,0,1) 100%);
+  background-clip: border-box;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#importPostsgBtn{
+  font-size: 1rem;
+  width:7rem;
+  background-color: aquamarine;
+  margin-left: 30px;
+}
+
+#myPostsDiv{
+  display:flex;
+  flex-direction: row;
+  justify-content: left;
+  color: yellow;
+  font-weight: bold;
+  font-size: 1rem;
+  margin: 3px;
+  text-align: left;
+}
+
+#myPostsCheck{
+  transform: scale(1.2);
+  margin-right: 10px;
+  width:auto;
+}
+
+#addPostBtn, #postsRefreshBtn{
+  font-size: 1rem;
+  background-color: #461dcf;
+  color: #ffff;
+  border: none;
+  border-radius: 6px;
+  margin: 0 10px 5px 0;
+}
+
+#clearBtn{
+  font-size: 1rem;
+  background-color: #bd270d;
+}
+
+#myPosts, #searchInput, #srchSelect, #sortSelect {
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: rgb(205, 205, 111);
+  border-radius: 5px;
+  width:5rem;
+  height: fit-content;
+}
+
+#searchPosts>* , #sortPosts>*{
+  margin: 4px 0 4px 0 ;
+}
+#searchPosts , #sortPosts{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding:0;
+  margin: 2px;
+  gap: 5px;
+}
+#searchPosts{
+  margin-bottom: 0.5rem;
+}
+#searchInput{
+  width: 5rem;
+}
+
+#srchSelect, #sortSelect, #searchInput {
+  color: rgb(58, 51, 85);
+}
+
+#orderDir{
+  display:inline-flexbox;
+  flex-direction: row;
+  height: 1.5rem;
+  border: none;
+  overflow: hidden;
+  background-color: transparent;
+  margin: 0 0 0 5x;
+}
+
+#orderDir option{
+  display:inline-flex;
+  width: 1.5rem;
+  font-size: 1rem;
+  height:1.5rem;
+  justify-content: center;
+  align-items: center;
+  margin: 0 3px 0 0;
+  cursor: pointer;
+  border:rgb(124, 24, 161) solid 1px;
+  border-radius: 5px;
+  background-color: white;
+}
+
+#postHeader{
+  width: 100%;
+}
+
+::placeholder {
+  color: black;
+  opacity: 1; /* Firefox */
+}
+
+.card {
+    border-radius: 8px;
+    border: none;
+    width: 33rem;
+    height:fit-content;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+  }
+
+  .card-text{
+    height:fit-content;
+    font-size: 1rem;
+  }
+
+  .card-body {
+    display: flex;
+    background-color: #f9f9f9;
+    height:fit-content;
+    padding: 0.5rem;
+  }
+  
+  .card-title {
+    font-size: 1em;
+    font-weight: bold;
+    color: darkblue;
+  }
+  
+  .card-subtitle {
+    font-size: 0.7rem;
+  }
+  
+  #imgDiv {
+    margin: 0px 10px 0 0px ;
+  }
+  
+  .card-img {
+    margin: 0px 0px 5px 0px ;
+  }
+
+  #replyTimeDiv{
+    position: absolute;
+    margin: 0.2rem 0 0 0;
+    right: 0.5rem;
+    align-items: flex-end;
+  }
+
+  .timeInfo{
+    font-family: Arial, sans-serif;
+    font-size: 0.75rem;
+    height: 1rem;
+    text-align: right;
+  }
+  
+  #deletePostBtn{
+    float:right;
+    font-size: 0.9rem;
+    padding: 0;
+    margin: 0 0.5rem 0 0;
+    width: 3rem;
+    height: fit-content;
+    background-color: #b14e3c;
+  }
+
+  #replyPostBtn {
+    float:right;
+    font-size: 0.9rem;
+    padding: 0;
+    margin: 0;
+    width: 3rem;
+    height: fit-content;
+  }
+  #sendReplyPostBtn {
+    font-size: 1.5rem;
+    padding: 0 4px 0 4px;
+    width: 4.2rem;
+    height: 2.5rem;
+  }
+
+  #replyContainer {
+    font-size: 1rem;
+    font-weight: 500;
+    position: relative;
+    background-color: #dccccc;
+    padding: 0.2rem 0 0 0.3rem;
+    height: fit-content;
+    margin: 0 0 0 0;
+  }
+
+#replyText{
+  font-size: 1rem;
+  color: rgb(18, 7, 176);
+  width: 24rem;
+  overflow-wrap:anywhere;  
+  height: fit-content;
+  margin: 0 0 0 0.5rem;
+}
+
+  #replyName{
+    color: rgb(68, 47, 47);
+    height: fit-content;
+    min-width: 4rem;
+    text-overflow: clip;
+    padding: 0;
+  }
+  #newPostModal{
+    font-size: 1.2rem;
+    width: 550px;
+    height: fit-content;
+    border: 1px solid gray;
+    border-radius: 0.5rem;
+    background-image: url("../data/msgBack1.jpg");
+  }
+
+  .postInput {
+    color:black;
+    font-size: 0.8em;
+    border: 1px black solid;
+    border-radius: 10px;
+    width:100%;
+    text-overflow:ellipsis;
+    overflow-x:scroll;
+    padding: 3px 7px 3px 7px;
+    scrollbar-width:none;
+    background-color:rgb(213, 197, 197);
+  }
+
+  #body {
+    font-size: 0.8em;
+    height: 4em;
+    resize: none;
+}
+
+#savePostBtn{
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: rgb(43, 32, 131);
+  margin-top: 1rem;
+  border-radius: 5px;
+  width:4rem;
+  height: fit-content;
+}

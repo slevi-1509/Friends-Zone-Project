@@ -1,0 +1,238 @@
+#infoUserModal {    
+    position:absolute; left:3rem; top:10%;
+    /* max-width:30rem; */
+    margin: auto;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    width: 30rem;
+    height: fit-content;
+}
+
+#infoUserHeader{
+    display: flex;
+    height: 3rem;
+    padding: 0 1rem 0 1.5rem;
+    background-color: #415024;
+    color: rgb(211, 211, 211);
+}
+
+#userDetailsContainer {
+    width:100%;
+    height:100%;
+}
+
+#infoUserModalBody{
+    padding: 0;
+    height:fit-content;
+    border: 2px solid red;
+}
+
+.page-content{
+    padding: 0;
+}
+
+#infoUserContainer {
+    width: 100%;
+    background-color:transparent;
+}
+
+.iconsDiv {
+    display: flex;
+    flex-direction: row;
+    width:2em;
+}
+
+#imBtn{
+    background-color: rgb(250, 249, 179);
+}
+
+#frBtn{
+    background-color: rgb(158, 225, 168);
+}
+
+#deleteUserBtn{
+    background-color: rgb(253, 135, 135);
+}
+
+.btn-close {
+    background-color: white;
+}
+
+.user-card-full {
+    overflow: hidden;
+}
+
+.m-r-0 {
+    margin-right: 0px;
+}
+
+.m-l-0 {
+    margin-left: 0px;
+}
+
+.user-card-full .user-profile {
+    /* height: 350px; */
+    border-radius: 5px 0 0 5px;
+}
+
+.bg-c-lite-green {
+    background: -webkit-gradient(linear, left top, right top, from(#f29263), to(#ee5a6f));
+    background: linear-gradient(to right, #ee5a6f, #f29263);
+}
+
+.user-profile {
+    padding: 20px 0;
+}
+
+.card-block {
+    padding: 1.25rem;
+}
+
+.m-b-25 {
+    margin-bottom: 25px;
+}
+
+.img-radius {
+    border-radius: 5px;
+}
+ 
+h6 {
+    font-size: 20px;
+}
+
+.card .card-block p {
+    line-height: 25px;
+}
+
+/* @media only screen and (min-width: 1400px){
+p {
+    font-size: 14px;
+}
+} */
+
+
+.text-muted {
+    color: #919aa3 !important;
+}
+
+.b-b-default {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.f-w-500 {
+    font-weight: 500;
+    font-size: large;
+}
+
+.m-b-20 {
+    margin-bottom: 20px;
+}
+
+.m-t-40 {
+    margin-top: 20px;
+}
+
+.p-b-5 {
+    padding-bottom: 5px !important;
+}
+
+.m-b-5 {
+    margin-bottom: 5px;
+}
+
+.m-t-40 {
+    margin-top: 20px;
+}
+
+.user-card-full .social-link li {
+    display: inline-block;
+}
+
+.user-card-full .social-link li a {
+    font-size: 20px;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+.button-17 {
+    align-items: center;
+    appearance: none;
+    background-color: #fff;
+    margin: 10px 15px 0px 0px;
+    border-radius: 24px;
+    border-style: none;
+    box-shadow: rgba(0, 0, 0, .2) 0 3px 5px -1px,rgba(0, 0, 0, .14) 0 6px 10px 0,rgba(0, 0, 0, .12) 0 1px 18px 0;
+    box-sizing: border-box;
+    color: #3c4043;
+    display: inline-flex;
+    fill: currentcolor;
+    font-family: "Google Sans",Roboto,Arial,sans-serif;
+    font-size: 2rem;
+    font-weight: 500;
+    height:1.3em;
+    width: 1.8em;
+    justify-content: center;
+    letter-spacing: .25px;
+    line-height: normal;
+    overflow: visible;
+    padding: 2px 20px;
+    position: relative;
+    text-align: center;
+    text-transform: none;
+    transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1),opacity 15ms linear 30ms,transform 270ms cubic-bezier(0, 0, .2, 1) 0ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    will-change: transform,opacity;
+    z-index: 0;
+}
+
+.button-17:hover {
+    cursor: pointer;
+    background: #F6F9FE;
+    color: #174ea6;
+}
+
+.button-17:active {
+    box-shadow: 0 4px 4px 0 rgb(60 64 67 / 30%), 0 8px 12px 6px rgb(60 64 67 / 15%);
+    outline: none;
+}
+
+.button-17:focus {
+    outline: none;
+    border: 2px solid #4285f4;
+}
+
+.button-17:not(:disabled) {
+    box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
+}
+
+.button-17:not(:disabled):hover {
+    box-shadow: rgba(60, 64, 67, .3) 0 2px 3px 0, rgba(60, 64, 67, .15) 0 6px 10px 4px;
+}
+
+.button-17:not(:disabled):focus {
+    box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
+}
+
+.button-17:not(:disabled):active {
+    box-shadow: rgba(60, 64, 67, .3) 0 4px 4px 0, rgba(60, 64, 67, .15) 0 8px 12px 6px;
+}
+
+.button-17:disabled {
+    box-shadow: rgba(60, 64, 67, .3) 0 1px 3px 0, rgba(60, 64, 67, .15) 0 4px 8px 3px;
+}
+
+.disabled {
+    opacity: 0.6;
+    cursor: not-allowed !important;
+}
+
+.enabled {
+    opacity: 1;
+    cursor: auto;
+}
+
+
+

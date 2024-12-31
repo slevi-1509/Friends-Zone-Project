@@ -1,0 +1,170 @@
+[
+  {
+    "sendName": "sagivl",
+    "recvName": "davidc",
+    "sendDate": "2024-12-23T10:15:30Z",
+    "body": "Hey David, how are you?",
+    "imageURL": "https://picsum.photos/200/300?random=1",
+    "replyTo": null
+  },
+  {
+    "sendName": "davidc",
+    "recvName": "sagivl",
+    "sendDate": "2024-12-23T10:16:45Z",
+    "body": "Hi Sagiv, I'm doing great! What about you?",
+    "imageURL": null,
+    "replyTo": null
+  },
+  {
+    "sendName": "anats",
+    "recvName": "shimona",
+    "sendDate": "2024-12-22T09:00:00Z",
+    "body": "Are you coming to the meeting tomorrow?",
+    "imageURL": "https://picsum.photos/200/300?random=1",
+    "replyTo": null
+  },
+  {
+    "sendName": "shimona",
+    "recvName": "anats",
+    "sendDate": "2024-12-22T09:05:15Z",
+    "body": "Yes, I will be there. Looking forward to it!",
+    "imageURL": null,
+    "replyTo": null
+  },
+  {
+    "sendName": "avik",
+    "recvName": "haimb",
+    "sendDate": "2024-12-21T12:30:00Z",
+    "body": "Can you review the latest document I shared?",
+    "imageURL": null,
+    "replyTo": null
+  },
+  {
+    "sendName": "haimb",
+    "recvName": "avik",
+    "sendDate": "2024-12-21T13:15:45Z",
+    "body": "Sure, I’ll go through it this afternoon.",
+    "imageURL": null,
+    "replyTo": null
+  },
+  {
+    "sendName": "sharont",
+    "recvName": "leonc",
+    "sendDate": "2024-12-20T15:45:00Z",
+    "body": "Happy Birthday, Leon!",
+    "imageURL": "https://picsum.photos/200/300?random=1",
+    "replyTo": null
+  },
+  {
+    "sendName": "leonc",
+    "recvName": "sharont",
+    "sendDate": "2024-12-20T16:00:30Z",
+    "body": "Thank you, Sharon!",
+    "imageURL": null,
+    "replyTo": null
+  },
+  {
+    "sendName": "liorc",
+    "recvName": "eliy",
+    "sendDate": "2024-12-19T10:00:00Z",
+    "body": "Can we reschedule our call?",
+    "imageURL": "https://picsum.photos/200/300?random=1",
+    "replyTo": null
+  },
+  {
+    "sendName": "eliy",
+    "recvName": "liorc",
+    "sendDate": "2024-12-19T10:10:30Z",
+    "body": "Sure, what time works for you?",
+    "imageURL": null,
+    "replyTo": null
+  },
+  {
+    "sendName": "sagivl",
+    "recvName": "anats",
+    "sendDate": "2024-12-18T11:45:00Z",
+    "body": "Check out this new design!",
+    "imageURL": "https://picsum.photos/200/300?random=1",
+    "replyTo": null
+  },
+  {
+    "sendName": "anats",
+    "recvName": "sagivl",
+    "sendDate": "2024-12-18T12:00:15Z",
+    "body": "Wow, it looks amazing!",
+    "imageURL": null,
+    "replyTo": null
+  },
+  {
+    "sendName": "davidc",
+    "recvName": "shimona",
+    "sendDate": "2024-12-17T09:30:00Z",
+    "body": "Have you finalized the report?",
+    "imageURL": null,
+    "replyTo": null
+  },
+  {
+    "sendName": "shimona",
+    "recvName": "davidc",
+    "sendDate": "2024-12-17T10:00:45Z",
+    "body": "Yes, just sent it to you.",
+    "imageURL": "https://picsum.photos/200/300?random=1",
+    "replyTo": null  
+  },
+  {
+    "sendName": "avik",
+    "recvName": "sharont",
+    "sendDate": "2024-12-16T08:00:00Z",
+    "body": "Let’s catch up for coffee this weekend.",
+    "imageURL": null,
+    "replyTo": null
+  },
+  {
+    "sendName": "sharont",
+    "recvName": "avik",
+    "sendDate": "2024-12-16T08:15:00Z",
+    "body": "Sounds great! Let’s plan.",
+    "imageURL": null,
+    "replyTo": null
+  },
+  {
+    "sendName": "haimb",
+    "recvName": "liorc",
+    "sendDate": "2024-12-15T14:20:00Z",
+    "body": "I need some help with this task.",
+    "imageURL": "https://picsum.photos/200/300?random=1",
+    "replyTo": null
+  },
+  {
+    "sendName": "liorc",
+    "recvName": "haimb",
+    "sendDate": "2024-12-15T14:30:15Z",
+    "body": "I’ll take a look now.",
+    "imageURL": null,
+    "replyTo": null
+  },
+  {
+    "sendName": "eliy",
+    "recvName": "leonc",
+    "sendDate": "2024-12-14T10:10:00Z",
+    "body": "Check this out!",
+    "imageURL": "https://picsum.photos/200/300?random=1",
+    "replyTo": null
+  },
+  {
+    "sendName": "leonc",
+    "recvName": "eliy",
+    "sendDate": "2024-12-14T10:20:00Z",
+    "body": "Nice, where did you find it?",
+    "imageURL": null,
+    "replyTo": null
+  },
+  {
+    "sendName": "sagivl",
+    "recvName": "sharont",
+    "sendDate": "2024-12-13T18:00:00Z",
+    "body": "Did you see the news?",
+    "imageURL": "https://picsum.photos/200/300?random=1",
+    "replyTo": null
+  }
+]

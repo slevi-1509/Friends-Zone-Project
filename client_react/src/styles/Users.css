@@ -1,0 +1,285 @@
+#usersContainer{
+    position:absolute; left:30%; top:0;
+    max-width:30rem;
+    align-self: center;
+}
+
+#usersPageHeader{
+    display:flex;
+    flex-direction: column;
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    background-color: transparent;
+}
+
+#usersBody{
+    display:flex;
+    flex-direction: column;
+    position:fixed;
+    top:21rem;
+    overflow: auto;
+    height: 31rem;
+    z-index: 1;
+    align-items: left;
+    width: fit-content;
+    scrollbar-width: none;
+}
+
+.creepster-regular{
+    font-family: "Creepster", system-ui;
+    align-self: left;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 3.5rem;
+    width:35rem;
+    height:3.5rem;
+}
+
+.creepster-regular span{
+    background: -webkit-linear-gradient(90deg, rgba(255,0,0,1) 2%, rgba(24,140,200,1) 45%, rgba(255,4,0,1) 100%);
+    background-clip: border-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#currUserCard{
+    background-color: #28376e;
+    height:fit-content;
+    min-height: 9rem;
+}
+
+#adminIcon{
+    font-size: 1.5rem;
+    color: gold ;
+    background-color:transparent;
+    border:none;
+    margin:0.2rem 0 0 2.5rem;
+}
+
+#actions{
+    margin: 0;
+
+}
+#actions>*{
+    margin-right: 10px;
+
+}
+#currUserName{
+    margin-left: 0.5rem;
+    width: 15rem;
+}
+
+.userDetails{
+    color: rgb(194, 205, 149);
+    margin:5px;
+}
+
+#loggedUser{
+    align-self: center;
+    height:365px;
+}
+#editProfileHeader{
+    padding: 1rem;   
+    color: rgb(223, 223, 118);
+}
+
+#editUserModal{
+    width: fit-content;
+    height: fit-content;
+}
+#userProfile{
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#userProfile label{
+    font-size: 1rem;
+    color: rgb(164, 166, 42);
+}
+#userProfile input {
+    width: 20rem;
+    height: fit-content;
+    font-size: 1.3rem;
+    padding:  0 0 0 0.5rem;
+    margin: 5px;
+    color: #000000;
+    background-color: rgb(240, 240, 240);
+    border: 0;
+    border-radius: 8px;
+}
+#updateUserBtn{
+    left: 7.5rem;
+    top: -1.5rem;
+    position: relative;
+    float: right;
+    font-size: 1.2rem;
+    width: fit-content;
+    color:blue;
+    background-color: bisque;
+}
+
+.actions {
+    z-index: 999;
+    margin: -45px 0 0 10px;
+}
+
+.userCard:hover{
+    cursor: pointer;
+}
+
+.list {
+    background-color: transparent;
+    padding-left: 0;
+    padding-right: 0
+}
+
+#approveBtn{
+    font-size: 1rem;
+    margin-left: 30px;
+    background-color: #0dbd48;
+}
+
+#approveBtn:hover{
+    background-color: #09a13c;
+}
+
+#declineBtn{
+    font-size: 1rem;
+    background-color: #bd270d;
+}
+
+#declineBtn:hover{
+    font-size: 1rem;
+    background-color: #a8230b;
+}
+#myFriendsDiv label {
+    color: rgb(192, 192, 36);
+}
+
+#myFriendsDiv{
+    display:flex;
+    flex-direction: row;
+    font-weight: bold;
+    font-size: 1.5em;
+    margin: 10px;
+    text-align: left;
+    width:27rem;
+}
+#myFriendsCheck{
+    transform: scale(2);
+    margin-right: 20px;
+    width: fit-content;
+}
+
+h1{
+    text-align: center;
+    margin: 16px;
+}
+
+#navbar{
+    display: flex;
+    flex-direction: row;
+    background-color:transparent;
+    width:fit-content;
+    padding: 5px;
+    margin: 0.5rem 0 0 0;
+}
+
+.navBtn{
+    font-size: 1.3rem;
+    margin-right: 1rem;
+    width:5.5rem;
+    align-self: flex-start;
+    margin: 0px 0px 0px 10px;
+    border-radius: 10px;
+    color: blue;
+}
+
+#postsLink{
+    color: blue;
+}
+
+#importMsgBtn{
+    font-size: 0.8rem;
+    width:5rem;
+    margin-left: 3rem;
+    background-color: aquamarine;
+}
+
+.spanInput{
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+#userDetails{
+    position: relative;
+    border: 5px solid rgb(228, 213, 213);
+    border-radius: 8px;
+    background-color: #84a8eb;
+    color: #ffff;
+    margin: 16px;
+    padding: 10px;
+}
+
+#userDetails p{
+    display: block;
+    position: relative;
+    margin: auto;
+}
+
+#userDetails img{
+    float: inline-end;
+    position: absolute;
+    border-radius: 30%;
+    top: 2%;
+    left: 40%;
+}
+
+#userHeader{
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+    align-items: flex-start;
+}
+
+#userBtns {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    margin-top: -50px;
+    margin-right: 100px;
+    float:inline-end;
+    width:2em;
+    gap: 10px;
+}
+
+#editUserBtn{
+    background-color: rgb(240, 170, 228);
+}
+
+#frSection button{
+    padding: 2px 5px;
+    margin: 0px;
+}
+
+#frSelect{
+    width: 80px;
+}
+
+.hint{
+    font-weight: 750;
+    font-size: 1.1rem;
+}
+
+.value{
+    font-style: italic;
+    font-size: larger;
+    font-weight: bold;
+    color: blue;
+}

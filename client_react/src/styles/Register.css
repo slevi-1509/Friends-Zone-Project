@@ -1,0 +1,117 @@
+#registerContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 27rem;
+    padding: 0.5rem;
+    border: 5px solid #326edd;
+    border-radius: 20px;
+    position: relative; 
+    max-width:30rem;
+    margin: 10rem auto;
+    height: fit-content;
+    border: 5px solid #ac1919;
+    background-color: #808896;
+}
+#registerTitle{
+    font-family: "Creepster", system-ui;
+    position: relative;
+    align-self: center;
+    font-weight: 400;
+    font-style: normal;
+    font-size:2.5rem;
+    width:100%;
+    height:70px;
+}
+
+#registerTitle span{
+    background: -webkit-linear-gradient(45deg, rgb(133, 30, 30) 40%, rgba(24,140,200,1) 80%, rgb(151, 25, 23) 100%);
+    background-clip: border-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    width:100%;
+}
+
+#importUsersBtn{
+    font-size: 0.7rem;
+    align-self: flex-start;
+    margin: 0px 0px 5px 0px;
+    border-radius: 10px;
+    background-color: aquamarine;
+
+}
+
+#fullName, #passwordDiv, #userNameDiv{
+    display: flex;
+    flex-direction: row;
+    width: 91%;
+}
+#userNameDiv > *, #passwordDiv > * {
+    flex: 1 1 45%;
+}
+
+#registerContainer ::placeholder {
+    color: gray;
+    font-weight: lighter;
+}
+
+#registerBtn{
+    color: white;
+    width: fit-content;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    padding: 3px 10px 3px 10px;
+    margin: auto;
+    background-color: blue;
+    font-size: 1.35rem;
+    margin-bottom: 10px;
+}
+
+#registerContainer input, #userRoleSelect{
+    font-size: 1.3rem;
+    padding: 0.2rem 0 0.2rem 0.5rem;
+    margin: 0 0 8px 3px;
+    color: #0A0C0A;
+    background-color: rgb(240, 240, 240);
+    width: 90%;
+    border-radius: 8px;
+    height: fit-content;
+}
+
+#userRoleSection{
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin: 0 0 0 1rem;
+    width: 100%;
+}
+
+#registerBtn{
+    color: white;
+    width: fit-content;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    padding: 3px 10px 3px 10px;
+    margin: auto;
+    background-color: blue;
+    font-size: 1.3rem;
+    margin-top: 0.5em;
+}
+
+.hint{
+    font-weight: 750;
+    font-size: 1.1rem;
+    margin-bottom:  6px;
+    margin-top: 16px;
+}
+
+#loginPage{
+    margin-top: 10px;
+    font-size: 1.5rem;
+}
+
+#loginLink{
+    font-weight: bold;
+    color: darkblue;
+}

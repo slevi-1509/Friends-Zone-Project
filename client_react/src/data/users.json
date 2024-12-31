@@ -1,0 +1,112 @@
+[
+  {
+    "username": "sagivl",
+    "fname": "Sagiv",
+    "lname": "Levi",
+    "address": "123 Main St, Springfield, IL",
+    "role_name": "Admin",
+    "age": 30,
+    "email": "sagivlevi@gmail.com",
+    "imageURL": "https://picsum.photos/200/300?random=1",
+    "password": "1"
+  },
+  {
+    "username": "davidc",
+    "fname": "David",
+    "lname": "Cohen",
+    "address": "456 Elm St, Springfield, IL",
+    "role_name": "User",
+    "age": 28,
+    "email": "davidcohen@gmail.com",
+    "imageURL": "https://picsum.photos/200/300?random=2",
+    "password": "1"
+  },
+  {
+    "username": "anats",
+    "fname": "Anat",
+    "lname": "Shir",
+    "address": "789 Oak St, Springfield, IL",
+    "role_name": "Programmer",
+    "age": 35,
+    "email": "anatshir@gmail.com",
+    "imageURL": "https://picsum.photos/200/300?random=3",
+    "password": "1"
+  },
+  {
+    "username": "shimona",
+    "fname": "Shimon",
+    "lname": "Aflalo",
+    "address": "321 Pine St, Springfield, IL",
+    "role_name": "User",
+    "age": 25,
+    "email": "shimonaflalo@gmail.com",
+    "imageURL": "https://picsum.photos/200/300?random=4",
+    "password": "1"
+  },
+  {
+    "username": "avik",
+    "fname": "Avi",
+    "lname": "Kadosh",
+    "address": "654 Cedar St, Springfield, IL",
+    "role_name": "Programmer",
+    "age": 40,
+    "email": "avikadosh@gmail.com",
+    "imageURL": "https://picsum.photos/200/300?random=5",
+    "password": "1"
+  },
+  {
+    "username": "haimb",
+    "fname": "Haim",
+    "lname": "Biton",
+    "address": "987 Birch St, Springfield, IL",
+    "role_name": "User",
+    "age": 29,
+    "email": "haimbiton@gmail.com",
+    "imageURL": "https://picsum.photos/200/300?random=6",
+    "password": "1"
+  },
+  {
+    "username": "sharont",
+    "fname": "Sharon",
+    "lname": "Tene",
+    "address": "741 Maple St, Springfield, IL",
+    "role_name": "User",
+    "age": 45,
+    "email": "sharontene@gmail.com",
+    "imageURL": "https://picsum.photos/200/300?random=1",
+    "password": "1"
+  },
+  {
+    "username": "leonc",
+    "fname": "Leon",
+    "lname": "Carmi",
+    "address": "852 Walnut St, Springfield, IL",
+    "role_name": "Programmer",
+    "age": 33,
+    "email": "leoncarmi@gmail.com",
+    "imageURL": "https://picsum.photos/200/300?random=2",
+    "password": "1"
+  },
+  {
+    "username": "liorc",
+    "fname": "Lior",
+    "lname": "Chen",
+    "address": "963 Chestnut St, Springfield, IL",
+    "role_name": "User",
+    "age": 38,
+    "email": "liorchen@gmail.com",
+    "imageURL": "https://picsum.photos/200/300?random=3",
+    "password": "1"
+  },
+  {
+    "username": "eliy",
+    "fname": "Eli",
+    "lname": "Yosef",
+    "address": "159 Spruce St, Springfield, IL",
+    "role_name": "Programmer",
+    "age": 26,
+    "email": "eliyosef@gmail.com",
+    "imageURL": "https://picsum.photos/200/300?random=4",
+    "password": "1"
+  }
+]
