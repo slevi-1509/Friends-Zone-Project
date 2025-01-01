@@ -39,8 +39,6 @@ export const SocketMsgComp=({ message, chatMessages, onReply}) => {
                   })
             }
             if(message.replyTo!=null){
-                console.log(chatMessages);
-                console.log(chatMessages.find(msg => msg._id == message.replyTo));
                 setMsgRepliedTo(chatMessages.find(msg => msg._id == message.replyTo));
             };
             currUser.username==message.sendName?setMsgSender("Me"):setMsgSender(message.sendName);

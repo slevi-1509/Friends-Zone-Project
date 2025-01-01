@@ -79,11 +79,44 @@
     align-self: center;
     height:365px;
 }
+
 #editProfileHeader{
     padding: 1rem;   
     color: rgb(223, 223, 118);
 }
 
+#myFriendsDiv label {
+    color: rgb(192, 192, 36);
+}
+
+#myFriendsDiv{
+    display:flex;
+    flex-direction: row;
+    font-weight: bold;
+    font-size: 1.5em;
+    margin: 0.5rem 0 0.5rem 0;
+    text-align: left;
+    width:30rem;
+}
+
+#myFriendsCheck{
+    transform: scale(2);
+    margin: 0 1rem 0 0.5rem;
+    width: fit-content;
+}
+
+#refreshBtn{
+    border-radius: 5px;
+    padding: 0;
+    width: 2.3rem;
+    height: 2.3rem;
+    background-color: rgb(240, 215, 132);
+    margin: 0 0 0 2rem;
+}
+
+#refreshBtn >*{
+    font-size: 1.4rem;
+}
 #editUserModal{
     width: fit-content;
     height: fit-content;
@@ -156,24 +189,6 @@
 #declineBtn:hover{
     font-size: 1rem;
     background-color: #a8230b;
-}
-#myFriendsDiv label {
-    color: rgb(192, 192, 36);
-}
-
-#myFriendsDiv{
-    display:flex;
-    flex-direction: row;
-    font-weight: bold;
-    font-size: 1.5em;
-    margin: 10px;
-    text-align: left;
-    width:27rem;
-}
-#myFriendsCheck{
-    transform: scale(2);
-    margin-right: 20px;
-    width: fit-content;
 }
 
 h1{

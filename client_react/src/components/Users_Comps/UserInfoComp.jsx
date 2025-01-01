@@ -35,6 +35,7 @@ export const InfoUserComp=(props) => {
     useEffect (() => {
         const getInfoUser = () => {
             if (currUser._id != user._id){
+                debugger;
                 if ((user.FRI.findIndex(fro => fro == currUser.username)) != -1){
                     setFrBtn({icon: `faHandshakeSimple`, title: `You sent Friend Request to ${user.fname} ${user.lname}`});
                     setFrBtnStatus("button-17 disabled");
@@ -50,7 +51,7 @@ export const InfoUserComp=(props) => {
             }
         }
         getInfoUser();
-    }, [refreshUsers])
+    }, [])
 
     const sendFR = async (username) => {
         let SndUserName = user.username;
@@ -76,20 +77,26 @@ export const InfoUserComp=(props) => {
                 },
             }).then(async (result) => {
             if (result.isConfirmed) {
+                debugger;
                 Swal.fire('Friend request accepted!', '', 'success');
                 /////// Create AllFriends records for users and delete FRI and FRO records /////
                 await axios.put(serverURL+"/"+currUser.username+"/approvefriends", updatedRcvUser, params);
                 await axios.put(serverURL+"/"+SndUserName+"/approvefriends", updatedSndUser, params);
                 await axios.put(serverURL+"/"+currUser.username+"/reply", updatedRcvUser, params);
                 await axios.put(serverURL+"/"+SndUserName+"/reply", updatedSndUser, params);
+                dispatch({ type: "REFRESH_USERS", payload: !refreshUsers });
+                setFrBtn({icon: `faUserGroup`, title: `You and ${user.fname} ${user.lname} are friends`});
+                setFrBtnStatus("button-17 disabled");
             } else if (result.isDenied) {
                 /////// Delete FRI and FRO records /////
                 Swal.fire('Friend request deleted!', '', 'info')
                 await axios.put(serverURL+"/"+currUser.username+"/reply", updatedRcvUser, params);
                 await axios.put(serverURL+"/"+SndUserName+"/reply", updatedSndUser, params);
+                dispatch({ type: "REFRESH_USERS", payload: !refreshUsers });  
+                setFrBtn({icon: "faHand", title: `Send Friend Request to ${user.fname} ${user.lname}`})
             } 
             })
-            dispatch({ type: "REFRESH_USERS", payload: !refreshUsers });
+            
         } else {
             /////// Create FRO and FRI records respectively for Sender and Receiver of FR /////
             const updatedSndUser = {FRO: username};
@@ -101,6 +108,7 @@ export const InfoUserComp=(props) => {
                 headers: {"x-access-token": token,
                     "Content-Type": "application/json" }})
             setFrBtn({icon: `faHandshakeSimple`, title: `You sent Friend Request to ${user.fname} ${user.lname}`, class: {frBtnStatus}})
+            setFrBtnStatus("button-17 disabled");
             dispatch({ type: "REFRESH_USERS", payload: !refreshUsers });
         }
     }

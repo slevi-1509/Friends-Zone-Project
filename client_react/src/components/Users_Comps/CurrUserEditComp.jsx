@@ -11,7 +11,7 @@ export const EditUserComp=(props) => {
     const currUser = useSelector(state => state.currUser);
     const token = useSelector(state => state.token);
     const refreshUsers = useSelector(state => state.refreshUsers);
-    const serverURL = AppContext.SERVER_IP+AppContext.APP_PORT+"/api/users/";
+    // const serverURL = AppContext.SERVER_IP+AppContext.APP_PORT+"/api/users/";
     const [user, setUser] = useState({fname: currUser.fname, lname: currUser.lname, address: currUser.address, 
         age: currUser.age, email: currUser.email, imageURL: currUser.imageURL
     });
@@ -23,13 +23,6 @@ export const EditUserComp=(props) => {
             "username": currUser.username,
         }
     }
-
-    useEffect (() => {
-        const getUserMessages = async () => {
-            
-            }
-        getUserMessages();
-    }, [])     
 
     const setUserDetails = (e) => {
         let { value, name } = e.target;
@@ -46,9 +39,9 @@ export const EditUserComp=(props) => {
                 setUser({...user, password: user.password})
             }
             try {
-                await axios.put(serverURL+"/"+currUser._id, user, params).then(({data:response}) => {
+                await axios.put(AppContext.USERS_URL+"/"+currUser._id, user, params).then(({data:response}) => {
                     dispatch({ type: "REFRESH_USERS", payload: !refreshUsers });
-                    alert(response);
+                    // alert(response);
                     props.onHide();
                 });
             } catch (error) {

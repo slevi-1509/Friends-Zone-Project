@@ -31,7 +31,7 @@ export const ReplyPostComp=(props) => {
                 <div id="newPostModal"> 
                     <Modal.Header closeButton> 
                         <Modal.Title>
-                            <label>Write a reply to the post:</label>
+                            <h3>Write a reply to the post:</h3>
                         </Modal.Title>
                     </Modal.Header>
                     

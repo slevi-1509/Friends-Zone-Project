@@ -3,6 +3,8 @@ import { io } from "socket.io-client"
 import axios from 'axios'
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons'
 import { useCookies } from "react-cookie";
 import { UserComp } from "./UserComp"
 import { UserDetailsComp } from "./CurrUserDetailsComp"
@@ -66,7 +68,9 @@ export const UsersComp = () => {
                     alert (response);
                     logoutUser("Logging out...")
                 } else {
+                    // debugger;
                     dispatch({ type: "GET_USERS", payload: response });
+                    dispatch({ type: "GET_CURRUSER", payload: response.find(user=>{return user.username == currUser.username}) });
                     if (showMyFriends==false){
                         dispatch({ type: "GET_TEMPARR", payload:response.toSpliced(response.findIndex((user) => user._id == currUser._id),1)});
                     } else {
@@ -150,11 +154,12 @@ export const UsersComp = () => {
                     <p className="creepster-regular"><span>Welcome to FriendZone</span></p>
                     <div id="myFriendsDiv">
                         <input id="myFriendsCheck" type="checkbox" onChange={()=>setShowMyFriends(!showMyFriends)}></input>
-                        <label htmlFor="myFriendsCheck"> Show Friends & Friend Requests:</label>
+                        <label htmlFor="myFriendsCheck"> Show Friends & Friend Requests</label>
+                        <button onClick={()=>dispatch({ type: "REFRESH_USERS", payload: !refreshUsers })} id="refreshBtn" title='Refresh Users'><i><FontAwesomeIcon icon={faArrowsRotate}/></i></button>
                     </div>
                     {
                         <div>
-                            <UserDetailsComp logoutUserFunc={logoutUser} user={currUser}/>
+                            <UserDetailsComp logoutUserFunc={logoutUser}/>
                         </div>
                     }
                 </section>

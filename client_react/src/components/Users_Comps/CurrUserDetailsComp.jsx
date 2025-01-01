@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useSelector } from "react-redux"
 import { EditUserComp } from './CurrUserEditComp'
@@ -10,18 +10,26 @@ import AppContext from '../appContext';
 import noImage from '../../data/noImage.png'; 
 import "../../styles/Users.css"
 
-export const UserDetailsComp = ({ logoutUserFunc, user }) => {
-    const serverURL = AppContext.SERVER_IP+AppContext.APP_PORT+"/api/users/";
+export const UserDetailsComp = ({ logoutUserFunc }) => {
+    const currUser = useSelector(state => state.currUser);
     const token = useSelector(state => state.token);
+    const refreshUsers = useSelector(state => state.refreshUsers);
     const [modalShow, setModalShow] = useState(false);
     const params = {
         headers: {
             "x-access-token": token,
             "Content-Type": "application/json"},
         params: {
-            "username": user.username,
+            "username": currUser.username,
         }
     }
+
+    useEffect (() => {
+        const currUserDetails = () => {
+            
+            }
+            currUserDetails();
+    }, [])     
 
     const deleteMyProfile = () => {
         Swal.fire({
@@ -38,10 +46,10 @@ export const UserDetailsComp = ({ logoutUserFunc, user }) => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    await axios.delete(serverURL+"/"+user._id, params).then(({data:response}) => {
+                    await axios.delete(AppContext.USERS_URL+"/"+currUser._id, params).then(({data:response}) => {
                         if (response == "User deleted successfully!") {
                             Swal.fire('Profile Deleted. Good bye!', '', 'success');
-                            logoutUserFunc("Goodbye Bitch !!!");
+                            logoutUserFunc("Goodbye!!!");
                         }
                     });
                 } catch (error) {
@@ -55,16 +63,16 @@ export const UserDetailsComp = ({ logoutUserFunc, user }) => {
         <div>
             <div id="currUserCard" className="list-item" data-id="19">
                 <div className="d-flex flex-column">
-                    <div id="adminIcon" title="Admin">{user.role_name=="Admin" && <FontAwesomeIcon icon={faWebAwesome}/>}</div>                     
-                    <a href="#" data-abc="true"><img src={user.imageURL} style={{width:"90px", height: "90px", margin: "0 0 1rem 0.5rem"}} 
+                    <div id="adminIcon" title="Admin">{currUser.role_name=="Admin" && <FontAwesomeIcon icon={faWebAwesome}/>}</div>                     
+                    <a href="#" data-abc="true"><img src={currUser.imageURL} style={{width:"90px", height: "90px", margin: "0 0 1rem 0.5rem"}} 
                         className="avatar gd-warning" onError={(e) => e.target.src = noImage}></img></a>
                 </div>
                 <div className="d-flex flex-row">
                     <div id="currUserName" className="d-flex flex-column">
-                        <a href="#" className="userDetails item-author text-color fw-bold fs-4" data-abc="true">{user.fname} {user.lname}</a>
-                        <p className="userDetails item-except fs-4">Age: {user.age}</p>
-                        <p className="userDetails fs-5">{user.email}</p>
-                        <p className="userDetails fs-5">{user.address}</p>
+                        <a href="#" className="userDetails item-author text-color fw-bold fs-4" data-abc="true">{currUser.fname} {currUser.lname}</a>
+                        <p className="userDetails item-except fs-4">Age: {currUser.age}</p>
+                        <p className="userDetails fs-5">{currUser.email}</p>
+                        <p className="userDetails fs-5">{currUser.address}</p>
                     </div>
                     
                     <div id="actions" className="dark d-flex flex-row">
@@ -84,7 +92,7 @@ export const UserDetailsComp = ({ logoutUserFunc, user }) => {
             modalShow && <EditUserComp
                 show={modalShow}
                 onHide={() => setModalShow(false)}
-                user={user}
+                // user={user}
             />
             }
         </div>

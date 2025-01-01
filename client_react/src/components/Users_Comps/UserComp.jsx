@@ -19,6 +19,7 @@ export const UserComp = ({ user }) => {
     useEffect (() => {
         // debugger;
         const getUserFR = () => {
+            // debugger;
             if (currUser._id != user._id){
                 ////////// Checking if user received FRI from current user FRO /////
                 if ((user.FRI.findIndex(sender => sender == currUser.username)) != -1){
