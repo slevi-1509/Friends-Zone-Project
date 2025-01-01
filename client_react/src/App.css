@@ -1,9 +1,22 @@
+#root {
+  background-image: url("../data/msgBack1.jpg");
+  /* background-color: red; */
+  width: 100%;
+  background: url("./data/msgBack2.jpg") no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  /* padding: 30px; */
+}
+
 html{
   background: url("./data/msgBack2.jpg") no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  /* background-color: transparent; */
 
 }
 
@@ -13,9 +26,9 @@ body {
   place-items: left;
   /* min-width: 50rem; */
   min-height: 100vh;
-  z-index: 0;
-  position:absolute; left:3rem; top:0px;
+  /* z-index: 0; */
+  /* position:absolute; left:3rem; top:0px; */
   background-image: url("../data/msgBack1.jpg");
-  background-color: black;
+  /* background-color: black; */
 
 }

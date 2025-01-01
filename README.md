@@ -1,5 +1,3 @@
-Project : Users and Movies database system with Node.js and MongoDB
-
 Objective:
 
 Create a client side with React to register and login for users.
@@ -31,7 +29,8 @@ Login:
 * The token will be required for every API request to the server, without a valid token the user will be logged out of the system and will be redirect to the Login Page to login again to the system.
 * Users who are not registered can move to Register Page.
 
-Import users and movies:
+Import users and posts:
+
 * On the registration page user can import users details from users.json file locates in the src\data folder.
 * On the posts page user can import posts details from posts.json file locates in the src\data folder.
 
