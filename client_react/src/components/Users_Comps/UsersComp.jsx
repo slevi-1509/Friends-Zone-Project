@@ -10,6 +10,7 @@ import { UserComp } from "./UserComp"
 import { UserDetailsComp } from "./CurrUserDetailsComp"
 import { ErrorComp } from "./../Error_Comps/ErrorComp"
 import { SocketChatComp } from "../Socket_Comps/SocketChatComp"
+import { OpenAiComp } from "../OpenAI_Comps/OpenAiComp"
 import "../../styles/Users.css"
 import AppContext from '../appContext';
 
@@ -24,6 +25,7 @@ export const UsersComp = () => {
     const showChat = useSelector(state => state.showChat);
     const socket = useSelector(state => state.socket);
     const [showMyFriends, setShowMyFriends] = useState(false);
+    const [openAiShow, setOpenAiShow] = useState(false);
     const [cookies, setCookie, removeCookie] = useCookies({});
     const scrollDemoRef = useRef(null);
 
@@ -139,6 +141,7 @@ export const UsersComp = () => {
 
     const closeConnection = () => {
         dispatch({ type: "SHOW_CHAT", payload: false });
+        setOpenAiShow(false);
     }
     
     return (
@@ -150,6 +153,7 @@ export const UsersComp = () => {
                         <button id="socketMsgBtn" className="navBtn" onClick={()=>dispatch({ type: "SHOW_CHAT", payload: true })}>Chat</button>
                         <button id="logoutBtn" className="navBtn" type="submit" onClick={()=>logoutUser("Logging out...\nSorry to see you go")}>Logout</button>
                         <button id="importMsgBtn" className="navBtn" onClick={importMsg}>Import Messages</button>
+                        {/* <button onClick={()=>setOpenAiShow(true)}>Open AI</button> */}
                     </div>
                     <p className="creepster-regular"><span>Welcome to FriendZone</span></p>
                     <div id="myFriendsDiv">
@@ -162,25 +166,35 @@ export const UsersComp = () => {
                             <UserDetailsComp logoutUserFunc={logoutUser}/>
                         </div>
                     }
-                </section>
-                    
-                
-                    {
-                        users.length > 0 && 
-                            <div id="usersBody" ref={scrollDemoRef}>
-                                {
-                                    tempArr.sort((a, b) => (a.fname+a.lname).localeCompare(b.fname+b.lname)).map((user)=>{
-                                        return (<UserComp user={user} key={user._id}/>)
-                                    })
-                                }
-                            </div>
-                    }
+                </section>   
+                {
+                    users.length > 0 && 
+                        <div id="usersBody" ref={scrollDemoRef}>
+                            {
+                                tempArr.sort((a, b) => (a.fname+a.lname).localeCompare(b.fname+b.lname)).map((user)=>{
+                                    return (<UserComp user={user} key={user._id}/>)
+                                })
+                            }
+                        </div>
+                }
+                {  
+                    openAiShow && <OpenAiComp
+                        show={openAiShow}
+                        onHide={()=>closeConnection()}
+                    />                
+                }
                 {
                     tempArr.length == 0 && <ErrorComp errMsg='No friends to show yet...'></ErrorComp>
                 }
                 {  
                     showChat && <SocketChatComp
                         show={showChat}
+                        onHide={()=>closeConnection()}
+                    />                
+                }
+                {  
+                    openAiShow && <OpenAiComp
+                        show={openAiShow}
                         onHide={()=>closeConnection()}
                     />                
                 }

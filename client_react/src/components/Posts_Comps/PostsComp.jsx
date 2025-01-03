@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { PostComp } from "./PostComp"
 import { NewPostComp } from "./NewPostComp"
 import { ErrorComp } from "../Error_Comps/ErrorComp"
+import { OpenAiComp } from "../OpenAI_Comps/OpenAiComp"
 import AppContext from '../appContext';
 import '../../styles/Posts.css';
 
@@ -21,6 +22,7 @@ export const PostsComp = () => {
     const [ sortDir, setSortDir ] = useState("d");
     const [ srchSelect, setSrchSelect ] = useState("none");
     const [ searchInput, setSearchInput ] = useState("");
+    const [ openAiShow, setOpenAiShow ] = useState(false);
     const [scrollPosition, setScrollPosition] = useState({ scrollTop: 0, scrollLeft: 0 });
     const scrollDemoRef = useRef(null);
     const postsURL = AppContext.SERVER_IP+AppContext.APP_PORT+"/api/posts/";
@@ -111,7 +113,7 @@ export const PostsComp = () => {
 
     const refresh = () => {
         dispatch({ type: "REFRESH_POSTS", payload: !refreshPosts });
-        
+        setPostModalShow(false);
     }
 
     return ( 
@@ -119,6 +121,7 @@ export const PostsComp = () => {
                 <section id="postsPageHeader">
                     <div id="navbar">
                         <button className="navBtn"><Link id="postsLink" to={'/users'}>Users</Link></button>
+                        <button className="navBtn" onClick={()=>setOpenAiShow(true)}>OpenAI</button>
                         <button id="importPostsgBtn" className="navBtn" onClick={importPosts}>Import posts</button>
                     </div>
                     <div id="utilitySection">
@@ -159,11 +162,17 @@ export const PostsComp = () => {
                             }
                             <div>
                                 <button id="addPostBtn" onClick={() => setPostModalShow(true)}>New Post</button>
-                                <button id="postsRefreshBtn" onClick={refresh}>Refresh</button>
+                                <button id="postsRefreshBtn" onClick={()=>dispatch({ type: "REFRESH_POSTS", payload: !refreshPosts })}>Refresh</button>
                             </div>
                         </div>
                     </div>
                 </section>
+                {  
+                    openAiShow && <OpenAiComp
+                        show={openAiShow}
+                        onHide={()=>setOpenAiShow(false)}
+                    />                
+                }
                 {
                     postsToShow.length > 0 && 
                         <div id="postsBody" ref={scrollDemoRef} onScroll={handleScroll}>
@@ -178,7 +187,7 @@ export const PostsComp = () => {
                 {
                     <NewPostComp
                         show={postModalShow}
-                        onHide={() => setPostModalShow(false)}
+                        onHide={refresh}
                     />
                 }
                 {

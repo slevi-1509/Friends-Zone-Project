@@ -61,8 +61,9 @@ export const PostComp = ({ deletePost, post }) => {
                     setRepliesText("Show more");
                 }
             } else {
-                if (repliesText=="Show more"){
+                if (repliesText=="Show more" || repliesText=="No more replies"){
                     setRepliesToShow([post.reply[0]]);
+                    setRepliesText("Show more");
                 } else if (repliesText=="Show less"){
                     setRepliesToShow([...post.reply]);
                 }
@@ -80,8 +81,9 @@ export const PostComp = ({ deletePost, post }) => {
             try {
                 await axios.put(postsURL+"/"+postId, newReply, params).then(({data:response}) => {
                     Object.assign(post.reply, {[post.reply.length]: newReply});
-                    hideModal();
+                    repliesToShowFunc();
                 });     
+                hideModal();
             } catch (error) {
                 alert(error.message);
             }
@@ -90,7 +92,7 @@ export const PostComp = ({ deletePost, post }) => {
     };   
 
     const hideModal = () => {
-        repliesToShowFunc();
+        // repliesToShowFunc();
         setReplyModalShow(false)   
     }
     
@@ -101,19 +103,18 @@ export const PostComp = ({ deletePost, post }) => {
                     <Card.Body style={{backgroundColor: "lightgrey"}}>
                         <div id="imgDiv" className="d-flex flex-column">
                             {
-                                // <Card.Img src={post.imageURL} style={{width:"70px", height: "70px"}} onError={(e) => e.target.src = noImage}/> 
-                                <Card.Img src={post.imageURL} style={{width:"70px", height: "70px"}} onError={(e) => e.target.src = noImage}/> 
+                                <Card.Img src={post.imageURL} style={{width:"70px", height: "70px"}} onLoad={(e)=>post.imageURL==""?e.target.src = noImage:""} onError={(e) => e.target.src = noImage}/> 
                             }
                         </div>
                         <div id="postHeader">
                             <Card.Subtitle> 
                                 <p id="postDetails" className="mb-2 fs-6" style={{color: "grey"}}>Posted by <span className="fs-6" style={{color: "black"}}>
                                 {post.username}</span> on {new Date(post.date).toLocaleDateString("he-IL")}</p>
-                                <Button id="replyPostBtn" variant="primary" onClick={() => setReplyModalShow(true)}>Reply</Button>
                                 {   
                                     currUser.username == post.username && 
                                     <Button id="deletePostBtn" variant="secondary" onClick={() => {deletePost(post._id)}}>Delete</Button>
                                 }
+                                <Button id="replyPostBtn" variant="primary" onClick={() => setReplyModalShow(true)}>Reply</Button>
 
                             </Card.Subtitle>
                             <Card.Title>{post.title}</Card.Title>

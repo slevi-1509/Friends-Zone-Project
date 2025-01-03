@@ -63,6 +63,14 @@ Posts Page functions:
 * User can add comments to any post.
 * Post will show last comment, you csn click on "Show more" to show all comments, and "Show less" to reduce to last comment again.
 
+*** *** ***
+
+Added option on post page:
+An OpenAI module was added, clicking the button will open a "New OpenAI post" modal.
+You can enter any object, a request will be sent to OpenAI api, and will return a post created by OpenAI with a title, body and an Image.
+Ypu can edit the returned post and save it to the database.
+
+*** *** ***
 
 Daily actions limit:
 

@@ -5,9 +5,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Modal from 'react-bootstrap/Modal';
 import '../../styles/Posts.css';
 
-export const ReplyPostComp=(props) => {
+export const ReplyPostComp=({show, onHide, post, replyPost}) => {
     const [reply, setReply] = useState({});
-    const postId = props.post._id;
+    const postId = post._id;
 
     useEffect (() => {
         const replyPost = () => {
@@ -24,7 +24,8 @@ export const ReplyPostComp=(props) => {
     return (
         <div>
             <Modal 
-                {...props}
+                show={show}
+                onHide={onHide}
                 size="lg"
                 centered
             >
@@ -42,7 +43,7 @@ export const ReplyPostComp=(props) => {
                                     onChange={setReplyDetails} required />
                                 
                                 <div className="replyPost">
-                                    <Button id="savePostBtn" onClick={()=>props.replyPost(reply, postId)}>Reply</Button>
+                                    <Button id="savePostBtn" onClick={()=>replyPost(reply, postId)}>Reply</Button>
                                 </div>
                             </div>
                         }
