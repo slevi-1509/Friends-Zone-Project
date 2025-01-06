@@ -1,4 +1,6 @@
 const postModel = require('../models/postModel');
+// import OpenAI from 'openai';
+const { OpenAI } = require('openai');
 require("dotenv").config();
 
 const getAllPosts = async(sortBy, asc) => {
@@ -14,6 +16,31 @@ const getAllPosts = async(sortBy, asc) => {
     } catch (error) {
         lastAction = "Error getting all posts: " + error.message;
         return lastAction;
+    }
+}
+
+const getOpenAiPost = async(username, subject) => {
+    try {
+        const openai = new OpenAI({apiKey: process.env.OPENAI_KEY
+            , dangerouslyAllowBrowser: true});
+        const completion = await openai.chat.completions.create({
+            model: "gpt-4o-mini",
+            response_format: {
+                type: 'json_object', // specify the format
+              },
+              messages: [
+                { role: "user", content: "post on subject" + subject + ", with title and body. body with at maximum 300 chars. title maximum 100 chars. json" },
+            ],
+        });
+        const image = await openai.images.generate({ prompt: subject });
+        let openAiPost = {
+            title: JSON.parse(completion.choices[0].message.content).title,
+            body: JSON.parse(completion.choices[0].message.content).body,
+            imageURL: image.data[0].url
+        }
+        return openAiPost;
+    } catch (error) {
+        return(error.message);
     }
 }
 
@@ -145,6 +172,7 @@ const updatePost = async (id, data)=>{
 
 module.exports = {
     createNewPost,
+    getOpenAiPost,
     getAllPosts,
     deletePost,
     getPostsByUserId,

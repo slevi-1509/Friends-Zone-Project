@@ -22,6 +22,7 @@ const validateToken = async (req, res, next) => {
             res.send (error.message.replace("jwt", "Token"));
         }
     } 
+   
 };
 
 const updateCounter = async (username) => {

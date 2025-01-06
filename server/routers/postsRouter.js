@@ -23,10 +23,18 @@ router.get('/:username', validateToken, async (req, res) => {
     let response = await postsBLL.getPostsByUserName(username, sortBy, asc);
     res.send(response);
 });
+
 router.get('/:username/search', validateToken, async (req, res) => {
     let { username } = req.params;
     const { srchField, compSelect, srchText, sortBy, asc } = req.query;
     let response = await postsBLL.getPostsBySearch(username, srchField, compSelect, srchText, sortBy, asc);
+    res.send(response);
+});
+
+router.get('/:username/openaipost', validateToken, async (req, res) => {
+    let { username } = req.params;
+    const { subject } = req.query;
+    let response = await postsBLL.getOpenAiPost(username, subject);
     res.send(response);
 });
 
@@ -37,7 +45,6 @@ router.post('/', validateToken, async (req, res) => {
 });
 
 router.post('/import', async (req, res) => {
-
     let posts = req.body;
     let response = await postsBLL.importPosts(posts);
     res.send(response);

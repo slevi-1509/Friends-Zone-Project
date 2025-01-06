@@ -35,7 +35,6 @@ export const InfoUserComp=(props) => {
     useEffect (() => {
         const getInfoUser = () => {
             if (currUser._id != user._id){
-                debugger;
                 if ((user.FRI.findIndex(fro => fro == currUser.username)) != -1){
                     setFrBtn({icon: `faHandshakeSimple`, title: `You sent Friend Request to ${user.fname} ${user.lname}`});
                     setFrBtnStatus("button-17 disabled");
@@ -77,7 +76,6 @@ export const InfoUserComp=(props) => {
                 },
             }).then(async (result) => {
             if (result.isConfirmed) {
-                debugger;
                 Swal.fire('Friend request accepted!', '', 'success');
                 /////// Create AllFriends records for users and delete FRI and FRO records /////
                 await axios.put(serverURL+"/"+currUser.username+"/approvefriends", updatedRcvUser, params);

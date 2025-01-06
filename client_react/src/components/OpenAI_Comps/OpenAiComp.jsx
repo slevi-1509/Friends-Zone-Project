@@ -1,4 +1,3 @@
-import OpenAI from "openai";
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import axios from 'axios'
@@ -22,40 +21,31 @@ export const OpenAiComp = (props) => {
             "Content-Type": "application/json"},
         params: {
             "username": currUser.username,
+            "subject": subject
         }
     }
-
     
-
     useEffect (() => { 
         const getOpenAiResult = () => {
             
         }
         getOpenAiResult() 
     }, [])
-
+    
     const getOpenAiPost = async () => {
         try {
-            const openai = new OpenAI({apiKey: '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'
-                , dangerouslyAllowBrowser: true});
-            const completion = await openai.chat.completions.create({
-                model: "gpt-4o-mini",
-                response_format: {
-                    type: 'json_object', // specify the format
-                  },
-                  messages: [
-                    { role: "user", content: "post on subject" + subject + ", with title and body. body with at least 200 chars. title maximum 100 chars. json" },
-                ],
+            await axios.get(AppContext.POSTS_URL+"/"+currUser.username+"/openaipost", params).then(({data:response}) => {
+                console.log(response);
+                setAiPost({ 
+                    title: response.title,
+                    body: response.body
+                })
+                setAiImage(response.imageURL); 
             });
-            setAiPost({ title: JSON.parse(completion.choices[0].message.content).title,
-                body: JSON.parse(completion.choices[0].message.content).body
-            })
-            const image = await openai.images.generate({ prompt: subject });
-            setAiImage(image.data[0].url); 
-        } catch (error) {
-            alert(error.message);
-        }
         
+        } catch (error) {
+            alert (error.message);
+        }
     }
 
     const setAiPostDetails = (e) => {
@@ -105,16 +95,14 @@ export const OpenAiComp = (props) => {
                                 </div>
                                 <hr style={{color:"white"}}></hr>
                                 <label htmlFor="aiPostTitle">Title:</label>
-                                <input type="text" className="postInput" id="aiPostTitle" name="title" onChange={setAiPostDetails} value={aiPost.title}></input> 
+                                <input type="text" className="postInput" id="aiPostTitle" name="title" onChange={setAiPostDetails} defaultValue={aiPost.title}></input> 
                                 <label htmlFor="aiPostBody">Body:</label>
                                 <div id="aiPostContainer">
-                                    {/* <h3 style={{color: "red", backgroundColor: "white", display: "block"}}>{aiText}</h3> */}
-                                    <textarea type="text" className="postInput" id="aiPostBody" name="body" onChange={setAiPostDetails} value={aiPost.body}></textarea>
+                                    <textarea type="text" className="postInput" id="aiPostBody" name="body" onChange={setAiPostDetails} defaultValue={aiPost.body}></textarea>
                                     <img src={aiImage} style={{width:"120px", height: "120px"}} /> 
-                                    {/* <input type="text" className="postInput" id="imageURL" name="imageURL" placeholder="Image URL:"/> */}
                                 </div>
                                 <div className="savePost">
-                                    <button id="savePostBtn" onClick={() => saveNewPost()}>Post</button>
+                                    <button id="savePostBtn" onClick={() => saveNewPost()}>Save</button>
                                 </div>
                             </div>
                         }

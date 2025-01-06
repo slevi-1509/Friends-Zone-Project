@@ -15,6 +15,10 @@ const getAllPosts = async(sortBy, asc) => {
     return postsDal.getAllPosts(sortBy, asc);
 }
 
+const getOpenAiPost = async(username, subject) => {
+    return postsDal.getOpenAiPost(username, subject);
+}
+
 const getPostsByUserId = async (id, sortBy, asc) => {
     return postsDal.getPostsByUserId(id, sortBy, asc);
 }
@@ -38,6 +42,7 @@ const updatePost = async(id, data) => {
 module.exports = {
     createNewPost,
     getAllPosts,
+    getOpenAiPost,
     deletePost,
     getPostsByUserId,
     getPostsByUserName,
