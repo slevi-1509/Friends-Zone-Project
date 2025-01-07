@@ -13,6 +13,7 @@ import { SocketChatComp } from "../Socket_Comps/SocketChatComp"
 import { OpenAiComp } from "../OpenAI_Comps/OpenAiComp"
 import "../../styles/Users.css"
 import AppContext from '../appContext';
+import Axios from '../helpers'
 
 export const UsersComp = () => {
     const dispatch = useDispatch();
@@ -35,7 +36,8 @@ export const UsersComp = () => {
                 if (Object.keys(cookies).length > 0){
                     for (const key in cookies) {
                         try {
-                            let { data: response } = await axios.get(AppContext.USERS_URL, createRequestHeaders(key, cookies[key]));
+                            // let { data: response } = await axios.get(AppContext.USERS_URL, createRequestHeaders(key, cookies[key]));
+                            let response = await Axios ("get", AppContext.USERS_URL, [key, cookies[key]])
                             if (typeof(response) == "string") {
                                 alert (response);
                                 logoutUser("Logging out...")
@@ -65,12 +67,12 @@ export const UsersComp = () => {
                     logoutUser("Logging out...")
                 } 
             } else {
-                let { data: response } = await axios.get(AppContext.USERS_URL, createRequestHeaders(currUser.username, token));
+                // let { data: response } = await axios.get(AppContext.USERS_URL, createRequestHeaders(currUser.username, token));
+                let response = await Axios ("get", AppContext.USERS_URL, [currUser.username, token]);
                 if (typeof(response) == "string") {
                     alert (response);
                     logoutUser("Logging out...")
                 } else {
-                    // debugger;
                     dispatch({ type: "GET_USERS", payload: response });
                     dispatch({ type: "GET_CURRUSER", payload: response.find(user=>{return user.username == currUser.username}) });
                     if (showMyFriends==false){
@@ -96,7 +98,8 @@ export const UsersComp = () => {
                         })
                         dispatch({ type: "GET_TEMPARR", payload: tempArr });
                     }
-                }            
+                }  
+                         
             }
         }
         getUsers();
@@ -116,7 +119,8 @@ export const UsersComp = () => {
 
     const logoutUser = async (title) => {
         try {
-            await axios.post(AppContext.SERVER_IP+AppContext.APP_PORT+"/logout")
+            // await axios.post(AppContext.SERVER_IP+AppContext.APP_PORT+"/logout")
+            await Axios ("logout", AppContext.SERVER_IP+AppContext.APP_PORT+"/logout")
             Object.keys(socket).length>0?socket.disconnect():"";
             navigate("/error/"+title);
             setTimeout(() => {
@@ -128,16 +132,16 @@ export const UsersComp = () => {
         }
     }
     
-    const importMsg = async () => {
-        let messages = [];
-        const msgPath = '../src/data/messages.json';
-        await axios.get(msgPath).then(({data:response}) => {
-            messages = response;
-        });
-        await axios.post(AppContext.MESSAGES_URL+"/import", messages).then(({data:response}) => {
-            alert ("Messages import: " + response)
-        });
-    }
+    // const importMsg = async () => {
+    //     let messages = [];
+    //     const msgPath = '../src/data/messages.json';
+    //     await axios.get(msgPath).then(({data:response}) => {
+    //         messages = response;
+    //     });
+    //     await axios.post(AppContext.MESSAGES_URL+"/import", messages).then(({data:response}) => {
+    //         alert ("Messages import: " + response)
+    //     });
+    // }
 
     const closeConnection = () => {
         dispatch({ type: "SHOW_CHAT", payload: false });
@@ -152,8 +156,8 @@ export const UsersComp = () => {
                         <button className="navBtn"><Link id="postsLink"  to={'/posts'}>Posts</Link></button>
                         <button id="socketMsgBtn" className="navBtn" onClick={()=>dispatch({ type: "SHOW_CHAT", payload: true })}>Chat</button>
                         <button id="logoutBtn" className="navBtn" type="submit" onClick={()=>logoutUser("Logging out...\nSorry to see you go")}>Logout</button>
-                        <button id="importMsgBtn" className="navBtn" onClick={importMsg}>Import Messages</button>
-                        {/* <button onClick={()=>setOpenAiShow(true)}>Open AI</button> */}
+                        {/* <button id="importMsgBtn" className="navBtn" onClick={importMsg}>Import Messages</button> */}
+                        {/* <button onClick={()=/setOpenAiShow(true)}>Open AI</button> */}
                     </div>
                     <p className="creepster-regular"><span>Welcome to FriendZone</span></p>
                     <div id="myFriendsDiv">

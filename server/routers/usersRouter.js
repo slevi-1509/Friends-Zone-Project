@@ -41,14 +41,14 @@ router.put('/:username/request', validateToken, async (req, res) => {
     res.send(response);
 });
 
-router.put('/:username/reply', validateToken, async (req, res) => {
+router.put('/:username/frdelete', validateToken, async (req, res) => {
     let { username } = req.params;
     let data = req.body;
     let response = await usersBLL.deleteFRO_FRI(username, data);
     res.send(response);
 });
 
-router.put('/:username/approvefriends', validateToken, async (req, res) => {
+router.put('/:username/frapprove', validateToken, async (req, res) => {
     let { username } = req.params;
     let data = req.body;
     let response = await usersBLL.approveFriends(username, data);

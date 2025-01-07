@@ -35,7 +35,6 @@ export const OpenAiComp = (props) => {
     const getOpenAiPost = async () => {
         try {
             await axios.get(AppContext.POSTS_URL+"/"+currUser.username+"/openaipost", params).then(({data:response}) => {
-                console.log(response);
                 setAiPost({ 
                     title: response.title,
                     body: response.body

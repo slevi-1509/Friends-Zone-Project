@@ -23,38 +23,84 @@ export const SocketChatComp=(props) => {
     const [replyCloneShow, setReplyCloneShow] = useState(false);
     const [msgReplied, setMsgReplied] = useState({});
     const [scrollBtn, setScrollBtn] = useState(false);
-    const user=props.user;
+    let messageDate = Date.now()
+    const user = props.user;
 
     useEffect(() => {
         if(user){
             setPrivateChat(true)
             let privateChatRoom = [currUser.username, currUser._id, user.username, user._id].sort().join("");
-            socket.emit("join_private", currUser.username, privateChatRoom)
+            socket.emit("join_room", currUser.username, privateChatRoom)
             setSelectedRoom(privateChatRoom);
         } else {
             setPrivateChat(false);
             socket.emit("getRooms");
         }
+        setReplyCloneShow(false);
     }, []);
 
     useEffect(() => {
-            socket.on("getRooms", (myRooms) => {            
-                setRooms([...myRooms]);
-                socket.emit("roomSelect", currUser.username, myRooms[0]);
-                setScrollBtn(!scrollBtn)
+            socket.on("getRooms", (myRooms) => {    
+                if(myRooms.length > 0){     
+                    setRooms([...myRooms]);
+                    socket.emit("roomSelect", currUser.username, myRooms[0]);
+                    setSelectedRoom(myRooms[0]);
+                    setScrollBtn(!scrollBtn)
+                }
+            });
+            // 
+            return () => socket.off('getRooms');
+    }, [socket]);
+
+    useEffect(() => {  
+            socket.on("response", (messages, myRooms, currRoom) => {
+                if (roomSelectElement.current == undefined || messages[0].room == roomSelectElement.current.value){
+                    let tempArr = messages.map(message=>{
+                        if(message.replyTo!=null){
+                            let replyToMsg = messages.find(msg => msg._id == message.replyTo);
+                            return {...message, 
+                                        replyMsgBody: replyToMsg.body, 
+                                        replyMsgSender: replyToMsg.sendName, 
+                                        replyMsgImage: replyToMsg.imageURL,
+                                        replyMsgTime: replyToMsg.sendDate
+                                    }
+                        } else {
+                            return message;
+                        };
+
+                    })
+                    setChatMessages(tempArr);                
+                    setRooms([...myRooms]);
+                    setScrollBtn(!scrollBtn)
+                }
             });
             // 
             return () => socket.off('response');
     }, [socket]);
 
-    useEffect(() => {
-            socket.on("response", (messages, myRooms) => {
-                setChatMessages([...messages]);                
+    useEffect(() => {  
+            socket.on("join_room", (messages, myRooms) => {
+                let tempArr = messages.map(message=>{
+                    if(message.replyTo!=null){
+                        let replyToMsg = messages.find(msg => msg._id == message.replyTo);
+                        return {...message, 
+                                    replyMsgBody: replyToMsg.body, 
+                                    replyMsgSender: replyToMsg.sendName, 
+                                    replyMsgImage: replyToMsg.imageURL,
+                                    replyMsgTime: replyToMsg.sendDate
+                                }
+                    } else {
+                        return message;
+                    };
+
+                })
+                setChatMessages(tempArr);                
                 setRooms([...myRooms]);
                 setScrollBtn(!scrollBtn)
+                
             });
             // 
-            return () => socket.off('response');
+            return () => socket.off('join_room');
     }, [socket]);
     
     useEffect(() => {
@@ -110,8 +156,8 @@ export const SocketChatComp=(props) => {
     }
     const joinRoom = () => {
         if (chatRoom.replaceAll(/\s/g,'') != "") {
-            socket.emit("join_room", currUser.username, chatRoom)
             setSelectedRoom(chatRoom)
+            socket.emit("join_room", currUser.username, chatRoom)
             setChatRoom("");
         }
     }
@@ -126,14 +172,17 @@ export const SocketChatComp=(props) => {
     const onReply = (message) => {
         let messageDate = new Date(message.sendDate)
         setReplyClone(
-            <div id="cloneReplyCard">
-                <section className="d-flex flex-row">
-                    <strong id="chatMessageSender" className="chatMessageLine">{message.sendName}</strong>
-                    <p id="replyCloseBtn" title="Close" onClick={()=>{setReplyCloneShow(false)}}><strong>X</strong></p>
-                </section>
-                <p id="chatMessageBody" className="chatMessageLine">{message.body}</p>
-                <p id="chatMessageTime" className="chatMessageLine">{messageDate.getHours()+":"+
-                    String(messageDate.getMinutes()).padStart(2, "0")}</p>
+            <div className="d-flex">
+                <div id="cloneReplyCard">
+                    <section className="d-flex flex-row">
+                        <strong id="chatMessageSender" className="chatMessageLine">{message.sendName}</strong>
+                        <p id="replyCloseBtn" title="Close" onClick={()=>{setReplyCloneShow(false)}}><strong>X</strong></p>
+                    </section>
+                    <p id="chatMessageBody" className="chatMessageLine">{message.body}</p>
+                    <p id="chatMessageTime" className="chatMessageLine">{messageDate.getHours()+":"+
+                        String(messageDate.getMinutes()).padStart(2, "0")}</p>
+                </div>
+                <img style={{ height: "3.75rem", margin: "1rem 0 -2rem 0", border: "2px solid rgb(80, 132, 120)", opacity: "70%"}} src={message.imageURL}/>
             </div>
         )
         setReplyCloneShow(true);
@@ -219,12 +268,22 @@ export const SocketChatComp=(props) => {
                     
                     <Modal.Body id="socketMsgContainer" ref={messagesColumnRef}>
                         {chatMessages.length > 0 && 
-                            <div>
-                                {chatMessages.map((message, index) => { 
-                                    return <SocketMsgComp message={message} chatMessages={chatMessages} onReply={onReply} key={index}/>
-                                })}
-                            </div>
-                        }               
+                            chatMessages.sort((a, b)=>{new Date(a.sendDate) - new Date(b.sendDate)}).map((message, index) => {
+                                if (new Date(message.sendDate).getDate()!=new Date(messageDate).getDate() ||
+                                    new Date(message.sendDate).getMonth()!=new Date(messageDate).getMonth()){
+                                    messageDate = message.sendDate;
+                                    return <div key={index}>
+                                        <h5 id="dateSep" style={{justifySelf: 'center', margin: '10px 0px 10px 0px', color: 'rgb(228, 235, 131)'}}>
+                                        {new Date(messageDate).toLocaleDateString("he-IL", {dateStyle:"full"})}</h5>
+                                        <SocketMsgComp message={message} onReply={onReply}/>
+                                    </div>
+                                } else {
+                                    messageDate = message.sendDate;
+                                    return <SocketMsgComp message={message} onReply={onReply} key={index}/>;
+                                }
+                            })
+                        }
+                        <div onLoad={()=>{setScrollBtn(!scrollBtn)}}></div>;
                     </Modal.Body>
                     <form onSubmit={ onSubmit }>
                         <div id="chatSendMsgDiv" className="d-flex flex-column">

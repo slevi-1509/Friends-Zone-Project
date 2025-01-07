@@ -107,6 +107,7 @@
 
 #refreshBtn{
     border-radius: 5px;
+    font-size: 1.4rem;
     padding: 0;
     width: 2.3rem;
     height: 2.3rem;
@@ -114,9 +115,10 @@
     margin: 0 0 0 2rem;
 }
 
-#refreshBtn >*{
-    font-size: 1.4rem;
+#refreshBtn:active{
+    font-size: smaller;
 }
+
 #editUserModal{
     width: fit-content;
     height: fit-content;

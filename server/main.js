@@ -14,6 +14,7 @@ const cors = require('cors');
 const connectDB = require('./configs/connectDB');
 let chatMessages = [];
 let rooms = [];
+let currRoom = "";
 const chatUsers = [];
 const app = express();
 
@@ -67,21 +68,21 @@ io.on("connection", (socket) => {
         io.to(socket.id).emit("getRooms", rooms);
     });
 
-    socket.on("join_private", async ( username, room ) => {
-        socket.username=username;
-            socket.join(room);
-            rooms = Array.from(socket.rooms).toSpliced(0,1);
-            console.log(username + " join room " + room);
-            let message = ({
-                sendName: "CHAT_BOT", 
-                body: username+" has join room "+room,
-                sendDate: Date.now(),
-            });
-            await messagesBLL.getRoomMessages(room).then((response) => {
-                chatMessages=[...response];
-                io.to(socket.id).emit("response", chatMessages, rooms);
-            });
-    });
+    // socket.on("join_private", async ( username, room ) => {
+    //     socket.username=username;
+    //         socket.join(room);
+    //         rooms = Array.from(socket.rooms).toSpliced(0,1);
+    //         console.log(username + " join room " + room);
+    //         let message = ({
+    //             sendName: "CHAT_BOT", 
+    //             body: username+" has join room "+room,
+    //             sendDate: Date.now(),
+    //         });
+    //         await messagesBLL.getRoomMessages(room).then((response) => {
+    //             chatMessages=[...response];
+    //             io.to(socket.id).emit("response", chatMessages, rooms, room);
+    //         });
+    // });
 
     socket.on("join_room", async ( username, room ) => {
         socket.username=username;
@@ -96,7 +97,7 @@ io.on("connection", (socket) => {
             });
             await messagesBLL.getRoomMessages(room).then((response) => {
                 chatMessages=[...response];
-                io.to(socket.id).emit("response", chatMessages, rooms);
+                io.to(socket.id).emit("join_room", chatMessages, rooms);
             });
             
         } else {
@@ -108,8 +109,9 @@ io.on("connection", (socket) => {
     socket.on("roomSelect",  async (username, room) => {
             await messagesBLL.getRoomMessages(room).then((response) => {
                 chatMessages=[...response];
+                currRoom=room;
             });
-            io.to(socket.id).emit("response", chatMessages, rooms);
+            io.to(socket.id).emit("response", chatMessages, rooms, room);
     });
 
     socket.on("send_message", async ( message , username, room ) => {

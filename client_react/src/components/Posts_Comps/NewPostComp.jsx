@@ -75,7 +75,7 @@ export const NewPostComp=(props) => {
                                     onChange={setPostDetails} required />
                                 <input type="text" className="postInput" id="imageURL" name="imageURL" placeholder="Image URL:" onChange={setPostDetails} />
                                 <div className="savePost">
-                                    <button id="savePostBtn" onClick={() => saveNewPost()}>Post</button>
+                                    <button id="savePostBtn" onClick={() => saveNewPost()}>Save</button>
                                 </div>
                             </div>
                         }

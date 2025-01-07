@@ -43,7 +43,7 @@ export const ReplyPostComp=({show, onHide, post, replyPost}) => {
                                     onChange={setReplyDetails} required />
                                 
                                 <div className="replyPost">
-                                    <Button id="savePostBtn" onClick={()=>replyPost(reply, postId)}>Reply</Button>
+                                    <button id="savePostBtn" onClick={()=>replyPost(reply, postId)}>Reply</button>
                                 </div>
                             </div>
                         }

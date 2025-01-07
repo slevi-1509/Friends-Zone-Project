@@ -78,21 +78,20 @@ export const InfoUserComp=(props) => {
             if (result.isConfirmed) {
                 Swal.fire('Friend request accepted!', '', 'success');
                 /////// Create AllFriends records for users and delete FRI and FRO records /////
-                await axios.put(serverURL+"/"+currUser.username+"/approvefriends", updatedRcvUser, params);
-                await axios.put(serverURL+"/"+SndUserName+"/approvefriends", updatedSndUser, params);
-                await axios.put(serverURL+"/"+currUser.username+"/reply", updatedRcvUser, params);
-                await axios.put(serverURL+"/"+SndUserName+"/reply", updatedSndUser, params);
-                dispatch({ type: "REFRESH_USERS", payload: !refreshUsers });
+                await axios.put(serverURL+"/"+currUser.username+"/frapprove", updatedRcvUser, params);
+                await axios.put(serverURL+"/"+SndUserName+"/frapprove", updatedSndUser, params);
                 setFrBtn({icon: `faUserGroup`, title: `You and ${user.fname} ${user.lname} are friends`});
                 setFrBtnStatus("button-17 disabled");
             } else if (result.isDenied) {
                 /////// Delete FRI and FRO records /////
                 Swal.fire('Friend request deleted!', '', 'info')
-                await axios.put(serverURL+"/"+currUser.username+"/reply", updatedRcvUser, params);
-                await axios.put(serverURL+"/"+SndUserName+"/reply", updatedSndUser, params);
-                dispatch({ type: "REFRESH_USERS", payload: !refreshUsers });  
                 setFrBtn({icon: "faHand", title: `Send Friend Request to ${user.fname} ${user.lname}`})
             } 
+            if (!result.isDismissed){
+                await axios.put(serverURL+"/"+currUser.username+"/frdelete", updatedRcvUser, params);
+                await axios.put(serverURL+"/"+SndUserName+"/frdelete", updatedSndUser, params);
+                dispatch({ type: "REFRESH_USERS", payload: !refreshUsers });  
+            }
             })
             
         } else {
