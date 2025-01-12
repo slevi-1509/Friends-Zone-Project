@@ -33,7 +33,7 @@
 #modalHeader{
     display:flex;
     flex-direction: column;
-    height: 4.5rem;
+    height: 5rem;
     align-items: flex-start;
 }
 
@@ -42,7 +42,7 @@
 }
 
 #modalTitle{
-    margin: -0.4rem 0 0 -1rem;
+    margin: -0.5rem 0 0 -1rem;
 }
 
 #SocketscrlDownBtn{

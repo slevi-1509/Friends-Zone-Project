@@ -4,6 +4,7 @@ import axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.css'; 
 import Modal from 'react-bootstrap/Modal';
 import AppContext from '../appContext';
+import { SpinnerComp } from "../Error_Comps/SpinnerComp"
 import '../../styles/Posts.css';
 export const OpenAiComp = (props) => {
 
@@ -11,9 +12,11 @@ export const OpenAiComp = (props) => {
     const currUser = useSelector(state => state.currUser);
     const token = useSelector(state => state.token);
     const refreshPosts = useSelector(state => state.refreshPosts);
+    const [displaySpinner, setDisplaySpinner] = useState("none")
     const [subject, setSubject] = useState("");
     const [aiImage, setAiImage] = useState();
     const [aiPost, setAiPost] = useState({});
+    const [getAiBtn, setGetAiBtn] = useState(false);
     const serverURL = AppContext.SERVER_IP+AppContext.APP_PORT+"/api/posts/";
     const params = {
         headers: {
@@ -33,18 +36,28 @@ export const OpenAiComp = (props) => {
     }, [])
     
     const getOpenAiPost = async () => {
-        try {
-            await axios.get(AppContext.POSTS_URL+"/"+currUser.username+"/openaipost", params).then(({data:response}) => {
-                setAiPost({ 
-                    title: response.title,
-                    body: response.body
-                })
-                setAiImage(response.imageURL); 
-            });
-        
-        } catch (error) {
-            alert (error.message);
+        if (subject==""){
+            alert ("AI subject search is empty !!!")
+        } else {
+            try {
+                setDisplaySpinner("block");
+                setGetAiBtn(true)
+                await axios.get(AppContext.POSTS_URL+"/"+currUser.username+"/openaipost", params).then(({data:response}) => {
+                    setAiPost({ 
+                        title: response.title,
+                        body: response.body
+                    })
+                    setAiImage(response.imageURL); 
+                    setDisplaySpinner("none");
+                    setGetAiBtn(false)
+                });
+            } catch (error) {
+                setDisplaySpinner("none");
+                setGetAiBtn(false)
+                alert (error.message);
+            }
         }
+        
     }
 
     const setAiPostDetails = (e) => {
@@ -90,7 +103,7 @@ export const OpenAiComp = (props) => {
                             <div>
                                 <div id="getAiSection">
                                     <input type="text" style={{display: "block", width:"75%", height:"2.5rem", fontSize:"1.2rem"}} id="aiSubject" className="postInput" name="subject" placeholder="Enter a subject for AI post:" onChange={(e)=>{setSubject(e.target.value)}} value={subject}></input>
-                                    <button id="getAiPostBtn" onClick={() => getOpenAiPost()}>Get AI Post</button>
+                                    <button id="getAiPostBtn" disabled={getAiBtn} onClick={() => getOpenAiPost()}>Get AI Post</button>
                                 </div>
                                 <hr style={{color:"white"}}></hr>
                                 <label htmlFor="aiPostTitle">Title:</label>
@@ -100,14 +113,13 @@ export const OpenAiComp = (props) => {
                                     <textarea type="text" className="postInput" id="aiPostBody" name="body" onChange={setAiPostDetails} defaultValue={aiPost.body}></textarea>
                                     <img src={aiImage} style={{width:"120px", height: "120px"}} /> 
                                 </div>
-                                <div className="savePost">
-                                    <button id="savePostBtn" onClick={() => saveNewPost()}>Save</button>
+                                <div className="savePost d-flex flex-row">
+                                    <button id="AiSavePostBtn" onClick={() => saveNewPost()}>Save</button>
+                                    {displaySpinner=="block" && <div style={{transform: "scale(0.5)", marginTop:0, marginBottom:0, maxHeight:"2rem"}}><SpinnerComp/></div>}
                                 </div>
                             </div>
                         }
                     </Modal.Body>
-                    
-                    <div></div>
                 </div> 
             </Modal>
         </div>

@@ -30,7 +30,7 @@
     width:70px;
     height:70px;
     border-radius:50%;
-    border-top: 15px solid black;
+    border-top: 15px solid transparent;
     border-left: 15px solid red;
     border-right: 15px solid red;
     border-bottom: 15px solid red;

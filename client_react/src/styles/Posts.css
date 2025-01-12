@@ -16,8 +16,19 @@
 }
 
 .modal-header{
-  padding: 0.2rem 1rem 0.2rem 1.5rem;
+  padding: 0.4rem 1rem 0rem 1.5rem;
   color:yellow;
+}
+
+.modal-header .btn-close {
+  font-size: 1.3rem;
+  position: absolute;
+  align-self: flex-end;
+  background-color: white;
+  width:1.1rem;
+  height:1.1rem;
+  left: 31.7rem;
+  top: 0.9rem;
 }
 
 #postsPageHeader{
@@ -289,7 +300,8 @@
   #newPostModal{
     font-size: 1.2rem;
     width: 550px;
-    height: fit-content;
+    /* height: fit-content; */
+    max-height: 28rem;
     border: 1px solid gray;
     border-radius: 0.5rem;
     background-image: url("../data/msgBack1.jpg");
@@ -324,11 +336,22 @@
   font-weight: bold;
   font-size: 1.5rem;
   color: rgb(43, 32, 131);
-  margin-top: 1rem;
+  margin: 1rem 0 0 0;
   border-radius: 5px;
   width:5rem;
   height: fit-content;
 }
+
+#AiSavePostBtn, #getAiPostBtn{
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: rgb(43, 32, 131);
+  margin: 1rem 0 0 0;
+  border-radius: 5px;
+  width:5rem;
+  height: fit-content;
+}
+
 #getAiSection{
   display: flex;
   flex-direction: row;
@@ -338,7 +361,11 @@
 }
 
 #getAiPostBtn{
+  /* background-color: #d09999; */
+  font-size: 1.1rem;
   margin:0 0 0 1rem;
+  width: 7rem;
+  height: 2.5rem;
 }
 
 #aiPostContainer{

@@ -63,7 +63,7 @@ export const NewPostComp=(props) => {
                 <div id="newPostModal"> 
                     <Modal.Header closeButton> 
                         <Modal.Title>
-                            <label> Create a new Post:</label>
+                            <h3> Create a new Post:</h3>
                         </Modal.Title>
                     </Modal.Header>
 

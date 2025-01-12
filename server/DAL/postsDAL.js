@@ -95,52 +95,52 @@ const getPostsByUserName = async (username, sortBy, asc)=>{
     }  
 };
 
-const getPostsBySearch = async (username, srchField, compSelect, srchText, sortBy, asc)=>{
-    let srchParams = {};
-    switch(srchField) {
-        case "username":
-            srchParams = {username: { $regex: srchText, $options:'i' }}
-            break;
-        case "title":
-            srchParams = {title: { $regex: srchText, $options:'i' }}
-            break;
-        case "director":
-            srchParams = {director: { $regex: srchText, $options:'i' }}
-            break;
-        case "airDate":
-            if (compSelect == '>') {
-                srchParams = {airDate: { $gte: new Date(srchText).toDateString() }}  
-            } else {
-                srchParams = {airDate: { $lte: new Date(srchText).toDateString() }}
-            }
-            break;
-        case "length":
-            if (compSelect == '>') {
-                srchParams = {length: { $gt: Number(srchText) }}
-            } else {
-                srchParams = {length: { $lt: Number(srchText) }}
-            }
-            break;
-        default:
-            srchParams = {title: { $regex: srchText, $options:'i' }}
-      }
-    try{
-        if (username != ""){
-            srchParams.username = username;
-        }
-        let posts = await postModel.find(srchParams).sort({[sortBy]: Number(asc)});
-        if (posts.length > 0) {
-            lastAction = "Get posts by search"
-            return posts;
-        } else {
-            lastAction = "Get posts by search - No posts found"
-            return lastAction;
-        }
-    } catch (error) {
-        lastAction = "Error getting posts by search: " + error.message
-        return lastAction;
-    }  
-};
+// const getPostsBySearch = async (username, srchField, compSelect, srchText, sortBy, asc)=>{
+//     let srchParams = {};
+//     switch(srchField) {
+//         case "username":
+//             srchParams = {username: { $regex: srchText, $options:'i' }}
+//             break;
+//         case "title":
+//             srchParams = {title: { $regex: srchText, $options:'i' }}
+//             break;
+//         case "director":
+//             srchParams = {director: { $regex: srchText, $options:'i' }}
+//             break;
+//         case "airDate":
+//             if (compSelect == '>') {
+//                 srchParams = {airDate: { $gte: new Date(srchText).toDateString() }}  
+//             } else {
+//                 srchParams = {airDate: { $lte: new Date(srchText).toDateString() }}
+//             }
+//             break;
+//         case "length":
+//             if (compSelect == '>') {
+//                 srchParams = {length: { $gt: Number(srchText) }}
+//             } else {
+//                 srchParams = {length: { $lt: Number(srchText) }}
+//             }
+//             break;
+//         default:
+//             srchParams = {title: { $regex: srchText, $options:'i' }}
+//       }
+//     try{
+//         if (username != ""){
+//             srchParams.username = username;
+//         }
+//         let posts = await postModel.find(srchParams).sort({[sortBy]: Number(asc)});
+//         if (posts.length > 0) {
+//             lastAction = "Get posts by search"
+//             return posts;
+//         } else {
+//             lastAction = "Get posts by search - No posts found"
+//             return lastAction;
+//         }
+//     } catch (error) {
+//         lastAction = "Error getting posts by search: " + error.message
+//         return lastAction;
+//     }  
+// };
 
 const deletePost = async (id)=>{
     try {
@@ -178,6 +178,6 @@ module.exports = {
     getPostsByUserId,
     getPostsByUserName,
     updatePost,
-    getPostsBySearch,
+    // getPostsBySearch,
     importPosts
 };
