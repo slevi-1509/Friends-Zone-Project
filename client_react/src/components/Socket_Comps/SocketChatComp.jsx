@@ -54,7 +54,7 @@ export const SocketChatComp=(props) => {
 
     useEffect(() => {  
             socket.on("response", (messages, myRooms, currRoom) => {
-                if (roomSelectElement.current == undefined || messages[0].room == roomSelectElement.current.value){
+                if (messages.length > 0 && (roomSelectElement.current == undefined || messages[0].room == roomSelectElement.current.value)){
                     let tempArr = messages.map(message=>{
                         if(message.replyTo!=null){
                             let replyToMsg = messages.find(msg => msg._id == message.replyTo);
@@ -72,6 +72,9 @@ export const SocketChatComp=(props) => {
                     setChatMessages(tempArr);                
                     setRooms([...myRooms]);
                     setScrollBtn(!scrollBtn)
+                } else {
+                    setChatMessages([]);                
+                    setRooms([...myRooms]);
                 }
             });
             // 
@@ -109,6 +112,14 @@ export const SocketChatComp=(props) => {
             roomSelect(myRooms[0]);
         }); 
         return () => socket.off('leave_room');
+    }, [socket]);
+
+    useEffect(() => {
+        socket.on("leave_all_rooms", () => {
+            setRooms([]);
+            setChatMessages([]);                
+        }); 
+        return () => socket.off('leave_all_rooms');
     }, [socket]);
 
     useEffect(() => {

@@ -152,7 +152,7 @@ io.on("connection", (socket) => {
         rooms.forEach((room)=>{
             socket.leave(room);
         })
-        io.to(socket.id).emit("response", [], []);
+        io.to(socket.id).emit("leave_all_rooms");
     });
 
     socket.on("disconnectSession",  (username) => {

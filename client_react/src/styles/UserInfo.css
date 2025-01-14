@@ -1,5 +1,5 @@
 #infoUserModal {    
-    position:absolute; left:3rem; top:10%;
+    position:absolute; left:10%; top:10%;
     /* max-width:30rem; */
     margin: auto;
     align-self: center;
@@ -11,21 +11,34 @@
 
 #infoUserHeader{
     display: flex;
+    align-items: flex-start;
     height: 3rem;
-    padding: 0 1rem 0 1.5rem;
+    padding: 0.3rem 0 0 0.5rem;
     background-color: #415024;
     color: rgb(211, 211, 211);
+}
+
+#infoUserHeader .btn-close {
+    font-size: 1.2rem;
+    position: absolute;
+    align-self: flex-end;
+    background-color: white;
+    width:1.2rem;
+    height:1.2rem;
+    left: 27.2rem;
+    top: 0.8rem;
 }
 
 #userDetailsContainer {
     width:100%;
     height:100%;
+    border-radius: 0 0 5px 5px;
 }
 
 #infoUserModalBody{
     padding: 0;
     height:fit-content;
-    border: 2px solid red;
+    /* border: 2px solid red; */
 }
 
 .page-content{
@@ -55,10 +68,6 @@
     background-color: rgb(253, 135, 135);
 }
 
-.btn-close {
-    background-color: white;
-}
-
 .user-card-full {
     overflow: hidden;
 }
@@ -73,7 +82,7 @@
 
 .user-card-full .user-profile {
     /* height: 350px; */
-    border-radius: 5px 0 0 5px;
+    /* border-radius: 5px 0 0 5px; */
 }
 
 .bg-c-lite-green {
