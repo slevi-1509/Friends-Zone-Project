@@ -9,6 +9,7 @@ import { faMessage, faTrashCan, fas } from '@fortawesome/free-solid-svg-icons'
 import Tooltip from '@mui/material/Tooltip';
 import Swal from 'sweetalert2'
 import { SocketChatComp } from "../Socket_Comps/SocketChatComp"
+import Axios from '../helpers'
 import AppContext from '../appContext';
 import "../../styles/UserInfo.css"
 
@@ -17,6 +18,7 @@ export const InfoUserComp=(props) => {
     const user = props.user;
     const currUser = useSelector(state => state.currUser);
     const token = useSelector(state => state.token);
+    const users = useSelector(state => state.users);
     const refreshUsers = useSelector(state => state.refreshUsers);
     const serverURL = AppContext.USERS_URL;
     const showChat = useSelector(state => state.showChat);
@@ -35,13 +37,13 @@ export const InfoUserComp=(props) => {
     useEffect (() => {
         const getInfoUser = () => {
             if (currUser._id != user._id){
-                if ((user.FRI.findIndex(fro => fro == currUser.username)) != -1){
+                if ((user.FRI.findIndex(fro => fro == currUser._id)) != -1){
                     setFrBtn({icon: `faHandshakeSimple`, title: `You sent Friend Request to ${user.fname} ${user.lname}`});
                     setFrBtnStatus("button-17 disabled");
-                } else if ((user.AllFriends.findIndex(fro => fro == currUser.username)) != -1) {
+                } else if ((user.AllFriends.findIndex(fro => fro == currUser._id)) != -1) {
                     setFrBtn({icon: `faUserGroup`, title: `You and ${user.fname} ${user.lname} are friends`});
                     setFrBtnStatus("button-17 disabled");
-                } else if ((user.FRO.findIndex(fro => fro == currUser.username)) != -1) {
+                } else if ((user.FRO.findIndex(fro => fro == currUser._id)) != -1) {
                     setFrBtn({icon: `faHandHoldingHeart`, title: `Friend Request received from ${user.fname} ${user.lname}`});
                     setFrBtnStatus("button-17 enabled");
                 } else {
@@ -52,10 +54,7 @@ export const InfoUserComp=(props) => {
         getInfoUser();
     }, [])
 
-    const sendFR = async (username) => {
-        let SndUserName = user.username;
-        let updatedSndUser = {FRO: currUser.username};
-        let updatedRcvUser = {FRI: SndUserName};
+    const sendFR = async () => {
         if (frBtn.icon=="faHandshakeSimple"){
             alert ("Friend Request was already sent !!!")
         } else if (frBtn.icon=="faUserGroup"){
@@ -75,38 +74,45 @@ export const InfoUserComp=(props) => {
                 cancelButton: 'order-3'
                 },
             }).then(async (result) => {
-            if (result.isConfirmed) {
-                Swal.fire('Friend request accepted!', '', 'success');
-                /////// Create AllFriends records for users and delete FRI and FRO records /////
-                await axios.put(serverURL+"/"+currUser.username+"/frapprove", updatedRcvUser, params);
-                await axios.put(serverURL+"/"+SndUserName+"/frapprove", updatedSndUser, params);
-                setFrBtn({icon: `faUserGroup`, title: `You and ${user.fname} ${user.lname} are friends`});
-                setFrBtnStatus("button-17 disabled");
-            } else if (result.isDenied) {
-                /////// Delete FRI and FRO records /////
-                Swal.fire('Friend request deleted!', '', 'info')
-                setFrBtn({icon: "faHand", title: `Send Friend Request to ${user.fname} ${user.lname}`})
-            } 
-            if (!result.isDismissed){
-                await axios.put(serverURL+"/"+currUser.username+"/frdelete", updatedRcvUser, params);
-                await axios.put(serverURL+"/"+SndUserName+"/frdelete", updatedSndUser, params);
-                dispatch({ type: "REFRESH_USERS", payload: !refreshUsers });  
-            }
-            })
-            
+                if (result.isConfirmed) {
+                    const frRequest = {snd: user._id};
+                    Swal.fire('Friend request accepted!', '', 'success');
+                    /////// Create AllFriends records for users and delete FRI and FRO records /////
+                    await Axios ("put", AppContext.USERS_URL+"/"+currUser._id+"/frapprove", [token, currUser._id], frRequest).then((response) => {
+                        setFrBtn({icon: `faUserGroup`, title: `You and ${user.fname} ${user.lname} are friends`});
+                        setFrBtnStatus("button-17 disabled");
+                        dispatch({ type: "GET_USERS", payload: response });
+                    });
+                    // await axios.put(serverURL+"/"+currUser.username+"/frapprove", updatedRcvUser, params);
+                    // await axios.put(serverURL+"/"+SndUserName+"/frapprove", updatedSndUser, params);
+                    // setFrBtn({icon: `faUserGroup`, title: `You and ${user.fname} ${user.lname} are friends`});
+                    // setFrBtnStatus("button-17 disabled");
+                } else if (result.isDenied) {
+                    /////// Delete FRI and FRO records /////
+                    const frRequest = {snd: user._id};
+                    await Axios ("put", AppContext.USERS_URL+"/"+currUser._id+"/frdelete", [token, currUser._id], frRequest).then((response) => {
+                        Swal.fire('Friend request deleted!', '', 'info')
+                        setFrBtn({icon: "faHand", title: `Send Friend Request to ${user.fname} ${user.lname}`})
+                        dispatch({ type: "GET_USERS", payload: response });
+                    });
+                    
+                } 
+                // if (!result.isDismissed){
+                //     debugger;
+                //     await axios.put(serverURL+"/frdelete", updatedRcvUser, params);
+                //     // await axios.put(serverURL+"/"+SndUserName+"/frdelete", updatedSndUser, params);
+                //     dispatch({ type: "REFRESH_USERS", payload: !refreshUsers });  
+                // }
+            });
         } else {
             /////// Create FRO and FRI records respectively for Sender and Receiver of FR /////
-            const updatedSndUser = {FRO: username};
-            await axios.put(serverURL+"/"+currUser.username+"/request", updatedSndUser, {
-                headers: {"x-access-token": token,
-                    "Content-Type": "application/json" }})
-            const updatedRcvUser =  {FRI: currUser.username};
-            await axios.put(serverURL+"/"+username+"/request", updatedRcvUser, {
-                headers: {"x-access-token": token,
-                    "Content-Type": "application/json" }})
-            setFrBtn({icon: `faHandshakeSimple`, title: `You sent Friend Request to ${user.fname} ${user.lname}`, class: {frBtnStatus}})
-            setFrBtnStatus("button-17 disabled");
-            dispatch({ type: "REFRESH_USERS", payload: !refreshUsers });
+            // debugger;
+            const frRequest = {rcv: user._id};
+            await Axios ("put", AppContext.USERS_URL+"/"+currUser._id+"/frrequest", [token, currUser._id], frRequest).then((response) => {
+                setFrBtn({icon: `faHandshakeSimple`, title: `You sent Friend Request to ${user.fname} ${user.lname}`, class: {frBtnStatus}})
+                setFrBtnStatus("button-17 disabled");
+                dispatch({ type: "GET_USERS", payload: response });
+            });
         }
     }
 
@@ -161,8 +167,9 @@ export const InfoUserComp=(props) => {
                                         <img src={user.imageURL} className="m-b-20 img-radius" alt="User-Profile-Image" style={{height:"150px", width:"150px", borderRadius:"30%"}}/>
                                     </div>
                                     <h6 className="f-w-500 fs-1 fw-bolder mb-3 text-dark">{user.fname} {user.lname}</h6>
-                                    <p className="fs-3 mb-4">User Role: <strong>{user.role_name}</strong></p>
-                                    <p className="mb-0 fs-3">Age : <strong>{user.age}</strong></p>
+                                    <p className="fs-3 mb-3">User Role: <strong>{user.role_name}</strong></p>
+                                    <p className="fs-3 mb-3">Gender : <strong>{user.gender}</strong></p>
+                                    <p className="fs-3 mb-0">Age : <strong>{user.age}</strong></p>
                                     <i className=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
                                 </div>
                             </div>
@@ -183,7 +190,7 @@ export const InfoUserComp=(props) => {
                                     
                                     <Tooltip title={<p style={{fontSize:"1rem", margin: "0", padding: "0"}}>{frBtn.title}</p>} arrow placement="top">
                                         <button id="frBtn" role="button" className={frBtnStatus} 
-                                            onClick={()=>sendFR(user.username)}><i><FontAwesomeIcon icon={fas[frBtn.icon]}/></i></button>
+                                            onClick={()=>sendFR()}><i><FontAwesomeIcon icon={fas[frBtn.icon]}/></i></button>
                                     </Tooltip>
                                     <Tooltip title={<p style={{fontSize:"1rem", margin: "0", padding: "0"}}>Start messaging with {user.fname} {user.lname}</p>} 
                                         arrow placement="top">

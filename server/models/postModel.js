@@ -15,10 +15,12 @@ const postSchema = new mongoose.Schema({
         "body": {type: String},
         "date": {type: Date}
     }]
-    } , 
-        {
-        versionKey: false
-});
+    }, 
+    {
+        versionKey: false,
+        timestamps: true
+    }
+);
 postModel = mongoose.model('post', postSchema, 'posts');
 
 module.exports = postModel

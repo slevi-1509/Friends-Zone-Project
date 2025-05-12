@@ -12,7 +12,7 @@
     margin: 10rem auto;
     height: fit-content;
     border: 5px solid #ac1919;
-    background-color: #808896;
+    background-color: #d8dee7;
 }
 #registerTitle{
     font-family: "Creepster", system-ui;
@@ -51,10 +51,10 @@
     flex: 1 1 45%;
 }
 
-#registerContainer ::placeholder {
+/* #registerContainer ::placeholder {
     color: gray;
     font-weight: lighter;
-}
+} */
 
 #registerBtn{
     color: white;
@@ -69,7 +69,7 @@
     margin-bottom: 10px;
 }
 
-#registerContainer input, #userRoleSelect{
+/* #registerContainer input, #userRoleSelect{
     font-size: 1.3rem;
     padding: 0.2rem 0 0.2rem 0.5rem;
     margin: 0 0 8px 3px;
@@ -78,7 +78,7 @@
     width: 90%;
     border-radius: 8px;
     height: fit-content;
-}
+} */
 
 #userRoleSection{
     font-weight: bold;

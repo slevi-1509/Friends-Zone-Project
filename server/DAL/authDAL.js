@@ -1,26 +1,10 @@
-const axios = require('axios');
-const userModel = require('../models/userModel');
-const roleModel = require('../models/roleModel');
-const cookieParser = require('cookie-parser');
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const session = require('express-session');
+const userModel = require('../models/userModel');
+const roleModel = require('../models/roleModel');
 require("dotenv").config();
 
 const registerNewUser = async (userData)=>{
-    if (userData.role_name == "Admin"){
-        try {
-            let roleCheck = await userModel.findOne({ role_name: "Admin" });
-            if (roleCheck) {
-                return "Admin exist";
-            }
-        } catch (error) {
-            return "Error checking admin role!";  
-        }
-    }
-    let {password} = userData;
-    let encryptPassword = await bcrypt.hash(password, 12);
-    userData.password = encryptPassword;
     const newUser = new userModel(userData);
     const roleData = new roleModel({ user_id: newUser._id, role_id: newUser.role_name });
     try {
@@ -35,6 +19,7 @@ const registerNewUser = async (userData)=>{
 const logInUser = async (userData)=>{
     try {
         let user = await userModel.findOne({ username: userData.username });
+        // console.log(user);
         if (user) {
             let isValidPass = await bcrypt.compare(userData.password, user.password);
             if (isValidPass) {

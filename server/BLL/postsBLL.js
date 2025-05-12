@@ -3,39 +3,39 @@ const postsDal = require('../DAL/postsDAL');
 let lastAction;
 // const updateActions = require('../utils/updateActions');
 
-const createNewPost = async (data) => {
+const createNewPost = (data) => {
     return postsDal.createNewPost(data);
 }
 
-const importPosts = async (posts) => {
+const importPosts = (posts) => {
     return postsDal.importPosts(posts);
 }
 
-const getAllPosts = async(sortBy, asc) => {
+const getAllPosts = (sortBy, asc) => {
     return postsDal.getAllPosts(sortBy, asc);
 }
 
-const getOpenAiPost = async(username, subject) => {
+const getOpenAiPost = (username, subject) => {
     return postsDal.getOpenAiPost(username, subject);
 }
 
-const getPostsByUserId = async (id, sortBy, asc) => {
+const getPostsByUserId = (id, sortBy, asc) => {
     return postsDal.getPostsByUserId(id, sortBy, asc);
 }
 
-const getPostsByUserName = async (username, sortBy, asc) => {
+const getPostsByUserName = (username, sortBy, asc) => {
     return postsDal.getPostsByUserName(username, sortBy, asc);
 }
 
-const getPostsBySearch = async (username, srchField, compSelect, srchText, sortBy, asc) => {
+const getPostsBySearch = (username, srchField, compSelect, srchText, sortBy, asc) => {
     return postsDal.getPostsBySearch(username, srchField, compSelect, srchText, sortBy, asc);  
 }
 
-const deletePost = async(id) => {
+const deletePost = (id) => {
     return postsDal.deletePost(id);
 }
 
-const updatePost = async(id, data) => {
+const updatePost = (id, data) => {
     return postsDal.updatePost(id, data);
 }
 

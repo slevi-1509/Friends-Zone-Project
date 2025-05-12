@@ -6,6 +6,11 @@ const userSchema = new mongoose.Schema({
     lname: {type: String, required: true},
     address: {type: String, required: true},
     role_name: {type: String, required: true},
+    gender: {
+        type: String,
+        enum: ["Male", "Female", "LGBTQ"],
+        required: true,
+    },
     age: {type: Number, required: true},
     email: {type: String, required: true},
     imageURL: {type: String},
@@ -15,10 +20,12 @@ const userSchema = new mongoose.Schema({
     FRI: {type: Array},
     FRO: {type: Array},
     AllFriends: {type: Array}
-    } ,
-        {
-        versionKey: false
-});
+    },
+    {
+        versionKey: false,
+        timestamps: true
+    }
+);
 
 const userModel = mongoose.model('user', userSchema, 'users');
 

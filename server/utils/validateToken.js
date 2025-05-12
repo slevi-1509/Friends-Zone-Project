@@ -10,9 +10,9 @@ const validateToken = async (req, res, next) => {
         let response;
         try {
             jwt.verify(token, process.env.SECRET_KEY);
-            let { username } = req.query
+            let { id } = req.query
             if (req.method == "GET") {
-                response = await updateCounter(username);
+                response = await updateCounter(id);
             }
             if (response == "noActions") {
                 throw new Error ("No Actions left. Login back tomorrow!");
@@ -25,9 +25,9 @@ const validateToken = async (req, res, next) => {
    
 };
 
-const updateCounter = async (username) => {
+const updateCounter = async (id) => {
     try{
-        let user = await userModel.findOne({ username: username });
+        let user = await userModel.findById(id);
         let currTime = Date.now();
         let actionTime = Date(user.lastActionTime);
         let updatedCounter = user.actionsLeft;
@@ -39,7 +39,7 @@ const updateCounter = async (username) => {
         if (user.actionsLeft < 1) {
             throw new Error ("noActions");
         }
-        await userModel.findOneAndUpdate({ username: username }, {lastActionTime: Date.now(),  actionsLeft: updatedCounter-1});
+        await userModel.findByIdAndUpdate(id, {lastActionTime: Date.now(),  actionsLeft: updatedCounter-1});
     } catch (error) {
         return error.message;
     }  

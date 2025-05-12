@@ -2,6 +2,9 @@ import axios from 'axios'
 import React, { useRef, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
+import { Button, Stack, Divider } from "@mui/material"
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import { PostComp } from "./PostComp"
 import { NewPostComp } from "./NewPostComp"
 import { ErrorComp } from "../Error_Comps/ErrorComp"
@@ -19,7 +22,8 @@ export const PostsComp = () => {
     const [ postModalShow, setPostModalShow ] = useState(false);
     const [ showMyPosts, setShowMyPosts ] = useState(false);
     const [ sortSelect, setSortSelect ] = useState("date");
-    const [ sortDir, setSortDir ] = useState("d");
+    const [ sortAsc, setSortAsc ] = useState (true);
+    // const [ sortDir, setSortDir ] = useState("d");
     const [ srchSelect, setSrchSelect ] = useState("none");
     const [ searchInput, setSearchInput ] = useState("");
     const [ openAiShow, setOpenAiShow ] = useState(false);
@@ -63,7 +67,7 @@ export const PostsComp = () => {
         } else { 
             tempPostsArr = response;
         };
-        sortDir=="a" ? tempPostsArr.sort((a, b) => a[sortSelect].localeCompare(b[sortSelect])) : tempPostsArr.sort((a, b) => b[sortSelect].localeCompare(a[sortSelect]));
+        sortAsc ? tempPostsArr.sort((a, b) => a[sortSelect].localeCompare(b[sortSelect])) : tempPostsArr.sort((a, b) => b[sortSelect].localeCompare(a[sortSelect]));
         if (srchSelect!="none") {
             tempPostsArr = tempPostsArr.filter((post)=>{return post[srchSelect].toLowerCase().includes(searchInput.toLowerCase())})
         };
@@ -119,13 +123,13 @@ export const PostsComp = () => {
     return ( 
             <div id="postsContainer" className="bd-highlight mb-3">
                 <section id="postsPageHeader">
-                    <div id="navbar">
+                    {/* <div id="navbar">
                         <button className="navBtn"><Link id="postsLink" to={'/users'}>Users</Link></button>
                         <button className="navBtn" onClick={()=>setOpenAiShow(true)}>OpenAI</button>
                         <button id="importPostsgBtn" className="navBtn" onClick={importPosts}>Import posts</button>
-                    </div>
+                    </div> */}
                     <div id="utilitySection">
-                        <p id="postsTitle" className="creepster-regular text-left">Posts</p>
+                        {/* <p id="postsTitle" className="creepster-regular text-left">Posts</p> */}
                         <div id="searchAndSortDiv">
                             {
                                 <div>
@@ -142,11 +146,21 @@ export const PostsComp = () => {
                                             <option value="body">Body</option>
                                         </select>
                                         
-                                    
-                                        <select name="orderDir" id="orderDir" multiple>
+                                        <Button
+                                            variant="contained" 
+                                            // size="small"
+                                            sx={{
+                                                height: "1.5rem",
+                                                width: "1rem"  
+                                            }} 
+                                            onClick={()=>setSortAsc(!sortAsc)}
+                                        >
+                                            {sortAsc?<ArrowUpwardIcon/>:<ArrowDownwardIcon/>}
+                                        </Button>
+                                        {/* <select name="orderDir" id="orderDir" multiple>
                                             <option title="Ascending" onClick={()=>{setSortDir("a")}}>A</option>
                                             <option title="Descending" onClick={()=>{setSortDir("d")}}>D</option>
-                                        </select>
+                                        </select> */}
                                     </section>
                                     <section id="searchPosts">
                                         <label htmlFor="srchSelect">Search in:</label>
@@ -163,6 +177,8 @@ export const PostsComp = () => {
                             <div>
                                 <button id="addPostBtn" onClick={() => setPostModalShow(true)}>New Post</button>
                                 <button id="postsRefreshBtn" onClick={()=>dispatch({ type: "REFRESH_POSTS", payload: !refreshPosts })}>Refresh</button>
+                                <button id="importPostsgBtn" className="navBtn" onClick={importPosts}>Import posts</button>
+                                <button className="navBtn" onClick={()=>setOpenAiShow(true)}>OpenAI</button>
                             </div>
                         </div>
                     </div>

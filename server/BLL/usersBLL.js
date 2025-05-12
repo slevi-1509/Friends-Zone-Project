@@ -1,61 +1,61 @@
 const usersDal = require('../DAL/usersDAL');
 require("dotenv").config();
 
-const getAllUsers = async() => {
+const getAllUsers = () => {
     return usersDal.getAllUsers();
 }
 
-const getMyFriends = async(username) => {
+const getMyFriends = (username) => {
     return usersDal.getMyFriends(username);
 }
 
-const createNewMessage = async (data) => {
+const createNewMessage = (data) => {
     return usersDal.createNewMessage(data);
 }
 
-const getMyMessages = async(username) => {   
+const getMyMessages = (username) => {   
     return usersDal.getMyMessages(username);
 };
 
-const getUserMessages = async(username) => {  
+const getUserMessages = (username) => {  
     return usersDal.getUserMessages(username); 
 };
 
-const updateRequest = async(username, data) => {
-    return usersDal.updateRequest(username, data);
+const frrequest = (id, data) => {
+    return usersDal.frrequest(id, data);
 }
 
-const deleteFRO_FRI = async(username, data) => {
-    return usersDal.deleteFRO_FRI(username, data);
+const frdelete = (id, data) => {
+    return usersDal.frdelete(id, data);
 };
 
-const approveFriends = async(username, data) => {
-    return usersDal.approveFriends(username, data);
+const frapprove = (id, data) => {
+    return usersDal.frapprove(id, data);
 };
 
-const getUserById = async(id) => {
+const getUserById = (id) => {
     return usersDal.getUserById(id);
 };
 
-const updateUser = async(id, data) => {
+const updateUser = (id, data) => {
     return usersDal.updateUser(id, data);
 };
 
-const deleteUser = async(id) => {
+const deleteUser = (id) => {
     return usersDal.deleteUser(id);
 };
 
-const importMsg = async (messages) => {
+const importMsg = (messages) => {
     return usersDal.importMsg(messages);
 };
 
 module.exports = {
     getAllUsers,
-    updateRequest,
     getUserById,
-    deleteFRO_FRI,
     getMyFriends,
-    approveFriends,
+    frrequest,
+    frdelete,
+    frapprove,
     updateUser,
     deleteUser,
     createNewMessage,

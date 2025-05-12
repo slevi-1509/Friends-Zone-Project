@@ -99,7 +99,7 @@ export const PostComp = ({ deletePost, post }) => {
     return (
         post && 
             <div id="postContainer" className="col-md-12" key={post._id}>
-                <Card className="mb-1" style={{ border: "3px solid lightgrey", margin: "10px", height:"fit-content"}}>
+                <Card className="mb-2" style={{ border: "3px solid lightgrey", height:"fit-content"}}>
                     <Card.Body style={{backgroundColor: "lightgrey"}}>
                         <div id="imgDiv" className="d-flex flex-column">
                             {

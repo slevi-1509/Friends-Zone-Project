@@ -55,7 +55,7 @@ const importMsg = async (messages) => {
 
 const deleteRoom = async (room)=>{
     try {
-        let roomDeleted = await messageModel.deleteMany({ room : room });
+        await messageModel.deleteMany({ room : room });
     } catch (error) {
         return("Error deleting room: " + error.message)
     }

@@ -8,10 +8,12 @@ const messageSchema = new mongoose.Schema({
     "body":  {type: String},
     "imageURL":  {type: String},
     "replyTo": {type: mongoose.Schema.Types.ObjectId}
-    } , 
-        {
-        versionKey: false
-});
+    }, 
+    {
+        versionKey: false,
+        timestamps: true
+    }
+);
 
 const messageModel = mongoose.model('message', messageSchema, 'messages');
 

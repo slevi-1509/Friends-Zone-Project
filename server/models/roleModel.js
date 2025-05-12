@@ -13,10 +13,12 @@ const roleSchema = new mongoose.Schema({
         default: "User", 
         required: true,
     },
-} , 
+    }, 
     {
-        versionKey: false
-    });
+        versionKey: false,
+        timestamps: true
+    }
+);
 const roleModel = mongoose.model('role', roleSchema, 'roles');
 
 module.exports = roleModel;

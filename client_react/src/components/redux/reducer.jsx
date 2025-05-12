@@ -2,16 +2,13 @@ const inintialState = {
     users: [],
     currUser: {},
     token: "",
-    tempArr: [],
     myMessages: [],
     userMessages: [], 
     posts: [],
     postsToShow: [],
-    showMyFriends: false,
     refreshUsers: false,
     refreshPosts: false,
     replyFlag: false,
-    showChat: false,
     socket: {},
     rooms: []
 };
@@ -26,9 +23,6 @@ const reducer = (state = inintialState, action) => {
             return state
         case "GET_CURRUSER":
             state = {...state, currUser: {...action.payload}}
-            return state
-        case "GET_TEMPARR":
-            state = {...state, tempArr: [...action.payload]}
             return state
         case "GET_MESSAGES":
             state = {...state, myMessages: [...action.payload]}
@@ -49,9 +43,9 @@ const reducer = (state = inintialState, action) => {
         case "ADD_NEW_MESSAGE":
             state = {...state, myMessages: [...state.myMessages, action.payload]}
             return state
-        case "SHOW_MY_FRIENDS":
-            state = {...state, showMyFriends: action.payload}
-            return state
+        // case "SHOW_MY_FRIENDS":
+        //     state = {...state, showMyFriends: action.payload}
+        //     return state
         case "REFRESH_USERS":
             state = {...state, refreshUsers: action.payload}
             return state
@@ -60,9 +54,6 @@ const reducer = (state = inintialState, action) => {
             return state
         case "REPLY_FLAG":
             state = {...state, replyFlag: action.payload}
-            return state
-        case "SHOW_CHAT":
-            state = {...state, showChat: action.payload}
             return state
         case "GET_SOCKET":
             state = {...state, socket: action.payload}

@@ -5,13 +5,18 @@ import { CookiesProvider, useCookies } from 'react-cookie'
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
 import { SpinnerComp } from "./Error_Comps/SpinnerComp"
+import { Button, TextField, FormControl, Stack } from "@mui/material"
+// import Button from "@mui/material/Button"
+// import TextField from "@mui/material/TextField"
+// import FormControl from "@mui/material/FormControl"
+// import Stack from "@mui/material/Stack"
 import AppContext from './appContext';
 import "../styles/logIn.css"
 
 export const LoginComp = () => {
     const authURL = AppContext.AUTH_URL+"/login";
     const [displaySpinner, setDisplaySpinner] = useState("none")
-    const [userLogin, setUserLogin] = useState({userName: '', password: ''})
+    const [userLogin, setUserLogin] = useState({username: '', password: ''})
     const [cookies, setCookie] = useCookies([]);
     
     const dispatch = useDispatch();
@@ -20,26 +25,29 @@ export const LoginComp = () => {
     const setUserDetails = (e) => {
         let { value, name } = e.target;
         setUserLogin({...userLogin, [name]: value})
+        // console.log(userLogin)
     }
 
      // Check for login name and passwaord and in case of approval creates a cookie with the token.
      // Updates the reducers parameters.
 
     const loginUserFunc = async () => {
-        if (userLogin.userName == "" || userLogin.password == ""){
+        // console.log("render login")
+        // debugger;
+        if (userLogin.username == "" || userLogin.password == ""){
             alert ("Missing username or password!");
             return;
         } else {
             try { 
-                let {data: response} = await axios.post(authURL, {username: username.value, password: password.value})
+                let {data: response} = await axios.post(authURL, {username: userLogin.username, password: userLogin.password})
                 if (typeof response == "string"){
                     alert(response);
                 } else {
-                    setCookie(userLogin.userName, response.token, {
+                    setCookie(response.user._id, response.token, {
                         path: "/",
                         secure: false,
                         sameSite: "strict",
-                        maxAge: 36000,
+                        // maxAge: 36000,
                       }); 
                     dispatch({ type: "GET_CURRUSER", payload: response.user });
                     dispatch({ type: "GET_TOKEN", payload: response.token });
@@ -47,7 +55,7 @@ export const LoginComp = () => {
                     
                     setDisplaySpinner("block");
                     setTimeout(() => {
-                        navigate("/users");
+                        navigate("/main");
                     }, 1000);
                 }
             } catch (e) {
@@ -62,9 +70,44 @@ export const LoginComp = () => {
         <div id="loginContainer">
             <div id="loginBody">
                 <h1 id="loginTitle"><span>Login to FriendZone</span></h1>
-                <input type="text" id="username" name="userName" placeholder="Username" onChange={setUserDetails} required/>
-                <input type="password" id="password" name="password" placeholder="Password" onChange={setUserDetails} required/>
-                <button id="logInBtn" className="btn" onClick={() => loginUserFunc()}>Login</button>
+                {/* <input type="text" id="username" name="username" placeholder="Username" onChange={setUserDetails} required/> */}
+                <FormControl variant="standard">
+                    <TextField
+                        // id="outlined-uncontrolled"
+                        label="User Name:"
+                        defaultValue=""
+                        name="username"
+                        onChange={setUserDetails} 
+                        required
+                        sx={{
+                            mb: "1rem"
+                        }}
+                    />
+                    <TextField
+                        // id="outlined-uncontrolled"
+                        label="Password:"
+                        defaultValue=""
+                        name="password"
+                        onChange={setUserDetails} 
+                        type="password"
+                        required
+                        sx={{
+                            mb: "1rem",
+                        }}
+                    />
+                    {/* <input type="password" id="password" name="password" placeholder="Password" onChange={setUserDetails} required/> */}
+                    {/* <button id="logInBtn" className="btn" onClick={() => loginUserFunc()}>Login</button> */}
+                    <Button 
+                        variant="contained" 
+                        size="large" 
+                        onClick={() => loginUserFunc()}
+                        sx={{
+                            fontSize: "1.2rem",
+                        }} 
+                    >
+                    Login
+                    </Button>
+                </FormControl>
                 <section id="registerPage">
                     <span>Not registered? </span>
                     <Link id="registerLink" to={'/register'}>Register</Link>

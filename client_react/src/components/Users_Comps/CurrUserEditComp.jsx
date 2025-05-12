@@ -4,7 +4,8 @@ import axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.css'; 
 import Modal from 'react-bootstrap/Modal';
 import AppContext from '../appContext';
-import "../../styles/Users.css"
+import Axios from '../helpers'
+import "../../styles/User.css"
 
 export const EditUserComp=(props) => {
     const dispatch = useDispatch();
@@ -39,11 +40,16 @@ export const EditUserComp=(props) => {
                 setUser({...user, password: user.password})
             }
             try {
-                await axios.put(AppContext.USERS_URL+"/"+currUser._id, user, params).then(({data:response}) => {
-                    dispatch({ type: "REFRESH_USERS", payload: !refreshUsers });
-                    // alert(response);
+                await Axios ("put", AppContext.USERS_URL+"/"+currUser._id, user, params).then((response) => {
+                    dispatch({ type: "GET_USERS", payload: response });
                     props.onHide();
                 });
+                // await axios.put(AppContext.USERS_URL+"/"+currUser._id, user, params).then(({data:response}) => {
+                //     dispatch({ type: "GET_USERS", payload: response });
+                //     // dispatch({ type: "REFRESH_USERS", payload: !refreshUsers });
+                //     // alert(response);
+                //     props.onHide();
+                // });
             } catch (error) {
                 alert(error.message);
                 return error;
@@ -60,7 +66,7 @@ export const EditUserComp=(props) => {
             >
                 <div id="editUserModal"> 
                     <Modal.Header id="editProfileHeader" closeButton> 
-                            <h6>Profile of {currUser.fname} {currUser.lname}</h6>
+                            <h4>Profile of {currUser.fname} {currUser.lname}</h4>
                     </Modal.Header>
                     
                     <Modal.Body id="userProfile">
@@ -75,9 +81,9 @@ export const EditUserComp=(props) => {
                         <label htmlFor="email">Email:</label>
                         <input type="email" id="email" name="email" value={user.email} onChange={setUserDetails} required/>
                         <label htmlFor="imageURL">Image URL:</label>
-                        <input type="text" id="imageURL" name="imageURL" value={user.imageURL} onChange={setUserDetails} required/>
-                        <input className="mt-2" type="password" id="password" name="password" placeholder="Password" onChange={setUserDetails} required/>
-                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password"onChange={setUserDetails} required/>
+                        <input type="text" id="imageURL" name="imageURL" value={user.imageURL} onChange={setUserDetails}/>
+                        <input className="mt-2 mb-1" type="password" id="password" name="password" placeholder="Password" onChange={setUserDetails} required/>
+                        <input className="mb-2"type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password"onChange={setUserDetails} required/>
                         <label>To keep old password,<br></br>leave password fields blank !</label>
                         <button id="updateUserBtn" className="btn" onClick={() => updateUser()}>Update</button>
                     </Modal.Body>

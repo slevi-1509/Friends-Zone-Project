@@ -10,7 +10,7 @@ import AppContext from '../appContext';
 import noImage from '../../data/noImage.png'; 
 import "../../styles/Users.css"
 
-export const UserDetailsComp = ({ logoutUserFunc }) => {
+export const CurrUserDetails = ({ logoutUserFunc }) => {
     const currUser = useSelector(state => state.currUser);
     const token = useSelector(state => state.token);
     const refreshUsers = useSelector(state => state.refreshUsers);
@@ -25,10 +25,7 @@ export const UserDetailsComp = ({ logoutUserFunc }) => {
     }
 
     useEffect (() => {
-        const currUserDetails = () => {
-            
-            }
-            currUserDetails();
+        
     }, [])     
 
     const deleteMyProfile = () => {

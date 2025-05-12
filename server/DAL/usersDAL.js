@@ -1,8 +1,6 @@
 const userModel = require('../models/userModel');
 const roleModel = require('../models/roleModel');
-const messageModel = require('../models/messageModel');
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const getAllUsers = async() => {
@@ -18,86 +16,6 @@ const getAllUsers = async() => {
     }
 }
 
-const getMyFriends = async(username) => {
-    try {
-        let allUsers = await userModel.aggregate([{ $match: { 'AllFriends': username } }]);
-        return allUsers;
-    } catch (error) {
-        return "Error while trying to get all friends!" + error.message;
-    }
-}
-
-const createNewMessage = async (data) => {
-    try {
-        let newPost =  new messageModel(data);
-        await newPost.save();
-        return "New message created successfully!";
-    } catch (error) {
-        return "Message was not created! " + error.message;
-    }
-}
-
-const getMyMessages = async(username) => {   
-    try {
-        let myMessages = await messageModel.find({$or:[{sendName: username},{recvName: username}]});
-        return myMessages;
-    } catch (error) {
-        return "Error while trying to get all messages!" + error.message;
-    }  
-};
-
-const getUserMessages = async(username) => {   
-    try {
-        let myMessages = await messageModel.find({$or:[{sendName: username},{recvName: username}]});
-        return myMessages;
-    } catch (error) {
-        return "Error while trying to get all messages!" + error.message;
-    }  
-};
-
-const updateRequest = async(username, data) => {
-    try {
-        let user = await userModel.findOneAndUpdate({username: username}, { $push: data });
-        if (user) {
-            return "User updated successfully";
-        } else {
-            return "No User found with that ID";
-        }
-    } catch (error) {
-        return (error.message);
-    }
-    
-};
-
-const deleteFRO_FRI = async(username, data) => {
-    try {
-        await userModel.findOneAndUpdate({username: username}, { $pull: data });
-        return (username, "User updated successfully");
-    } catch (error) {
-        return (error.message);
-    }
-};
-
-const approveFriends = async(username, data) => {
-    let FRO_FRI;
-    if (data.FRO){
-        FRO_FRI = data.FRO;
-    } else {
-        FRO_FRI = data.FRI;
-    }
-    try {
-        await userModel.findOne({username: username}).then((user) => {
-            if (!user.AllFriends.includes(FRO_FRI)) {
-                return "Duplicate friend record";
-            }
-        });
-        await userModel.findOneAndUpdate({username: username}, { $push: { AllFriends: FRO_FRI }});
-        return (username, "User updated successfully");
-    } catch (error) {
-        return (error.message);
-    }
-};
-
 const getUserById = async(id) => {
     try{
         let user = await userModel.findById(id);
@@ -111,6 +29,45 @@ const getUserById = async(id) => {
     }  
 };
 
+const getMyFriends = async(username) => {
+    try {
+        let allUsers = await userModel.aggregate([{ $match: { 'AllFriends': username } }]);
+        return allUsers;
+    } catch (error) {
+        return "Error while trying to get all friends!" + error.message;
+    }
+}
+
+const frrequest = async(id, data) => {
+    try {
+        await userModel.findByIdAndUpdate(id, { $push: {FRO: data.rcv} });
+        await userModel.findByIdAndUpdate(data.rcv, { $push: {FRI: id} });
+        return await getAllUsers();
+    } catch (error) {
+        return (error.message);
+    }
+};
+
+const frdelete = async(id, data) => {
+    try {
+        await userModel.findByIdAndUpdate(id, { $pull: {FRI: data.snd} });
+        await userModel.findByIdAndUpdate(data.snd, { $pull: {FRO: id} });
+        return await getAllUsers();
+    } catch (error) {
+        return (error.message);
+    }
+};
+
+const frapprove = async(id, data) => {
+    try {
+        await userModel.findByIdAndUpdate(id, { $push: { AllFriends: data.snd }, $pull: { FRI: data.snd } });
+        await userModel.findByIdAndUpdate(data.snd, { $push: { AllFriends: id }, $pull: { FRO: id } });
+        return await getAllUsers();
+    } catch (error) {
+        return (error.message);
+    }
+};
+
 const updateUser = async(id, data) => {
     try {
         if (data.password){
@@ -119,14 +76,13 @@ const updateUser = async(id, data) => {
         }
         let user = await userModel.findByIdAndUpdate(id, data);
         if (user) {
-            return "User updated successfully!";
+            return await getAllUsers();
         } else {
             return "No User found with that ID!";
         }
     } catch (error) {
         return (error.message);
     }
-    
 };
 
 const deleteUser = async(id) => {
@@ -134,7 +90,7 @@ const deleteUser = async(id) => {
         let user = await userModel.findByIdAndDelete(id);
         let role = await roleModel.findOneAndDelete({ user_id: id });
         if (user) {
-            return "User deleted successfully!";
+            return await getAllUsers();
         } else {
             return "No User found with that ID!";
         }
@@ -143,30 +99,14 @@ const deleteUser = async(id) => {
     }
 };
 
-const importMsg = async (messages) => {
-    for (let msg of messages) {
-        const newMsg = new messageModel(msg);
-        try {
-            await newMsg.save(); 
-        } catch (error) {
-            return "Error importing messages! " + error.message;
-        }
-    }
-    return "import messages successfully";
-};
-
 module.exports = {
     getAllUsers,
-    updateRequest,
     getUserById,
-    deleteFRO_FRI,
     getMyFriends,
-    approveFriends,
+    frrequest,
+    frdelete,
+    frapprove,    
     updateUser,
     deleteUser,
-    createNewMessage,
-    getMyMessages,
-    getUserMessages,
-    importMsg,
 };
 

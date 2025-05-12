@@ -12,10 +12,12 @@ const actionSchema = new mongoose.Schema({
     document_Id: {type: String, required: true},
     time: {type: Date, required: true},
     actionsLeft: {type: Number, required: true},
-    } ,
-        {
-        versionKey: false
-});
+    },
+    {
+        versionKey: false,
+        timestamps: true
+    }
+);
 
 const actionModel = mongoose.model('action', actionSchema, 'actions');
 

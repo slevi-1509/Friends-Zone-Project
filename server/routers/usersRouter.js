@@ -5,6 +5,7 @@ const validateToken = require('../utils/validateToken');
 
 router.get('/', validateToken, async (req, res) => {
     let response = await usersBLL.getAllUsers();
+    // console.log(response)
     res.send(response);
 });
 
@@ -34,24 +35,25 @@ router.put('/:id', validateToken, async (req, res) => {
     res.send(response);
 });
 
-router.put('/:username/request', validateToken, async (req, res) => {
-    let { username } = req.params;
+router.put('/:id/frrequest', validateToken, async (req, res) => {
+    console.log("1", req.params, req.body);
+    let { id } = req.params;
     let data = req.body;
-    let response = await usersBLL.updateRequest(username, data);
+    let response = await usersBLL.frrequest(id, data);
     res.send(response);
 });
 
-router.put('/:username/frdelete', validateToken, async (req, res) => {
-    let { username } = req.params;
+router.put('/:id/frdelete', validateToken, async (req, res) => {
+    let { id } = req.params;
     let data = req.body;
-    let response = await usersBLL.deleteFRO_FRI(username, data);
+    let response = await usersBLL.frdelete(id, data);
     res.send(response);
 });
 
-router.put('/:username/frapprove', validateToken, async (req, res) => {
-    let { username } = req.params;
+router.put('/:id/frapprove', validateToken, async (req, res) => {
+    let { id } = req.params;
     let data = req.body;
-    let response = await usersBLL.approveFriends(username, data);
+    let response = await usersBLL.frapprove(id, data);
     res.send(response);
 });
 
