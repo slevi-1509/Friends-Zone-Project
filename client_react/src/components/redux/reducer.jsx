@@ -9,7 +9,7 @@ const inintialState = {
     refreshUsers: false,
     refreshPosts: false,
     replyFlag: false,
-    socket: {},
+    // socket: {},
     rooms: []
 };
 const reducer = (state = inintialState, action) => {
@@ -55,9 +55,9 @@ const reducer = (state = inintialState, action) => {
         case "REPLY_FLAG":
             state = {...state, replyFlag: action.payload}
             return state
-        case "GET_SOCKET":
-            state = {...state, socket: action.payload}
-            return state
+        // case "GET_SOCKET":
+        //     state = {...state, socket: action.payload}
+        //     return state
         case "GET_ROOMS":
             state = {...state, rooms: [...action.payload]}
             return state

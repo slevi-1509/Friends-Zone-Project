@@ -31,7 +31,7 @@ export const LoginComp = () => {
      // Check for login name and passwaord and in case of approval creates a cookie with the token.
      // Updates the reducers parameters.
 
-    const loginUserFunc = async () => {
+    const loginUser = async () => {
         // console.log("render login")
         // debugger;
         if (userLogin.username == "" || userLogin.password == ""){
@@ -51,7 +51,7 @@ export const LoginComp = () => {
                       }); 
                     dispatch({ type: "GET_CURRUSER", payload: response.user });
                     dispatch({ type: "GET_TOKEN", payload: response.token });
-                    dispatch({ type: "GET_SOCKET", payload: io (AppContext.SERVER_IP+AppContext.HTTP_PORT) });
+                    // dispatch({ type: "GET_SOCKET", payload: io (AppContext.SERVER_IP+AppContext.HTTP_PORT) });
                     
                     setDisplaySpinner("block");
                     setTimeout(() => {
@@ -100,7 +100,7 @@ export const LoginComp = () => {
                     <Button 
                         variant="contained" 
                         size="large" 
-                        onClick={() => loginUserFunc()}
+                        onClick={() => loginUser()}
                         sx={{
                             fontSize: "1.2rem",
                         }} 

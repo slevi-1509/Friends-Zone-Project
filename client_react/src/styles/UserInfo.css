@@ -1,5 +1,5 @@
 #infoUserModal {    
-    position:absolute; left:10%; top:10%;
+    position:absolute; left:2%; top:10%;
     /* max-width:30rem; */
     margin: auto;
     align-self: center;
@@ -78,11 +78,6 @@
 
 .m-l-0 {
     margin-left: 0px;
-}
-
-.user-card-full .user-profile {
-    /* height: 350px; */
-    /* border-radius: 5px 0 0 5px; */
 }
 
 .bg-c-lite-green {

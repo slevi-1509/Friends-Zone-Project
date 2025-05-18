@@ -90,7 +90,7 @@ const deleteUser = async(id) => {
         let user = await userModel.findByIdAndDelete(id);
         let role = await roleModel.findOneAndDelete({ user_id: id });
         if (user) {
-            return await getAllUsers();
+            return "User deleted successfully!";
         } else {
             return "No User found with that ID!";
         }

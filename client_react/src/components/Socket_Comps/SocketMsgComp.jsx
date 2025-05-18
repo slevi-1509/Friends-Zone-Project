@@ -52,26 +52,26 @@ export const SocketMsgComp=({ message, onReply }) => {
                 <div id="chatBody" style={{marginRight: msgType.marginRight, marginLeft: msgType.marginLeft}}>
                     {
                         message.replyTo!=null && 
-                        <div id="replyChatContainer">
-                            <div id="replyChatCard" style={{border: msgType.border, backgroundColor: msgType.replyColor, marginBottom: "-0.2rem", width:'inherit'}}>
-                                <p id="replyChatSender" className="messageLine">{message.replyMsgSender==currUser.username?"Me":message.replyMsgSender}</p>
-                                <section id="replyChatBodySection">
-                                    <p id="replyChatBody">{message.replyMsgBody}</p>
-                                    {/* {
-                                        (message.replyMsgImage != undefined && message.replyMsgImage.replace(/ /g, '') != "") && 
-                                            <img id="replyChatImage" src={message.replyMsgImage} style={{width:"2rem",borderRadius:"2px" }} onError={(e) => e.target.src = noImage} />
-                                    }  */}
-                                </section>
-                                <p id="replyChatTime" className="messageLine">{new Date(message.replyMsgTime).getHours()+":"+
-                                    String(new Date(message.replyMsgTime).getMinutes()).padStart(2, "0")}</p>
+                            <div id="replyChatContainer">
+                                <div id="replyChatCard" style={{border: msgType.border, backgroundColor: msgType.replyColor, marginBottom: "-0.2rem", width:'inherit'}}>
+                                    <p id="replyChatSender" className="messageLine">{message.replyMsgSender==currUser.username?"Me":message.replyMsgSender}</p>
+                                    <section id="replyChatBodySection">
+                                        <p id="replyChatBody">{message.replyMsgBody}</p>
+                                        {/* {
+                                            (message.replyMsgImage != undefined && message.replyMsgImage.replace(/ /g, '') != "") && 
+                                                <img id="replyChatImage" src={message.replyMsgImage} style={{width:"2rem",borderRadius:"2px" }} onError={(e) => e.target.src = noImage} />
+                                        }  */}
+                                    </section>
+                                    <p id="replyChatTime" className="messageLine">{new Date(message.replyMsgTime).getHours()+":"+
+                                        String(new Date(message.replyMsgTime).getMinutes()).padStart(2, "0")}</p>
+                                </div>
+                                {
+                                    (message.replyMsgImage != undefined && message.replyMsgImage.replace(/ /g, '') != "") && 
+                                        // <div id="replyChatImageCard" style={{border: msgType.border, backgroundColor: msgType.replyColor}}>
+                                            <img id="replyChatImage" style={{border: msgType.border, backgroundColor: msgType.replyColor, height: "2.2rem"}} src={message.replyMsgImage} onError={(e) => e.target.src = noImage} />
+                                        // </div>
+                                } 
                             </div>
-                            {
-                                (message.replyMsgImage != undefined && message.replyMsgImage.replace(/ /g, '') != "") && 
-                                    // <div id="replyChatImageCard" style={{border: msgType.border, backgroundColor: msgType.replyColor}}>
-                                        <img id="replyChatImage" style={{border: msgType.border, backgroundColor: msgType.replyColor, height: "2.2rem"}} src={message.replyMsgImage} onError={(e) => e.target.src = noImage} />
-                                    // </div>
-                            } 
-                        </div>
                     }
                     {
                         (message.imageURL != undefined && message.imageURL.replace(/ /g, '') != "") && 

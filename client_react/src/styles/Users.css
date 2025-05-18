@@ -4,11 +4,11 @@
     /* position:fixed; */
     /* top:21rem; */
     overflow: auto;
-    height: fit-content;
+    height: 50rem;
     z-index: 1;
     align-items: left;
     width: fit-content;
-    scrollbar-width: none;
+    scrollbar-width: 1rem;
 }
 
 .creepster-regular{
@@ -74,7 +74,7 @@
     flex-direction: row;
     font-weight: bold;
     font-size: 1.5em;
-    margin: 0.5rem 0 0.5rem 0;
+    margin: 0.5rem 0 1rem 0;
     text-align: left;
     width:30rem;
 }
@@ -85,19 +85,40 @@
     width: fit-content;
 }
 
-/* #refreshBtn{
+#refreshUsersBtn{
     border-radius: 5px;
     font-size: 1.4rem;
     padding: 0;
     width: 2.3rem;
     height: 2.3rem;
     background-color: rgb(240, 215, 132);
-    margin: 0 0 0 2rem;
+    margin: 0 0 0 1.5rem;
 }
 
-#refreshBtn:active{
+#refreshUsersBtn:active{
     font-size: smaller;
-} */
+}
+
+#sortUsers{
+    font-size: 1.3rem;
+    color: yellow;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding:0;
+    margin: 0.5rem 0 0.5rem 0;
+    gap: 0.5rem;
+}
+
+.usersBtn{
+    font-size: 1.3rem;
+    background-color: #6344c8;
+    height: fit-content;
+    color: #ffff;
+    border: none;
+    border-radius: 6px;
+    /* margin: 0 1rem 0.5rem 0; */
+}
 
 #editUserModal{
     width: fit-content;

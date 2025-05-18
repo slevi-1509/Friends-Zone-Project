@@ -343,12 +343,6 @@ a:not([href]):not([tabindex]):focus {
     padding-right: .625rem
 }
 
-#frStatus {
-    /* float: right; */
-    /* top: 2rem; */
-    /* margin: -4rem 0 0 0; */
-}
-
 .frIcon{
     font-size: 1.5em;
     /* justify-content: center; */

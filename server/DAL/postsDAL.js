@@ -3,19 +3,16 @@ const postModel = require('../models/postModel');
 const { OpenAI } = require('openai');
 require("dotenv").config();
 
-const getAllPosts = async(sortBy, asc) => {
-    try{
+const getAllPosts = async() => {
+    try {
         let posts = await postModel.find({});
         if (posts.length > 0) {
-            lastAction = "Get all posts"
             return posts;
         } else {
-            lastAction = "Get all posts - No posts found"
-            return lastAction;
+            return "No posts found";
         }
     } catch (error) {
-        lastAction = "Error getting all posts: " + error.message;
-        return lastAction;
+        return(error.message);
     }
 }
 
@@ -48,22 +45,20 @@ const createNewPost = async (data)=>{
     try {
         let newPost =  new postModel(data);
         await newPost.save();
-        lastAction = "New post created successfully!"
+        return await getAllPosts();
     } catch (error) {
-        lastAction = "Error creating new post: " + error.message;
+        return(error.message);
     }
-    return lastAction;
 };
 
 const importPosts = async (posts)=>{
     try {
         const options = { ordered: true };
         const result = await postModel.insertMany(posts, options);
-        lastAction = "Import posts successfully!"
+        return await getAllPosts();
     } catch (error) {
-        lastAction = "Error importing posts!";
+        return(error.message);
     }
-    return lastAction;
 }
 
 const getPostsByUserId = async (id, sortBy, asc)=>{
@@ -144,30 +139,20 @@ const getPostsByUserName = async (username, sortBy, asc)=>{
 
 const deletePost = async (id)=>{
     try {
-        let post = await postModel.findByIdAndDelete(id);
-        if (post) {
-            lastAction = "Post deleted successfully!"
-        } else {
-            lastAction = "Deleting post - Post not found"
-        }
+        await postModel.findByIdAndDelete(id);
+        return await getAllPosts();
     } catch (error) {
-        lastAction = "Error deleting post: " + error.message
+        return(error.message);
     }
-    return lastAction;
 };
 
 const updatePost = async (id, data)=>{
     try {
-        let post = await postModel.findByIdAndUpdate(id, { $push: { reply: data } })
-        if (post) {
-            lastAction = "Post updated successfully!";
-        } else {
-            lastAction = "Updating post - Post not found"
-        }
+        await postModel.findByIdAndUpdate(id, { $push: { reply: data } })
+        return await getAllPosts();
     } catch (error) {
-        lastAction = "Error updating post: " + error.message
+        return(error.message);
     }
-    return lastAction;
 };
 
 module.exports = {

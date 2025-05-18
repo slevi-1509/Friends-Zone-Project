@@ -1,17 +1,19 @@
 import { useEffect, useState, useRef } from 'react';
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { io } from "socket.io-client"
 import 'bootstrap/dist/css/bootstrap.css'; 
 import Modal from 'react-bootstrap/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane, faArrowsDownToLine } from '@fortawesome/free-solid-svg-icons'
 import { SocketMsgComp } from "./SocketMsgComp";
+import AppContext from '../appContext';
 import "../../styles/Socket.css"
 
 export const SocketChatComp=(props) => {
     const messagesColumnRef = useRef();
     const roomSelectElement = useRef();
     const currUser = useSelector(state => state.currUser);
-    const socket = useSelector(state => state.socket);
+    const [socket, setSocket] = useState({});
     const [chatMessages, setChatMessages] = useState([]);
     const [rooms, setRooms] = useState([]);
     const [privateChat, setPrivateChat] = useState()
@@ -23,66 +25,39 @@ export const SocketChatComp=(props) => {
     const [replyCloneShow, setReplyCloneShow] = useState(false);
     const [msgReplied, setMsgReplied] = useState({});
     const [scrollBtn, setScrollBtn] = useState(false);
+    
     let messageDate = Date.now()
     const user = props.user;
 
     useEffect(() => {
-        if(user){
-            setPrivateChat(true)
-            let privateChatRoom = [currUser.username, currUser._id, user.username, user._id].sort().join("");
-            socket.emit("join_room", currUser.username, privateChatRoom)
-            setSelectedRoom(privateChatRoom);
-        } else {
-            setPrivateChat(false);
-            socket.emit("getRooms");
+        console.log("render socket")
+        let socketObj = io (AppContext.SERVER_IP+AppContext.HTTP_PORT);
+        const getSocket = () => {
+            setSocket(socketObj);
+            if(user){
+                setPrivateChat(true)
+                let privateChatRoom = [currUser.username, currUser._id, user.username, user._id].sort().join("");
+                socketObj.emit("join_room", currUser.username, privateChatRoom)
+                setSelectedRoom(privateChatRoom);
+            } else {
+                setPrivateChat(false);
+                socketObj.emit("getRooms");
+            }
+            setReplyCloneShow(false);
         }
-        setReplyCloneShow(false);
-    }, []);
 
-    useEffect(() => {
-            socket.on("getRooms", (myRooms) => {    
-                if(myRooms.length > 0){     
-                    setRooms([...myRooms]);
-                    socket.emit("roomSelect", currUser.username, myRooms[0]);
-                    setSelectedRoom(myRooms[0]);
-                    setScrollBtn(!scrollBtn)
-                }
-            });
-            // 
-            return () => socket.off('getRooms');
-    }, [socket]);
+        socketObj.on("getRooms", (myRooms) => {    
+            if(myRooms.length > 0){     
+                setRooms([...myRooms]);
+                socketObj.emit("roomSelect", currUser.username, myRooms[0]);
+                setSelectedRoom(myRooms[0]);
+                setScrollBtn(!scrollBtn)
+            }
+            return () => socketObj.off('getRooms');
+        });
 
-    useEffect(() => {  
-            socket.on("response", (messages, myRooms, currRoom) => {
-                if (messages.length > 0 && (roomSelectElement.current == undefined || messages[0].room == roomSelectElement.current.value)){
-                    let tempArr = messages.map(message=>{
-                        if(message.replyTo!=null){
-                            let replyToMsg = messages.find(msg => msg._id == message.replyTo);
-                            return {...message, 
-                                        replyMsgBody: replyToMsg.body, 
-                                        replyMsgSender: replyToMsg.sendName, 
-                                        replyMsgImage: replyToMsg.imageURL,
-                                        replyMsgTime: replyToMsg.sendDate
-                                    }
-                        } else {
-                            return message;
-                        };
-
-                    })
-                    setChatMessages(tempArr);                
-                    setRooms([...myRooms]);
-                    setScrollBtn(!scrollBtn)
-                } else {
-                    setChatMessages([]);                
-                    setRooms([...myRooms]);
-                }
-            });
-            // 
-            return () => socket.off('response');
-    }, [socket]);
-
-    useEffect(() => {  
-            socket.on("join_room", (messages, myRooms) => {
+        socketObj.on("response", (messages, myRooms, currRoom) => {
+            if (messages.length > 0 && (roomSelectElement.current == undefined || messages[0].room == roomSelectElement.current.value)){
                 let tempArr = messages.map(message=>{
                     if(message.replyTo!=null){
                         let replyToMsg = messages.find(msg => msg._id == message.replyTo);
@@ -100,27 +75,48 @@ export const SocketChatComp=(props) => {
                 setChatMessages(tempArr);                
                 setRooms([...myRooms]);
                 setScrollBtn(!scrollBtn)
-                
-            });
-            // 
-            return () => socket.off('join_room');
-    }, [socket]);
-    
-    useEffect(() => {
-        socket.on("leave_room", (myRooms) => {
+            } else {
+                setChatMessages([]);                
+                setRooms([...myRooms]);
+            }
+            return () => socketObj.off('response');
+        });
+        
+        socketObj.on("join_room", (messages, myRooms) => {
+            let tempArr = messages.map(message=>{
+                if(message.replyTo!=null){
+                    let replyToMsg = messages.find(msg => msg._id == message.replyTo);
+                    return {...message, 
+                                replyMsgBody: replyToMsg.body, 
+                                replyMsgSender: replyToMsg.sendName, 
+                                replyMsgImage: replyToMsg.imageURL,
+                                replyMsgTime: replyToMsg.sendDate
+                            }
+                } else {
+                    return message;
+                };
+
+            })
+            setChatMessages(tempArr);                
+            setRooms([...myRooms]);
+            setScrollBtn(!scrollBtn)
+            return () => socketObj.off('join_room');
+        });
+        
+        socketObj.on("leave_room", (myRooms) => {
             setRooms(myRooms);
             roomSelect(myRooms[0]);
+            return () => socket.off('leave_room');
         }); 
-        return () => socket.off('leave_room');
-    }, [socket]);
-
-    useEffect(() => {
-        socket.on("leave_all_rooms", () => {
+        
+        socketObj.on("leave_all_rooms", () => {
             setRooms([]);
-            setChatMessages([]);                
+            setChatMessages([]);    
+            return () => socket.off('leave_all_rooms');            
         }); 
-        return () => socket.off('leave_all_rooms');
-    }, [socket]);
+                
+        getSocket();
+    }, []);
 
     useEffect(() => {
         if (messagesColumnRef.current != undefined) {
@@ -128,6 +124,102 @@ export const SocketChatComp=(props) => {
           messagesColumnRef.current.scrollHeight;
         }
     }, [chatMessages, scrollBtn]);
+
+    // useEffect(() => {
+    //     // debugger;
+    //     if(user){
+    //         setPrivateChat(true)
+    //         let privateChatRoom = [currUser.username, currUser._id, user.username, user._id].sort().join("");
+    //         socket.emit("join_room", currUser.username, privateChatRoom)
+    //         setSelectedRoom(privateChatRoom);
+    //     } else {
+    //         setPrivateChat(false);
+    //         socket.emit("getRooms");
+    //     }
+    //     setReplyCloneShow(false);
+    // }, []);
+
+    // useEffect(() => {
+    //     socket.on("getRooms", (myRooms) => {    
+    //         if(myRooms.length > 0){     
+    //             setRooms([...myRooms]);
+    //             socket.emit("roomSelect", currUser.username, myRooms[0]);
+    //             setSelectedRoom(myRooms[0]);
+    //             setScrollBtn(!scrollBtn)
+    //         }
+    //     });
+    //     return () => socket.off('getRooms');
+    // }, [socket]);
+
+    // useEffect(() => {  
+    //     socket.on("response", (messages, myRooms, currRoom) => {
+    //         if (messages.length > 0 && (roomSelectElement.current == undefined || messages[0].room == roomSelectElement.current.value)){
+    //             let tempArr = messages.map(message=>{
+    //                 if(message.replyTo!=null){
+    //                     let replyToMsg = messages.find(msg => msg._id == message.replyTo);
+    //                     return {...message, 
+    //                                 replyMsgBody: replyToMsg.body, 
+    //                                 replyMsgSender: replyToMsg.sendName, 
+    //                                 replyMsgImage: replyToMsg.imageURL,
+    //                                 replyMsgTime: replyToMsg.sendDate
+    //                             }
+    //                 } else {
+    //                     return message;
+    //                 };
+
+    //             })
+    //             setChatMessages(tempArr);                
+    //             setRooms([...myRooms]);
+    //             setScrollBtn(!scrollBtn)
+    //         } else {
+    //             setChatMessages([]);                
+    //             setRooms([...myRooms]);
+    //         }
+    //     });
+    //     // 
+    //     return () => socket.off('response');
+    // }, [socket]);
+
+    // useEffect(() => {  
+    //     socket.on("join_room", (messages, myRooms) => {
+    //         let tempArr = messages.map(message=>{
+    //             if(message.replyTo!=null){
+    //                 let replyToMsg = messages.find(msg => msg._id == message.replyTo);
+    //                 return {...message, 
+    //                             replyMsgBody: replyToMsg.body, 
+    //                             replyMsgSender: replyToMsg.sendName, 
+    //                             replyMsgImage: replyToMsg.imageURL,
+    //                             replyMsgTime: replyToMsg.sendDate
+    //                         }
+    //             } else {
+    //                 return message;
+    //             };
+
+    //         })
+    //         setChatMessages(tempArr);                
+    //         setRooms([...myRooms]);
+    //         setScrollBtn(!scrollBtn)
+            
+    //     });
+    //     // 
+    //     return () => socket.off('join_room');
+    // }, [socket]);
+    
+    // useEffect(() => {
+    //     socket.on("leave_room", (myRooms) => {
+    //         setRooms(myRooms);
+    //         roomSelect(myRooms[0]);
+    //     }); 
+    //     return () => socket.off('leave_room');
+    // }, [socket]);
+
+    // useEffect(() => {
+    //     socket.on("leave_all_rooms", () => {
+    //         setRooms([]);
+    //         setChatMessages([]);                
+    //     }); 
+    //     return () => socket.off('leave_all_rooms');
+    // }, [socket]);
 
     const onSubmit = (event) => {
         event.preventDefault();
@@ -220,6 +312,14 @@ export const SocketChatComp=(props) => {
         if(privateChat){
             socket.emit("leaveRoom", selectedRoom, currUser.username);
         }
+        Object.keys(socket).length>0?socket.disconnect():"";
+    }
+
+    const handleBodyClick=()=>{
+        if(replyCloneShow){
+            setReplyCloneShow(false);
+            setMsgReplied({});
+        }
     }
 
     return (
@@ -277,7 +377,7 @@ export const SocketChatComp=(props) => {
                         }
                     </Modal.Header>
                     
-                    <Modal.Body id="socketMsgContainer" ref={messagesColumnRef}>
+                    <Modal.Body id="socketMsgContainer" onClick={handleBodyClick} ref={messagesColumnRef}>
                         {chatMessages.length > 0 && 
                             chatMessages.sort((a, b)=>{new Date(a.sendDate) - new Date(b.sendDate)}).map((message, index) => {
                                 if (new Date(message.sendDate).getDate()!=new Date(messageDate).getDate() ||
