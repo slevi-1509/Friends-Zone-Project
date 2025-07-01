@@ -101,11 +101,11 @@ export const PostComp = ({ deletePost, post }) => {
             <div id="postContainer" className="col-md-12" key={post._id}>
                 <Card className="mb-2" style={{ border: "3px solid lightgrey", height:"fit-content"}}>
                     <Card.Body style={{backgroundColor: "lightgrey"}}>
-                        <div id="imgDiv" className="d-flex flex-column">
-                            {
-                                <Card.Img src={post.imageURL} style={{width:"70px", height: "70px"}} onLoad={(e)=>post.imageURL==""?e.target.src = noImage:""} onError={(e) => e.target.src = noImage}/> 
-                            }
-                        </div>
+                        {/* <div id="imgDiv">
+                            { */}
+                        <Card.Img id="postImg" src={post.imageURL} onLoad={(e)=>post.imageURL==""?e.target.src = noImage:""} onError={(e) => e.target.src = noImage}/> 
+                            {/* }
+                        </div> */}
                         <div id="postHeader">
                             <Card.Subtitle> 
                                 <p id="postDetails" className="mb-2 fs-6" style={{color: "grey"}}>Posted by <span className="fs-6" style={{color: "black"}}>

@@ -41,12 +41,12 @@ export const SocketChatComp=(props) => {
                 setSelectedRoom(privateChatRoom);
             } else {
                 setPrivateChat(false);
-                socketObj.emit("getRooms");
+                socketObj.emit("get_rooms");
             }
             setReplyCloneShow(false);
         }
 
-        socketObj.on("getRooms", (myRooms) => {    
+        socketObj.on("get_rooms", (myRooms) => {    
             if(myRooms.length > 0){     
                 setRooms([...myRooms]);
                 socketObj.emit("roomSelect", currUser.username, myRooms[0]);
@@ -57,7 +57,8 @@ export const SocketChatComp=(props) => {
         });
 
         socketObj.on("response", (messages, myRooms, currRoom) => {
-            if (messages.length > 0 && (roomSelectElement.current == undefined || messages[0].room == roomSelectElement.current.value)){
+            // debugger;
+            if (messages.length > 0 ) { // && (roomSelectElement.current == undefined || messages[0].room == roomSelectElement.current.value)){
                 let tempArr = messages.map(message=>{
                     if(message.replyTo!=null){
                         let replyToMsg = messages.find(msg => msg._id == message.replyTo);
@@ -104,15 +105,15 @@ export const SocketChatComp=(props) => {
         });
         
         socketObj.on("leave_room", (myRooms) => {
-            setRooms(myRooms);
-            roomSelect(myRooms[0]);
-            return () => socket.off('leave_room');
+            setRooms([...myRooms]);
+            // roomSelect(myRooms[0]);
+            return () => socketObj.off('leave_room');
         }); 
         
         socketObj.on("leave_all_rooms", () => {
             setRooms([]);
             setChatMessages([]);    
-            return () => socket.off('leave_all_rooms');            
+            return () => socketObj.off('leave_all_rooms');            
         }); 
                 
         getSocket();
@@ -124,102 +125,6 @@ export const SocketChatComp=(props) => {
           messagesColumnRef.current.scrollHeight;
         }
     }, [chatMessages, scrollBtn]);
-
-    // useEffect(() => {
-    //     // debugger;
-    //     if(user){
-    //         setPrivateChat(true)
-    //         let privateChatRoom = [currUser.username, currUser._id, user.username, user._id].sort().join("");
-    //         socket.emit("join_room", currUser.username, privateChatRoom)
-    //         setSelectedRoom(privateChatRoom);
-    //     } else {
-    //         setPrivateChat(false);
-    //         socket.emit("getRooms");
-    //     }
-    //     setReplyCloneShow(false);
-    // }, []);
-
-    // useEffect(() => {
-    //     socket.on("getRooms", (myRooms) => {    
-    //         if(myRooms.length > 0){     
-    //             setRooms([...myRooms]);
-    //             socket.emit("roomSelect", currUser.username, myRooms[0]);
-    //             setSelectedRoom(myRooms[0]);
-    //             setScrollBtn(!scrollBtn)
-    //         }
-    //     });
-    //     return () => socket.off('getRooms');
-    // }, [socket]);
-
-    // useEffect(() => {  
-    //     socket.on("response", (messages, myRooms, currRoom) => {
-    //         if (messages.length > 0 && (roomSelectElement.current == undefined || messages[0].room == roomSelectElement.current.value)){
-    //             let tempArr = messages.map(message=>{
-    //                 if(message.replyTo!=null){
-    //                     let replyToMsg = messages.find(msg => msg._id == message.replyTo);
-    //                     return {...message, 
-    //                                 replyMsgBody: replyToMsg.body, 
-    //                                 replyMsgSender: replyToMsg.sendName, 
-    //                                 replyMsgImage: replyToMsg.imageURL,
-    //                                 replyMsgTime: replyToMsg.sendDate
-    //                             }
-    //                 } else {
-    //                     return message;
-    //                 };
-
-    //             })
-    //             setChatMessages(tempArr);                
-    //             setRooms([...myRooms]);
-    //             setScrollBtn(!scrollBtn)
-    //         } else {
-    //             setChatMessages([]);                
-    //             setRooms([...myRooms]);
-    //         }
-    //     });
-    //     // 
-    //     return () => socket.off('response');
-    // }, [socket]);
-
-    // useEffect(() => {  
-    //     socket.on("join_room", (messages, myRooms) => {
-    //         let tempArr = messages.map(message=>{
-    //             if(message.replyTo!=null){
-    //                 let replyToMsg = messages.find(msg => msg._id == message.replyTo);
-    //                 return {...message, 
-    //                             replyMsgBody: replyToMsg.body, 
-    //                             replyMsgSender: replyToMsg.sendName, 
-    //                             replyMsgImage: replyToMsg.imageURL,
-    //                             replyMsgTime: replyToMsg.sendDate
-    //                         }
-    //             } else {
-    //                 return message;
-    //             };
-
-    //         })
-    //         setChatMessages(tempArr);                
-    //         setRooms([...myRooms]);
-    //         setScrollBtn(!scrollBtn)
-            
-    //     });
-    //     // 
-    //     return () => socket.off('join_room');
-    // }, [socket]);
-    
-    // useEffect(() => {
-    //     socket.on("leave_room", (myRooms) => {
-    //         setRooms(myRooms);
-    //         roomSelect(myRooms[0]);
-    //     }); 
-    //     return () => socket.off('leave_room');
-    // }, [socket]);
-
-    // useEffect(() => {
-    //     socket.on("leave_all_rooms", () => {
-    //         setRooms([]);
-    //         setChatMessages([]);                
-    //     }); 
-    //     return () => socket.off('leave_all_rooms');
-    // }, [socket]);
 
     const onSubmit = (event) => {
         event.preventDefault();
@@ -266,6 +171,7 @@ export const SocketChatComp=(props) => {
     }
 
     const roomSelect = (room) => {
+        // debugger;
         setSelectedRoom(room);
         socket.emit("roomSelect", currUser.username, room);
         setReplyCloneShow(false);
@@ -293,24 +199,25 @@ export const SocketChatComp=(props) => {
     }
 
     const leaveRoom = (room) => {
+        console.log(room);
         if (room!="") {
-            socket.emit("leaveRoom", room, currUser.username);
+            socket.emit("leave_room", room, currUser.username);
         }
     }
 
     const deleteRoom = (room) => {
         if (room!="") {
-            socket.emit("deleteRoom", room, currUser.username);
+            socket.emit("delete_room", room, currUser.username);
         }
     }
 
     const leaveAllRooms = () => {
-        socket.emit("leaveAllRooms")
+        socket.emit("leave_all_rooms")
     }
    
     const handleClose=()=>{
         if(privateChat){
-            socket.emit("leaveRoom", selectedRoom, currUser.username);
+            socket.emit("leave_all_rooms");
         }
         Object.keys(socket).length>0?socket.disconnect():"";
     }
@@ -332,12 +239,12 @@ export const SocketChatComp=(props) => {
             >
                 <div id="socketMsgModal"> 
                     <Modal.Header id="modalHeader" closeButton onHide={handleClose}>
-                        { privateChat==false && 
+                        { !privateChat && 
                             <div>
                                 <section id="roomSection">
                                     <input id="chatRoom" className="" type="text" name="chatroom" placeholder="Room name:" value={chatRoom} onChange={e=>{setChatRoom(e.target.value)}}></input>
                                     <button id="joinBtn" onClick={()=>{joinRoom(chatRoom)}}>Join</button>
-                                    <button id="leaveAllBtn" onClick={leaveAllRooms}>Leave All</button>
+                                    {/* <button id="leaveAllBtn" onClick={leaveAllRooms}>Leave All</button> */}
                                 </section>
                                 <Modal.Title id="modalTitle">
                                     <section>                               
@@ -366,10 +273,7 @@ export const SocketChatComp=(props) => {
                             <div>
                                 <Modal.Title id="modalTitle">
                                     <section>                               
-                                        <section className="d-flex flex-column">
-                                            <h3>Private Chat with: </h3>
-                                            <h3>{user.fname} {user.lname}</h3>
-                                        </section>
+                                        <h4 style={{margin:"0.6rem 0 0 1rem"}}>Private Chat with: {user.fname} {user.lname}</h4>
                                         <button onClick={()=>{setScrollBtn(!scrollBtn)}} id="SocketscrlDownBtn" title='Scroll down messages'><i><FontAwesomeIcon icon={faArrowsDownToLine}/></i></button>
                                     </section> 
                                 </Modal.Title>
@@ -384,8 +288,8 @@ export const SocketChatComp=(props) => {
                                     new Date(message.sendDate).getMonth()!=new Date(messageDate).getMonth()){
                                     messageDate = message.sendDate;
                                     return <div key={index}>
-                                        <h5 id="dateSep" style={{justifySelf: 'center', margin: '10px 0px 10px 0px', color: 'rgb(228, 235, 131)'}}>
-                                        {new Date(messageDate).toLocaleDateString("he-IL", {dateStyle:"full"})}</h5>
+                                        <p id="dateSep" style={{justifySelf:'center',margin:'5px 0px 5px 0px',color:'rgb(228, 235, 131)',fontSize:'0.9rem'}}>
+                                        {new Date(messageDate).toLocaleDateString("he-IL", {dateStyle:"full"})}</p>
                                         <SocketMsgComp message={message} onReply={onReply}/>
                                     </div>
                                 } else {

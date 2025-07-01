@@ -42,7 +42,7 @@ export const UserComp = ({ user }) => {
         user && 
             <div id="userContainer" className="col-md-12"> 
                 <div id="userCard" className="list-item" data-id="19" onClick={()=>setInfoUserShow(true)}>
-                    <a href="#" data-abc="true"><img src={user.imageURL} style={{width:"90px", height: "90px", margin: "0 0 1rem 0.5rem"}} 
+                    <a href="#" data-abc="true"><img id="userImg" src={user.imageURL}  
                         className="avatar gd-warning" onError={(e) => e.target.src = noImage}></img></a>
                     <div id="cardDetails" className="d-flex flex-row">
                         <div id="userName" className="d-flex flex-column">

@@ -10,7 +10,7 @@ export const NewPostComp=(props) => {
     const dispatch = useDispatch();
     const currUser = useSelector(state => state.currUser);
     const token = useSelector(state => state.token);
-    const refreshPosts = useSelector(state => state.refreshPosts);
+    // const refreshPosts = useSelector(state => state.refreshPosts);
     const serverURL = AppContext.SERVER_IP+AppContext.APP_PORT+"/api/posts/";
     const [post, setPost] = useState({});
     const params = {
@@ -36,19 +36,19 @@ export const NewPostComp=(props) => {
 
     const saveNewPost = async () => {
         if (post.body=="" || post.title==""){
-            alert ("Reply body is empty!")
+            alert ("Post data is empty!")
         } else {
             let newPost = {...post, username: currUser.username, date: Date.now(), reply: []}
             try {
                 await axios.post(serverURL, newPost, params).then(({data:response}) => {
-                    if (response != "New post created successfully!") {
-                        alert(response);
-                    };
+                    dispatch({ type: "GET_POSTS", payload: response });
+                    // if (response != "New post created successfully!") {
+                    //     alert(response);
+                    // };
                 });
             } catch (error) {
                 alert(error.message)
             }
-            dispatch({ type: "REFRESH_POSTS", payload: !refreshPosts });
             props.onHide();
         }
     };   
@@ -75,7 +75,7 @@ export const NewPostComp=(props) => {
                                     onChange={setPostDetails} required />
                                 <input type="text" className="postInput" id="imageURL" name="imageURL" placeholder="Image URL:" onChange={setPostDetails} />
                                 <div className="savePost">
-                                    <button id="savePostBtn" onClick={() => saveNewPost()}>Save</button>
+                                    <button id="savePostBtn" onClick={saveNewPost}>Save</button>
                                 </div>
                             </div>
                         }

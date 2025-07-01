@@ -31,6 +31,22 @@ body {
     height: 1.5rem;
 }
 
+#userImg {
+    /* margin: 0px 10px 0 0px ; */
+    transition: transform 0.5s ease-in-out;
+    width: 90px; 
+    height: 90px; 
+    margin: 0 0 1rem 0.5rem;
+}
+  
+#userImg:hover {
+    /* margin: 1rem 0 0 2rem; */
+    transform-origin: 0 0;
+    /* transform-origin:top; */
+    transform: scale(2);
+    z-index: 1;
+}
+
 #item-author{
     width:15rem;
     color: rgb(192, 188, 228);

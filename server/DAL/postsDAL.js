@@ -44,6 +44,7 @@ const getOpenAiPost = async(username, subject) => {
 const createNewPost = async (data)=>{
     try {
         let newPost =  new postModel(data);
+        console.log(data, newPost);
         await newPost.save();
         return await getAllPosts();
     } catch (error) {
@@ -54,7 +55,7 @@ const createNewPost = async (data)=>{
 const importPosts = async (posts)=>{
     try {
         const options = { ordered: true };
-        const result = await postModel.insertMany(posts, options);
+        await postModel.insertMany(posts, options);
         return await getAllPosts();
     } catch (error) {
         return(error.message);

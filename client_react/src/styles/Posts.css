@@ -99,6 +99,7 @@
   display:flex;
   flex-direction: row;
   /* justify-content: left; */
+  margin: 0 0 0.5rem 0.5rem;
   color: yellow;
   font-weight: bold;
   font-size: 1.5rem;
@@ -113,12 +114,12 @@
 
 .postsBtn{
   font-size: 1.3rem;
-  background-color: #6344c8;
+  background-color: #7d67c2;
   height: fit-content;
   color: #ffff;
   border: none;
   border-radius: 6px;
-  margin: 0 1rem 0.5rem 0;
+  /* margin: 0 1rem 0.5rem 0; */
 }
 
 /* #clearBtn{
@@ -131,7 +132,7 @@
   font-size: 1.2rem;
   color: rgb(205, 205, 111);
   border-radius: 5px;
-  width:7rem;
+  width:8rem;
   height: fit-content;
 }
 
@@ -144,7 +145,7 @@
   flex-direction: row;
   align-items: center;
   padding:0;
-  margin: 0.5rem 0 0 0;
+  margin: 0.7rem 0 0 0;
   gap: 0.5rem;
 }
 
@@ -220,13 +221,20 @@
   color: darkblue;
 }
 
-#imgDiv {
+#postImg {
   margin: 0px 10px 0 0px ;
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.5s ease-in-out;
+  width: 70px; 
+  height: 70px;
+  cursor: pointer; 
 }
 
-.card-img {
-  margin: 0px 0px 5px 0px ;
+#postImg:hover {
+  /* margin: 1rem 0 0 2rem; */
+  transform-origin: 0 0;
+  /* transform-origin:top; */
+  transform: scale(3);
+  z-index: 1;
 }
 
 #replyTimeDiv{

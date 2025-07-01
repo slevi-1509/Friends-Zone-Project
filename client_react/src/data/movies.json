@@ -1,0 +1,164 @@
+[    
+    {
+    "username": "sagiv",
+    "title": "Inception",
+    "airDate": "2010-07-16",
+    "director": "Christopher Nolan",
+    "length": 148,
+    "imageURL": "../data/pictures/inception.jpg"
+    },
+    {
+    "username": "sagiv",
+    "title": "The Godfather",
+    "airDate": "1972-03-24",
+    "director": "Francis Ford Coppola",
+    "length": 175,
+    "imageURL":  "../data/pictures/the godfather.jpg"
+    },
+    {
+    "username": "sagiv",
+    "title": "Pulp Fiction",
+    "airDate": "1994-10-14",
+    "director": "Quentin Tarantino",
+    "length": 154,
+    "imageURL": "../data/pictures/pulp fiction.jpg"
+    },
+    {
+    "username": "sagiv",
+    "title": "The Shawshank Redemption",
+    "airDate": "1994-09-23",
+    "director": "Frank Darabont",
+    "length": 142,
+    "imageURL": "../data/pictures/The Shawshank Redemption.jpg"
+    },
+    {
+    "username": "david",
+    "title": "The Matrix",
+    "airDate": "1999-03-31",
+    "director": "Lana Wachowski, Lilly Wachowski",
+    "length": 136,
+    "imageURL": "../data/pictures/the matrix.jpg"
+    },
+    {
+    "username": "david",
+    "title": "Fight Club",
+    "airDate": "1999-10-15",
+    "director": "David Fincher",
+    "length": 139,
+    "imageURL": "../data/pictures/fight club.jpg"
+    },
+    {
+    "username": "david",
+    "title": "Forrest Gump",
+    "airDate": "1994-07-06",
+    "director": "Robert Zemeckis",
+    "length": 142,
+    "imageURL": "../data/pictures/forrest gump.jpg"
+    },
+    {
+    "username": "david",
+    "title": "The Dark Knight",
+    "airDate": "2008-07-18",
+    "director": "Christopher Nolan",
+    "length": 152,
+    "imageURL": "../data/pictures/the dark knight.jpg"
+    },
+    {
+    "username": "anat",
+    "title": "Schindler's List",
+    "airDate": "1993-12-15",
+    "director": "Steven Spielberg",
+    "length": 195,
+    "imageURL": "../data/pictures/Schindler's List.jpg"
+    },
+    {
+    "username": "anat",
+    "title": "The Lord of the Rings: The Fellowship of the Ring",
+    "airDate": "2001-12-19",
+    "director": "Peter Jackson",
+    "length": 178,
+    "imageURL": "../data/pictures/The Lord of the Rings The Fellowship of the Ring.jpg"
+    },
+    {
+    "username": "anat",
+    "title": "Star Wars: Episode IV - A New Hope",
+    "airDate": "1977-05-25",
+    "director": "George Lucas",
+    "length": 121,
+    "imageURL": "../data/pictures/Star Wars Episode IV - A New Hope.jpg"
+    },
+    {
+    "username": "anat",
+    "title": "Back to the Future",
+    "airDate": "1985-07-03",
+    "director": "Robert Zemeckis",
+    "length": 116,
+    "imageURL": "../data/pictures/Back to the Future.jpg"
+    },
+    {
+    "username": "shlomi",
+    "title": "Gladiator",
+    "airDate": "2000-05-05",
+    "director": "Ridley Scott",
+    "length": 155,
+    "imageURL": "../data/pictures/gladiator.jpg"
+    },
+    {
+    "username": "shlomi",
+    "title": "Titanic",
+    "airDate": "1997-12-19",
+    "director": "James Cameron",
+    "length": 195,
+    "imageURL": "../data/pictures/titanic.jpg"
+    },
+    {
+    "username": "shlomi",
+    "title": "Avatar",
+    "airDate": "2009-12-18",
+    "director": "James Cameron",
+    "length": 162,
+    "imageURL": "../data/pictures/avatar.jpg"
+    },
+    {
+    "username": "shlomi",
+    "title": "Avengers: Endgame",
+    "airDate": "2019-04-26",
+    "director": "Anthony Russo, Joe Russo",
+    "length": 181,
+    "imageURL": "../data/pictures/Avengers Endgame.jpg"
+    },
+    {
+    "username": "avi",
+    "title": "Jurassic Park",
+    "airDate": "1993-06-11",
+    "director": "Steven Spielberg",
+    "length": 127,
+    "imageURL": "../data/pictures/Jurassic Park.jpg"
+    },
+    {
+    "username": "avi",
+    "title": "The Lion King",
+    "airDate": "1994-06-24",
+    "director": "Roger Allers, Rob Minkoff",
+    "length": 88,
+    "imageURL": "../data/pictures/The Lion King.jpg"
+    },
+    {
+    "username": "avi",
+    "title": "The Silence of the Lambs",
+    "airDate": "1991-02-14",
+    "director": "Jonathan Demme",
+    "length": 118,
+    "imageURL": "../data/pictures/The Silence of the Lambs.jpg"
+    },
+    {
+    "username": "avi",
+    "title": "Interstellar",
+    "airDate": "2014-11-07",
+    "director": "Christopher Nolan",
+    "length": 169,
+    "imageURL": "../data/pictures/Interstellar.jpg"
+    }
+]
+  
+  

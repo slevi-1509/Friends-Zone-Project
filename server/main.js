@@ -63,9 +63,9 @@ app.use("/api/messages", messagesRouter)
 io.on("connection", (socket) => {
     console.log("New client connected " + socket.id);
 
-    socket.on("getRooms", () => {
+    socket.on("get_rooms", () => {
         rooms = Array.from(socket.rooms).toSpliced(0,1);
-        io.to(socket.id).emit("getRooms", rooms);
+        io.to(socket.id).emit("get_rooms", rooms);
     });
 
     // socket.on("join_private", async ( username, room ) => {
@@ -122,31 +122,47 @@ io.on("connection", (socket) => {
         io.in(room).emit("response", chatMessages, rooms, room); 
     });
 
-    socket.on("leaveRoom", ( room, username ) => {
+    socket.on("leave_room", async ( room, username ) => {
         if (socket.rooms.has(room)){
             socket.leave(room);
             rooms = Array.from(socket.rooms).toSpliced(0,1);
             console.log(username + " left room " + room);
-            let message = ({
-                sendName: "CHAT_BOT", 
-                body: username+" has left room "+room,
-                sendDate: Date.now(),
-                room: room
+            // let message = ({
+            //     sendName: "CHAT_BOT", 
+            //     body: username+" has left room "+room,
+            //     sendDate: Date.now(),
+            //     room: room
+            // });
+            await messagesBLL.getRoomMessages(rooms[0]).then((response) => {
+                chatMessages=[...response];
             });
-            io.to(socket.id).emit("leave_room", rooms);
+            io.to(socket.id).emit("response", chatMessages, rooms, rooms[0]);
+            // io.to(socket.id).emit("leave_room", rooms);
         }
     });
 
-    socket.on("deleteRoom", async ( room ) => {
-        io.in(room).socketsLeave(room);
-        rooms = Array.from(socket.rooms).toSpliced(0,1);
-        await messagesBLL.deleteRoom(room).then((response) => {
-            console.log("room "+room+" is closed!");
-        });
-        io.to(socket.id).emit("leave_room", rooms);
+    socket.on("delete_room", async ( room, username ) => {
+        if (socket.rooms.has(room)){
+            socket.leave(room);
+            rooms = Array.from(socket.rooms).toSpliced(0,1);
+            await messagesBLL.deleteRoom(room).then((response) => {
+                console.log("room "+room+" is closed!");
+            });
+            await messagesBLL.getRoomMessages(rooms[0]).then((response) => {
+                chatMessages=[...response];
+            });
+            io.to(socket.id).emit("response", chatMessages, rooms, rooms[0]);
+        }
+
+        // io.in(room).socketsLeave(room);
+        // rooms = Array.from(socket.rooms).toSpliced(0,1);
+        // await messagesBLL.deleteRoom(room).then((response) => {
+        //     console.log("room "+room+" is closed!");
+        // });
+        // io.to(socket.id).emit("leave_room", rooms);
     });
     
-    socket.on("leaveAllRooms", () => {
+    socket.on("leave_all_rooms", () => {
         console.log("User disconnected from all rooms")
         rooms = Array.from(socket.rooms).toSpliced(0,1);
         rooms.forEach((room)=>{
@@ -169,7 +185,7 @@ io.on("connection", (socket) => {
 
 io.of("/").adapter.on("delete-room", (room) => {
     console.log(`room ${room} was deleted`);
-  });
+});
 
 // server start
 app.listen(process.env.APP_PORT, () => {

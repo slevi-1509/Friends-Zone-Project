@@ -4,21 +4,28 @@ const router = express.Router();
 const validateToken = require('../utils/validateToken');
 
 router.get('/', validateToken, async (req, res) => {
-    let response = await usersBLL.getAllUsers();
-    // console.log(response)
-    res.send(response);
+    try {
+        let response = await usersBLL.getAllUsers();
+        res.send(response);
+    } catch (error) {
+        return error.message;
+    } 
 });
 
-router.get('/:username/myfriends', validateToken, async (req, res) => {
-    let { username } = req.params;
-    let response = await usersBLL.getMyFriends(username);
-    res.send(response);
-});
+// router.get('/:username/myfriends', validateToken, async (req, res) => {
+//     let { username } = req.params;
+//     let response = await usersBLL.getMyFriends(username);
+//     res.send(response);
+// });
 
 router.get('/:id', validateToken, async (req, res) => {
-    let { id } = req.params;
-    let response = await usersBLL.getUserById(id);
-    res.send(response);
+    try {
+        let { id } = req.params;
+        let response = await usersBLL.getUserById(id);
+        res.send(response);
+    } catch (error) {
+        return error.message;
+    } 
 });
 
 router.post('/:id/actions', validateToken, async (req, res) => {

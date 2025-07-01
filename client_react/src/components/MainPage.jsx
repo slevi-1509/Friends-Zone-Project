@@ -41,14 +41,15 @@ export const MainPage = () => {
                             dispatch({ type: "GET_CURRUSER", payload: response.find(user=>{return user._id == myUserId}) });
                             dispatch({ type: "GET_TOKEN", payload: myToken });
                             await Axios ("get", AppContext.POSTS_URL, [myToken, myUserId]).then((allPosts)=>{
-                                dispatch({ type: "GET_POSTS", payload: allPosts });
+                                if (typeof(allPosts) !== "string") {
+                                    dispatch({ type: "GET_POSTS", payload: allPosts });
+                                }  
                             })
                             // if(Object.keys(socket).length == 0){
                             //     dispatch({ type: "GET_SOCKET", payload: io (AppContext.SERVER_IP+AppContext.HTTP_PORT) });
                             // }
                             // navigate("/main/users");
                         }
-
                     } catch (error) {
                         navigate("/error/"+"No Credentials were found, Back to login!");
                         setTimeout(() => {
@@ -56,8 +57,10 @@ export const MainPage = () => {
                         }, 1000);
                     } 
                 } else {
-                    alert("No cookie found for this user, please login again!")
-                    logoutUser("Logging out...")
+                    navigate("/error/"+"No Credentials were found, Back to login!");
+                    setTimeout(() => {
+                        navigate("/login");
+                    }, 1000);
                 } 
             } else {
                 let response = await Axios ("get", AppContext.USERS_URL, [token, currUser._id]);
@@ -66,8 +69,10 @@ export const MainPage = () => {
                     logoutUser("Logging out...")
                 } else {
                     dispatch({ type: "GET_USERS", payload: response });
-                    await Axios ("get", AppContext.POSTS_URL, [token, currUser._id]).then((response)=>{
-                        dispatch({ type: "GET_POSTS", payload: response });
+                    await Axios ("get", AppContext.POSTS_URL, [token, currUser._id]).then((allPosts)=>{
+                        if (typeof(allPosts) !== "string") {
+                            dispatch({ type: "GET_POSTS", payload: allPosts });
+                        }  
                     })
                     navigate("/main/users");
                     // dispatch({ type: "GET_CURRUSER", payload: response.find(user=>{return user.username == currUser.username}) });

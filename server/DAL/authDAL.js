@@ -17,6 +17,7 @@ const registerNewUser = async (userData)=>{
 };
 
 const logInUser = async (userData)=>{
+    console.log(userData)
     try {
         let user = await userModel.findOne({ username: userData.username });
         // console.log(user);

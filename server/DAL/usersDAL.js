@@ -3,40 +3,22 @@ const roleModel = require('../models/roleModel');
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 
-const getAllUsers = async() => {
-    try {
-        let allUsers = await userModel.find({});
-        if (allUsers.length > 0) {
-            return allUsers;
-        } else {
-            return "No users found!"
-        }
-    } catch (error) {
-        return "Error while trying to get all users!" + error.message;
-    }
+const getAllUsers = () => {
+    return userModel.find({});
 }
 
-const getUserById = async(id) => {
-    try{
-        let user = await userModel.findById(id);
-        if (user) {
-            return user;
-        } else {
-            return "No User found with that ID";
-        }
-    } catch (error) {
-        return "Error! " + error.message + ": " + id;
-    }  
-};
+const getUserById = (id) => {
+    return userModel.findById(id);
+}        
 
-const getMyFriends = async(username) => {
-    try {
-        let allUsers = await userModel.aggregate([{ $match: { 'AllFriends': username } }]);
-        return allUsers;
-    } catch (error) {
-        return "Error while trying to get all friends!" + error.message;
-    }
-}
+// const getMyFriends = async(username) => {
+//     try {
+//         let allUsers = await userModel.aggregate([{ $match: { 'AllFriends': username } }]);
+//         return allUsers;
+//     } catch (error) {
+//         return "Error while trying to get all friends!" + error.message;
+//     }
+// }
 
 const frrequest = async(id, data) => {
     try {
@@ -102,7 +84,7 @@ const deleteUser = async(id) => {
 module.exports = {
     getAllUsers,
     getUserById,
-    getMyFriends,
+    // getMyFriends,
     frrequest,
     frdelete,
     frapprove,    

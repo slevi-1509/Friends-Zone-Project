@@ -106,12 +106,14 @@ export const UsersComp = () => {
                 
                 <Button
                     variant="contained" 
-                    // size="small"
+                    size="small"
                     sx={{
-                        height: "2rem",
-                        width: "1rem",
-                        margin: "0 2rem 0 0"
+                        height:"1.8rem",
+                        minWidth:"0",
+                        width:"2rem",
+                        margin: "0 1rem 0 0"
                     }} 
+                    // size="small"
                     onClick={()=>setSortAsc(!sortAsc)}
                 >
                     {sortAsc?<ArrowUpwardIcon/>:<ArrowDownwardIcon/>}

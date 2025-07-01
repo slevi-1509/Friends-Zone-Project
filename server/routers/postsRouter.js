@@ -40,6 +40,7 @@ router.get('/:username/openaipost', validateToken, async (req, res) => {
 
 router.post('/', validateToken, async (req, res) => {
     let postData = req.body;
+    // console.log(postData);
     let response = await postsBLL.createNewPost(postData);
     res.send(response);
 });

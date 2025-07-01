@@ -87,12 +87,12 @@
 
 #refreshUsersBtn{
     border-radius: 5px;
-    font-size: 1.4rem;
+    font-size: 1rem;
     padding: 0;
-    width: 2.3rem;
-    height: 2.3rem;
+    width: 2.2rem;
+    height: 2.2rem;
     background-color: rgb(240, 215, 132);
-    margin: 0 0 0 1.5rem;
+    margin: 0 0 0 0.5rem;
 }
 
 #refreshUsersBtn:active{

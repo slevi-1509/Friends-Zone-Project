@@ -72,14 +72,11 @@ export const OpenAiComp = (props) => {
             let newPost = {...aiPost, username: currUser.username, date: Date.now(), imageURL: aiImage, reply: []}
             try {
                 await axios.post(serverURL, newPost, params).then(({data:response}) => {
-                    if (response != "New post created successfully!") {
-                        alert(response);
-                    };
+                    dispatch({ type: "GET_POSTS", payload: response });
                 });
             } catch (error) {
                 alert(error.message)
             }
-            dispatch({ type: "REFRESH_POSTS", payload: !refreshPosts });
             props.onHide();
         }
     };   

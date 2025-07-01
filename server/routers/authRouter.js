@@ -16,6 +16,7 @@ router.post('/import', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     let userData = req.body;
+    console.log(req.body)
     let response = await authBLL.logInUser(userData);
     res.send(response);
 });
