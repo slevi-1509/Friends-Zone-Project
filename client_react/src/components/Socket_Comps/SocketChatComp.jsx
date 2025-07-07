@@ -288,7 +288,7 @@ export const SocketChatComp=(props) => {
                                     new Date(message.sendDate).getMonth()!=new Date(messageDate).getMonth()){
                                     messageDate = message.sendDate;
                                     return <div key={index}>
-                                        <p id="dateSep" style={{justifySelf:'center',margin:'5px 0px 5px 0px',color:'rgb(228, 235, 131)',fontSize:'0.9rem'}}>
+                                        <p id="dateSep" style={{justifySelf:'center',margin:'5px 0px 5px 0px',color:'rgb(228, 235, 131)',fontSize:'1rem',fontWeight:'bold',textAlign:'center'}}>
                                         {new Date(messageDate).toLocaleDateString("he-IL", {dateStyle:"full"})}</p>
                                         <SocketMsgComp message={message} onReply={onReply}/>
                                     </div>
