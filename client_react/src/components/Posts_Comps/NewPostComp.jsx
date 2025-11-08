@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 import axios from 'axios'
-import 'bootstrap/dist/css/bootstrap.css'; 
+import 'bootstrap/dist/css/bootstrap.css';
 import Modal from 'react-bootstrap/Modal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileAlt, faImage, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import AppContext from '../appContext';
 import '../../styles/Posts.css';
 
@@ -55,34 +57,78 @@ export const NewPostComp=(props) => {
 
     return (
         <div>
-            <Modal 
+            <Modal
                 {...props}
                 size="lg"
                 centered
+                className="modern-new-post-modal"
             >
-                <div id="newPostModal"> 
-                    <Modal.Header closeButton> 
-                        <Modal.Title>
-                            <h3> Create a new Post:</h3>
-                        </Modal.Title>
-                    </Modal.Header>
+                <Modal.Header closeButton className="modern-post-header">
+                    <Modal.Title className="modern-post-title">
+                        <FontAwesomeIcon icon={faPencilAlt} />
+                        Create New Post
+                    </Modal.Title>
+                </Modal.Header>
 
-                    <Modal.Body>
-                        {
-                            <div id="newPostContainer">
-                                <input type="text" className="postInput" id="title" name="title" placeholder="Title" onChange={setPostDetails} required/>
-                                <textarea type="text" className="postInput" id="body" name="body" placeholder="Body" 
-                                    onChange={setPostDetails} required />
-                                <input type="text" className="postInput" id="imageURL" name="imageURL" placeholder="Image URL:" onChange={setPostDetails} />
-                                <div className="savePost">
-                                    <button id="savePostBtn" onClick={saveNewPost}>Save</button>
-                                </div>
-                            </div>
-                        }
-                    </Modal.Body>
-                    
-                    <div></div>
-                </div> 
+                <Modal.Body className="modern-post-body">
+                    <div className="new-post-form">
+                        <div className="form-group">
+                            <label htmlFor="title" className="post-form-label">
+                                <FontAwesomeIcon icon={faFileAlt} />
+                                Post Title
+                            </label>
+                            <input
+                                type="text"
+                                className="modern-post-input"
+                                id="title"
+                                name="title"
+                                placeholder="Enter an engaging title..."
+                                onChange={setPostDetails}
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="body" className="post-form-label">
+                                <FontAwesomeIcon icon={faPencilAlt} />
+                                Post Content
+                            </label>
+                            <textarea
+                                className="modern-post-textarea"
+                                id="body"
+                                name="body"
+                                placeholder="Share your thoughts..."
+                                onChange={setPostDetails}
+                                rows="6"
+                                required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="imageURL" className="post-form-label">
+                                <FontAwesomeIcon icon={faImage} />
+                                Image URL (Optional)
+                            </label>
+                            <input
+                                type="text"
+                                className="modern-post-input"
+                                id="imageURL"
+                                name="imageURL"
+                                placeholder="https://example.com/image.jpg"
+                                onChange={setPostDetails}
+                            />
+                        </div>
+
+                        <div className="post-form-actions">
+                            <button className="modern-post-btn cancel-post-btn" onClick={props.onHide}>
+                                Cancel
+                            </button>
+                            <button className="modern-post-btn save-post-btn" onClick={saveNewPost}>
+                                Publish Post
+                            </button>
+                        </div>
+                    </div>
+                </Modal.Body>
             </Modal>
         </div>
     );

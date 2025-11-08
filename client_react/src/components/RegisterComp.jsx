@@ -7,21 +7,36 @@ import FilledInput from "@mui/material/FilledInput"
 import InputLabel from "@mui/material/InputLabel"
 import FormControl from "@mui/material/FormControl"
 import Box from "@mui/material/Box"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser, faLock, faEnvelope, faLocationDot, faCakeCandles, faImage, faEye, faEyeSlash, faUserPlus, faRightToBracket, faFileImport, faVenusMars, faUserTag } from '@fortawesome/free-solid-svg-icons'
 
 import AppContext from './appContext';
 import "../styles/Register.css"
+import "../styles/Auth.css"
 
 export const RegisterComp = () => {
     const authURL = AppContext.AUTH_URL+"/register";
-    const [user, setUser] = useState({fname: '', lname: '', userName: '', role_name: 'User', age: 0, gender: 'Male', address: '', 
+    const [user, setUser] = useState({fname: '', lname: '', userName: '', role_name: 'User', age: 0, gender: 'Male', address: '',
          email: '', imageURL: '', password: '', confirmPassword: ''
     });
     const [displaySpinner, setDisplaySpinner] = useState("none")
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+    const [passwordsMatch, setPasswordsMatch] = useState(true)
     const navigate = useNavigate();
 
     const setUserDetails = (e) => {
         let { value, name } = e.target;
         setUser({...user, [name]: value})
+
+        // Check password match in real-time
+        if (name === 'password' || name === 'confirmPassword') {
+            const pwd = name === 'password' ? value : user.password;
+            const confirmPwd = name === 'confirmPassword' ? value : user.confirmPassword;
+            if (pwd && confirmPwd) {
+                setPasswordsMatch(pwd === confirmPwd);
+            }
+        }
     }
 
     // Check for proper data and registering a new user in the mongo database.
@@ -87,75 +102,252 @@ export const RegisterComp = () => {
     }
     
     return (
-        <div id="registerContainer">
-            <button id="importUsersBtn" onClick={importUsers}>Import Users</button>
-            {displaySpinner=="block" && <SpinnerComp />}
-            <h1 id="registerTitle"><span>Register to FriendZone</span></h1>
-            <Stack spacing={1} direction="column">
-            {/* <div id="userNameDiv" className="d-flex flex-row"> */}
-                <Stack spacing={1} direction="row">
-                    <input type="text" id="fname" name="fname" placeholder="First Name" onChange={setUserDetails} required/>
-                    <input type="text" id="lname" name="lname" placeholder="Last Name" onChange={setUserDetails} required/>
-                </Stack>
-                <Stack spacing={1} direction="row">
-                    <input type="text" name="userName" placeholder="User Name" onChange={setUserDetails} required/>
-                    <label htmlFor="userRoleSelect">Role:</label>
-                    <select id="userRoleSelect" defaultValue="User" name="role_name" onChangeCapture={setUserDetails}>
-                        <option value="Admin">Admin</option>
-                        <option value="Programmer">Programmer</option>
-                        <option value="User">User</option>
-                    </select>
-                </Stack>
-                {/* </div> */}
-                <Stack spacing={1} direction="row">
-                    <input type="number" id="age" name="age" placeholder="Age" onChange={setUserDetails} required/>     
-                    <label htmlFor="userGenderSelect">Gender:</label>
-                    <select id="userGenderSelect" defaultValue="Male" name="gender" onChangeCapture={setUserDetails} required>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="LGBTQ">LGBTQ</option>
-                    </select>                
-                </Stack>
-                <input type="text" id="address" name="address" placeholder="Address" onChange={setUserDetails} required/>
-                <input type="email" id="email" name="email" placeholder="Email" onChange={setUserDetails} required/>
-                <input type="text" id="imageURL" name="imageURL" placeholder="Image URL" onChange={setUserDetails}/>
-                <Stack spacing={1} direction="row">
-                    <input type="password" id="password" name="password" placeholder="Password" onChange={setUserDetails} required/>
-                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" onChange={setUserDetails} required/>
-                </Stack>
-                {/* <div id="fullName"> */}
-                {/* <FormControl variant="filled">
-                    <InputLabel htmlFor="fname">First Name:</InputLabel>
-                    <FilledInput
-                        id="fname"
-                        defaultValue="" 
-                        name="fname" 
-                        onChange={setUserDetails} 
-                        required
-                    />
-                </FormControl>
-                <FormControl variant="filled">
-                    <InputLabel htmlFor="lname">Last Name:</InputLabel>
-                    <FilledInput
-                        id="lname"
-                        defaultValue="" 
-                        name="lname" 
-                        onChange={setUserDetails} 
-                        required
-                    />
-                </FormControl> */}
-            </Stack>
-                    {/* <input type="text" id="fname" name="fname" placeholder="First Name" onChange={setUserDetails} required/> */}
-                    {/* <input type="text" id="lname" name="lname" placeholder="Last Name" onChange={setUserDetails} required/> */}
-                {/* </div> */}
-                
-            <div className="registerBtns">
-                <button id="registerBtn" className="btn" onClick={() => registerUserFunc()}>Register</button>
+        <div className="auth-page-container">
+            <div className="auth-background-overlay"></div>
+
+            {/* Import Users Button (Dev Tool) */}
+            <button className="import-users-btn" onClick={importUsers}>
+                <FontAwesomeIcon icon={faFileImport} />
+                <span>Import Users</span>
+            </button>
+
+            <div className="auth-card-container">
+                <div className="auth-card register-card">
+                    {/* Header */}
+                    <div className="auth-header">
+                        <div className="auth-logo">
+                            <div className="logo-icon">FZ</div>
+                        </div>
+                        <h1 className="auth-title">Create Account</h1>
+                        <p className="auth-subtitle">Join FriendZone today</p>
+                    </div>
+
+                    {/* Form */}
+                    <div className="auth-form">
+                        {/* Name Fields */}
+                        <div className="form-row">
+                            <div className="form-field-group">
+                                <label className="field-label">
+                                    <FontAwesomeIcon icon={faUser} />
+                                    First Name
+                                </label>
+                                <input
+                                    type="text"
+                                    name="fname"
+                                    className="modern-auth-input"
+                                    placeholder="Enter first name"
+                                    onChange={setUserDetails}
+                                    required
+                                />
+                            </div>
+
+                            <div className="form-field-group">
+                                <label className="field-label">
+                                    <FontAwesomeIcon icon={faUser} />
+                                    Last Name
+                                </label>
+                                <input
+                                    type="text"
+                                    name="lname"
+                                    className="modern-auth-input"
+                                    placeholder="Enter last name"
+                                    onChange={setUserDetails}
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        {/* Username Field */}
+                        <div className="form-field-group">
+                            <label className="field-label">
+                                <FontAwesomeIcon icon={faUser} />
+                                Username
+                            </label>
+                            <input
+                                type="text"
+                                name="userName"
+                                className="modern-auth-input"
+                                placeholder="Choose a username"
+                                onChange={setUserDetails}
+                                required
+                            />
+                        </div>
+
+                        {/* Role and Gender */}
+                        <div className="form-row">
+                            <div className="form-field-group">
+                                <label className="field-label">
+                                    <FontAwesomeIcon icon={faUserTag} />
+                                    Role
+                                </label>
+                                <select
+                                    name="role_name"
+                                    className="modern-auth-select"
+                                    defaultValue="User"
+                                    onChangeCapture={setUserDetails}
+                                >
+                                    <option value="Admin">Admin</option>
+                                    <option value="Programmer">Programmer</option>
+                                    <option value="User">User</option>
+                                </select>
+                            </div>
+
+                            <div className="form-field-group">
+                                <label className="field-label">
+                                    <FontAwesomeIcon icon={faVenusMars} />
+                                    Gender
+                                </label>
+                                <select
+                                    name="gender"
+                                    className="modern-auth-select"
+                                    defaultValue="Male"
+                                    onChangeCapture={setUserDetails}
+                                    required
+                                >
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="LGBTQ">LGBTQ</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        {/* Age Field */}
+                        <div className="form-field-group">
+                            <label className="field-label">
+                                <FontAwesomeIcon icon={faCakeCandles} />
+                                Age
+                            </label>
+                            <input
+                                type="number"
+                                name="age"
+                                className="modern-auth-input"
+                                placeholder="Enter your age"
+                                onChange={setUserDetails}
+                                required
+                            />
+                        </div>
+
+                        {/* Email Field */}
+                        <div className="form-field-group">
+                            <label className="field-label">
+                                <FontAwesomeIcon icon={faEnvelope} />
+                                Email
+                            </label>
+                            <input
+                                type="email"
+                                name="email"
+                                className="modern-auth-input"
+                                placeholder="Enter your email"
+                                onChange={setUserDetails}
+                                required
+                            />
+                        </div>
+
+                        {/* Address Field */}
+                        <div className="form-field-group">
+                            <label className="field-label">
+                                <FontAwesomeIcon icon={faLocationDot} />
+                                Address
+                            </label>
+                            <input
+                                type="text"
+                                name="address"
+                                className="modern-auth-input"
+                                placeholder="Enter your address"
+                                onChange={setUserDetails}
+                                required
+                            />
+                        </div>
+
+                        {/* Image URL Field */}
+                        <div className="form-field-group">
+                            <label className="field-label">
+                                <FontAwesomeIcon icon={faImage} />
+                                Profile Image URL (Optional)
+                            </label>
+                            <input
+                                type="text"
+                                name="imageURL"
+                                className="modern-auth-input"
+                                placeholder="Enter image URL"
+                                onChange={setUserDetails}
+                            />
+                        </div>
+
+                        {/* Password Fields */}
+                        <div className="form-row">
+                            <div className="form-field-group">
+                                <label className="field-label">
+                                    <FontAwesomeIcon icon={faLock} />
+                                    Password
+                                </label>
+                                <div className="password-input-wrapper">
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        name="password"
+                                        className="modern-auth-input"
+                                        placeholder="Create password"
+                                        onChange={setUserDetails}
+                                        required
+                                    />
+                                    <button
+                                        type="button"
+                                        className="password-toggle-btn"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                    >
+                                        <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="form-field-group">
+                                <label className="field-label">
+                                    <FontAwesomeIcon icon={faLock} />
+                                    Confirm Password
+                                </label>
+                                <div className="password-input-wrapper">
+                                    <input
+                                        type={showConfirmPassword ? "text" : "password"}
+                                        name="confirmPassword"
+                                        className={`modern-auth-input ${user.password && user.confirmPassword ? (passwordsMatch ? 'valid' : 'invalid') : ''}`}
+                                        placeholder="Confirm password"
+                                        onChange={setUserDetails}
+                                        required
+                                    />
+                                    <button
+                                        type="button"
+                                        className="password-toggle-btn"
+                                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                    >
+                                        <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
+                                    </button>
+                                </div>
+                                {user.password && user.confirmPassword && !passwordsMatch && (
+                                    <span className="password-error">Passwords do not match</span>
+                                )}
+                            </div>
+                        </div>
+
+                        <button className="auth-submit-btn" onClick={registerUserFunc}>
+                            <FontAwesomeIcon icon={faUserPlus} />
+                            <span>Create Account</span>
+                        </button>
+                    </div>
+
+                    {/* Footer */}
+                    <div className="auth-footer">
+                        <p className="auth-footer-text">
+                            Already have an account?
+                            <Link to="/login" className="auth-link">
+                                <FontAwesomeIcon icon={faRightToBracket} />
+                                Sign In
+                            </Link>
+                        </p>
+                    </div>
+                </div>
             </div>
-            <section id="loginPage">
-                <span>Already registered? </span>
-                <Link id="loginLink" to={'/login'}>Login</Link>
-            </section>
+
+            {displaySpinner === "block" && <SpinnerComp />}
         </div>
     )
 }

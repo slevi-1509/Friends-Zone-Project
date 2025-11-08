@@ -1,8 +1,10 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from "react-redux"
-import 'bootstrap/dist/css/bootstrap.css'; 
-import { Card, Button, ListGroup, ListGroupItem } from "react-bootstrap";  // Bootstrap components
+import 'bootstrap/dist/css/bootstrap.css';
+import { Card, Button, ListGroup, ListGroupItem } from "react-bootstrap";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faReply, faTrash, faChevronDown, faChevronUp, faCommentDots, faClock, faUser } from '@fortawesome/free-solid-svg-icons';
 import { ReplyPostComp } from "./ReplyPostComp"
 import AppContext from '../appContext';
 import '../../styles/Posts.css';
@@ -97,64 +99,95 @@ export const PostComp = ({ deletePost, post }) => {
     }
     
     return (
-        post && 
-            <div id="postContainer" className="col-md-12" key={post._id}>
-                <Card className="mb-2" style={{ border: "3px solid lightgrey", height:"fit-content"}}>
-                    <Card.Body style={{backgroundColor: "lightgrey"}}>
-                        {/* <div id="imgDiv">
-                            { */}
-                        <Card.Img id="postImg" src={post.imageURL} onLoad={(e)=>post.imageURL==""?e.target.src = noImage:""} onError={(e) => e.target.src = noImage}/> 
-                            {/* }
-                        </div> */}
-                        <div id="postHeader">
-                            <Card.Subtitle> 
-                                <p id="postDetails" className="mb-2 fs-6" style={{color: "grey"}}>Posted by <span className="fs-6" style={{color: "black"}}>
-                                {post.username}</span> on {new Date(post.date).toLocaleDateString("he-IL")}</p>
-                                {   
-                                    currUser.username == post.username && 
-                                    <Button id="deletePostBtn" variant="secondary" onClick={() => {deletePost(post._id)}}>Delete</Button>
-                                }
-                                <Button id="replyPostBtn" variant="primary" onClick={() => setReplyModalShow(true)}>Reply</Button>
-
-                            </Card.Subtitle>
-                            <Card.Title>{post.title}</Card.Title>
-                            
-                            <Card.Text>{post.body}</Card.Text>
+        post &&
+            <article className="modern-post-card" key={post._id}>
+                {/* Post Header */}
+                <div className="post-card-header">
+                    <div className="post-author-info">
+                        <div className="author-avatar">
+                            <FontAwesomeIcon icon={faUser} />
                         </div>
-                    </Card.Body >
-                    <div>     
-                        <ListGroup className="list-group-flush">
-                            <div className="d-flex flex-row" style={{ height:"1.5rem"}}>
-                                <p className="fw-bold fs-6" style={{ height:"1rem", margin:"0px", padding:"0 10px 0 0.3rem", color: "rgb(141, 16, 16)" }}>Replies: </p>
-                                <a href="#" className="item-author text-color fs-6 fw-bold no-wrap" data-abc="true" onClick={(e) => repliesToShowFunc(e.target)}>{repliesText}</a>
-                            </div>
-                            <div>
-                                {repliesToShow.length > 0 &&
-                                    repliesToShow.sort((a,b)=>new Date(b.date) - new Date(a.date)).map((reply, idx) => (
-                                        <ListGroupItem id="replyContainer" className="d-flex flex-row" key={idx}>
-                                                <div className="d-flex flex-row">
-                                                    <p id="replyName">{reply.username}: </p> 
-                                                    <span id="replyText">{reply.body}</span>
-                                                </div>
-                                                <div id="replyTimeDiv" className="d-flex flex-column" style={{color: "grey", float: "right", height: "fit-content"}}>
-                                                    <p className="timeInfo" style={{color: "black", margin: "0 0 0 0"}}>{new Date(reply.date).toLocaleDateString("he-IL")}</p>
-                                                    <p className="timeInfo" style={{color: "black", margin: "0 0 0 0"}}>{new Date(reply.date).toLocaleTimeString("he-IL")}</p>
-                                                </div>
-                                        </ListGroupItem>
-                                ))}
-                            </div>
-                        </ListGroup> 
+                        <div className="author-details">
+                            <span className="author-name">{post.username}</span>
+                            <span className="post-date">
+                                <FontAwesomeIcon icon={faClock} />
+                                {new Date(post.date).toLocaleDateString("en-US", { month: 'short', day: 'numeric', year: 'numeric' })}
+                            </span>
+                        </div>
                     </div>
-                    
-                </Card>
-                {
-                    replyModalShow && <ReplyPostComp
+
+                    <div className="post-actions">
+                        <button className="post-action-btn reply-btn" onClick={() => setReplyModalShow(true)}>
+                            <FontAwesomeIcon icon={faReply} />
+                            <span>Reply</span>
+                        </button>
+                        {currUser.username === post.username && (
+                            <button className="post-action-btn delete-btn" onClick={() => deletePost(post._id)}>
+                                <FontAwesomeIcon icon={faTrash} />
+                                <span>Delete</span>
+                            </button>
+                        )}
+                    </div>
+                </div>
+
+                {/* Post Content */}
+                <div className="post-card-body">
+                    <h2 className="post-title">{post.title}</h2>
+                    <p className="post-body-text">{post.body}</p>
+
+                    {post.imageURL && (
+                        <div className="post-image-container">
+                            <img
+                                src={post.imageURL}
+                                alt={post.title}
+                                className="post-image"
+                                onError={(e) => e.target.style.display = "none"}
+                            />
+                        </div>
+                    )}
+                </div>
+
+                {/* Replies Section */}
+                <div className="post-replies-section">
+                    <button className="replies-toggle-btn" onClick={(e) => repliesToShowFunc(e.currentTarget)}>
+                        <FontAwesomeIcon icon={faCommentDots} />
+                        <span>{repliesText}</span>
+                        <FontAwesomeIcon
+                            icon={repliesText === "Show less" ? faChevronUp : faChevronDown}
+                            className="toggle-icon"
+                        />
+                    </button>
+
+                    {repliesToShow.length > 0 && (
+                        <div className="replies-container">
+                            {repliesToShow.sort((a,b)=>new Date(b.date) - new Date(a.date)).map((reply, idx) => (
+                                <div className="reply-item" key={idx}>
+                                    <div className="reply-header">
+                                        <div className="reply-author">
+                                            <FontAwesomeIcon icon={faUser} />
+                                            <span className="reply-username">{reply.username}</span>
+                                        </div>
+                                        <div className="reply-timestamp">
+                                            <span>{new Date(reply.date).toLocaleDateString("en-US", { month: 'short', day: 'numeric' })}</span>
+                                            <span>{new Date(reply.date).toLocaleTimeString("en-US", { hour: '2-digit', minute: '2-digit' })}</span>
+                                        </div>
+                                    </div>
+                                    <p className="reply-text">{reply.body}</p>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+
+                {/* Reply Modal */}
+                {replyModalShow && (
+                    <ReplyPostComp
                         show={replyModalShow}
                         onHide={() => hideModal()}
                         post={post}
                         replyPost={checkReply}
                     />
-                }
-            </div>
+                )}
+            </article>
     )
 }

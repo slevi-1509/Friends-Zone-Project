@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Modal from 'react-bootstrap/Modal';
 import ModalBody from 'react-bootstrap/esm/ModalBody';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMessage, faTrashCan, fas } from '@fortawesome/free-solid-svg-icons'
+import { faMessage, faTrashCan, fas, faEnvelope, faLocationDot, faUserGroup, faCakeCandles, faVenusMars } from '@fortawesome/free-solid-svg-icons'
 import Tooltip from '@mui/material/Tooltip';
 import Swal from 'sweetalert2'
 import { SocketChatComp } from "../Socket_Comps/SocketChatComp"
@@ -148,84 +148,170 @@ export const InfoUserComp=(props) => {
 
     return (
         <div>
-            <Modal id="infoUserModal"
+            <Modal
                 {...props}
                 size="lg"
                 centered
+                className="modern-user-info-modal"
             >
-                <div id="modalContent">
-                    <Modal.Header id="infoUserHeader" closeButton> 
-                        <Modal.Title>
-                            <p>{user.fname} {user.lname} details:</p>
-                        </Modal.Title>
-                    </Modal.Header>
-                    <ModalBody id="infoUserModalBody">
-                        <div id="userDetailsContainer" className="card user-card-full col-md-12">
-                            <div className="col-sm-12 bg-c-lite-green user-profile">
-                                <div className="card-block text-center text-white">
-                                    <div className="m-b-10">
-                                        <img src={user.imageURL} className="m-b-20 img-radius" alt="User-Profile-Image" style={{height:"150px", width:"150px", borderRadius:"30%"}}/>
-                                    </div>
-                                    <h6 className="f-w-500 fs-1 fw-bolder mb-3 text-dark">{user.fname} {user.lname}</h6>
-                                    <p className="fs-3 mb-3">User Role: <strong>{user.role_name}</strong></p>
-                                    <p className="fs-3 mb-3">Gender : <strong>{user.gender}</strong></p>
-                                    <p className="fs-3 mb-0">Age : <strong>{user.age}</strong></p>
-                                    <i className=" mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
+                <Modal.Header closeButton className="modern-modal-header">
+                    <Modal.Title className="modern-modal-title">
+                        User Profile
+                    </Modal.Title>
+                </Modal.Header>
+
+                <ModalBody className="modern-modal-body">
+                    <div className="modern-user-profile-container">
+                        {/* Profile Header Section */}
+                        <div className="profile-header-section">
+                            <div className="profile-avatar-container">
+                                <div className="avatar-ring">
+                                    <img
+                                        src={user.imageURL}
+                                        className="profile-avatar-large"
+                                        alt={`${user.fname} ${user.lname}`}
+                                    />
                                 </div>
+                                {/* Friendship Status Indicator */}
+                                {user._id !== currUser._id && (
+                                    <div className="friendship-status-indicator">
+                                        {user.AllFriends?.findIndex(fr => fr === currUser._id) !== -1 ? (
+                                            <div className="status-badge friends-badge">
+                                                <FontAwesomeIcon icon={faUserGroup} />
+                                            </div>
+                                        ) : user.FRI?.findIndex(fr => fr === currUser._id) !== -1 ? (
+                                            <div className="status-badge pending-badge">
+                                                <span>⏳</span>
+                                            </div>
+                                        ) : user.FRO?.findIndex(fr => fr === currUser._id) !== -1 ? (
+                                            <div className="status-badge request-badge">
+                                                <span>📬</span>
+                                            </div>
+                                        ) : null}
+                                    </div>
+                                )}
                             </div>
-                            <div className="card-block">
-                                <div className="row">
-                                    <div className="col-sm-12">
-                                        <h4 className="text-muted m-b-5">Email</h4>
-                                        <h3 className="m-b-20 fs-4">{user.email}</h3>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-sm-12">
-                                        <h4 className="text-muted m-b-5">Address</h4>
-                                        <h3 className="fs-4">{user.address}</h3>
-                                    </div>
-                                </div>
-                                <div className="iconsDiv">
-                                    
-                                    <Tooltip title={<p style={{fontSize:"1rem", margin: "0", padding: "0"}}>{frBtn.title}</p>} arrow placement="top">
-                                        <button id="frBtn" role="button" className={frBtnStatus} 
-                                            onClick={()=>sendFR()}><i><FontAwesomeIcon icon={fas[frBtn.icon]}/></i></button>
-                                    </Tooltip>
-                                    <Tooltip title={<p style={{fontSize:"1rem", margin: "0", padding: "0"}}>Start messaging with {user.fname} {user.lname}</p>} 
-                                        arrow placement="top">
-                                        <button id="imBtn" role="button" className="button-17"
-                                            onClick={()=>{setMsgModalShow(true)}}><i><FontAwesomeIcon icon={faMessage}/></i></button>
-                                    </Tooltip>
-                                    {  
-                                        msgModalShow && <SocketChatComp
-                                            show={msgModalShow}
-                                            onHide={()=>setMsgModalShow(false)}
-                                            user={user}
-                                        />                
-                                    }
-                                    {/* {
-                                        msgModalShow && <MsgModalComp
-                                        show={msgModalShow}
-                                        onHide={() => setMsgModalShow(false)}
-                                        user={user}
-                                        />
-                                    } */}
-                                    {
-                                        currUser.role_name=="Admin" && 
-                                        <Tooltip title={<p style={{fontSize:"1rem", margin: "0", padding: "0"}}>Delete user {user.fname} {user.lname}</p>} arrow placement="top">
-                                            <button id="deleteUserBtn" role="button" className="button-17" data-placement="top"  
-                                            onClick={()=>{deleteUser()}}><i><FontAwesomeIcon icon={faTrashCan}/></i></button>
-                                        </Tooltip>   
-                                       
-                                    }    
+
+                            <div className="profile-header-info">
+                                <h2 className="profile-user-name">{user.fname} {user.lname}</h2>
+                                <div className="profile-role-badge">
+                                    {user.role_name}
                                 </div>
                             </div>
                         </div>
-                    </ModalBody>
-                </div>
+
+                        {/* Quick Info Cards */}
+                        <div className="quick-info-grid">
+                            <div className="quick-info-card">
+                                <div className="quick-info-icon">
+                                    <FontAwesomeIcon icon={faVenusMars} />
+                                </div>
+                                <div className="quick-info-content">
+                                    <span className="quick-info-label">Gender</span>
+                                    <span className="quick-info-value">{user.gender}</span>
+                                </div>
+                            </div>
+                            <div className="quick-info-card">
+                                <div className="quick-info-icon">
+                                    <FontAwesomeIcon icon={faCakeCandles} />
+                                </div>
+                                <div className="quick-info-content">
+                                    <span className="quick-info-label">Age</span>
+                                    <span className="quick-info-value">{user.age}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Contact Information Section */}
+                        <div className="info-section">
+                            <h3 className="info-section-title">
+                                <FontAwesomeIcon icon={faEnvelope} className="section-icon" />
+                                Contact Information
+                            </h3>
+                            <div className="info-section-content">
+                                <div className="info-item">
+                                    <div className="info-icon-wrapper">
+                                        <FontAwesomeIcon icon={faEnvelope} />
+                                    </div>
+                                    <div className="info-content">
+                                        <span className="info-item-label">Email Address</span>
+                                        <span className="info-item-value">{user.email}</span>
+                                    </div>
+                                </div>
+                                <div className="info-item">
+                                    <div className="info-icon-wrapper">
+                                        <FontAwesomeIcon icon={faLocationDot} />
+                                    </div>
+                                    <div className="info-content">
+                                        <span className="info-item-label">Location</span>
+                                        <span className="info-item-value">{user.address}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Action Buttons Section */}
+                        <div className="profile-actions-section">
+                            <h3 className="info-section-title">Actions</h3>
+                            <div className="profile-actions-grid">
+                                <Tooltip
+                                    title={<span style={{fontSize:"0.875rem"}}>{frBtn.title}</span>}
+                                    arrow
+                                    placement="top"
+                                >
+                                    <button
+                                        className={`modern-action-btn friend-request-btn ${frBtnStatus.includes('disabled') ? 'disabled' : ''}`}
+                                        onClick={()=>sendFR()}
+                                        disabled={frBtnStatus.includes('disabled')}
+                                    >
+                                        <FontAwesomeIcon icon={fas[frBtn.icon]} />
+                                        <span>Friend Request</span>
+                                    </button>
+                                </Tooltip>
+
+                                <Tooltip
+                                    title={<span style={{fontSize:"0.875rem"}}>Start messaging with {user.fname} {user.lname}</span>}
+                                    arrow
+                                    placement="top"
+                                >
+                                    <button
+                                        className="modern-action-btn message-btn"
+                                        onClick={()=>{setMsgModalShow(true)}}
+                                    >
+                                        <FontAwesomeIcon icon={faMessage} />
+                                        <span>Send Message</span>
+                                    </button>
+                                </Tooltip>
+
+                                {
+                                    currUser.role_name === "Admin" &&
+                                    <Tooltip
+                                        title={<span style={{fontSize:"0.875rem"}}>Delete user {user.fname} {user.lname}</span>}
+                                        arrow
+                                        placement="top"
+                                    >
+                                        <button
+                                            className="modern-action-btn delete-btn"
+                                            onClick={()=>{deleteUser()}}
+                                        >
+                                            <FontAwesomeIcon icon={faTrashCan} />
+                                            <span>Delete User</span>
+                                        </button>
+                                    </Tooltip>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </ModalBody>
             </Modal>
 
+            {
+                msgModalShow && <SocketChatComp
+                    show={msgModalShow}
+                    onHide={()=>setMsgModalShow(false)}
+                    user={user}
+                />
+            }
         </div>
     );
   }

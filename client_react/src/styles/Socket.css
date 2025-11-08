@@ -37,10 +37,8 @@
     min-height: 2.5rem;
     align-items: flex-start;
     padding:0 0 0 1rem;
-}
-
-#modalHeader h3{
     color: rgb(246, 246, 102);
+
 }
 
 #modalTitle{

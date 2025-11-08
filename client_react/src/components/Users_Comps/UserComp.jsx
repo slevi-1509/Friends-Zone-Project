@@ -39,27 +39,48 @@ export const UserComp = ({ user }) => {
     }
 
     return (
-        user && 
-            <div id="userContainer" className="col-md-12"> 
-                <div id="userCard" className="list-item" data-id="19" onClick={()=>setInfoUserShow(true)}>
-                    <a href="#" data-abc="true"><img id="userImg" src={user.imageURL}  
-                        className="avatar gd-warning" onError={(e) => e.target.src = noImage}></img></a>
-                    <div id="cardDetails" className="d-flex flex-row">
-                        <div id="userName" className="d-flex flex-column">
-                            <a href="#" id="item-author" className="fw-bold">{user.fname} {user.lname}</a>
-                            <p className="item-except text-color mb-0">Age: {user.age}</p>
-                            <p className="item-except text-color">Gender: {user.gender}</p>
+        user &&
+            <>
+                <div className="modern-user-card" onClick={()=>setInfoUserShow(true)}>
+                    <div className="user-card-content">
+                        <div className="user-avatar-wrapper">
+                            <img
+                                className="user-avatar"
+                                src={user.imageURL}
+                                alt={`${user.fname} ${user.lname}`}
+                                onError={(e) => e.target.src = noImage}
+                            />
+                            {getFrStatus() && (
+                                <div className="friend-status-badge">
+                                    {getFrStatus()}
+                                </div>
+                            )}
                         </div>
-                        <p id="frStatus" className="no-wrap align-self-end">{getFrStatus()}</p>
+
+                        <div className="user-info">
+                            <h3 className="user-name">{user.fname} {user.lname}</h3>
+                            <div className="user-details">
+                                <span className="user-detail-item">
+                                    <span className="detail-label">Age:</span>
+                                    <span className="detail-value">{user.age}</span>
+                                </span>
+                                <span className="user-detail-divider">•</span>
+                                <span className="user-detail-item">
+                                    <span className="detail-label">Gender:</span>
+                                    <span className="detail-value">{user.gender}</span>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
                 {
-                    infoUserShow && <InfoUserComp 
-                    show={infoUserShow}
-                    onHide={() => hideModal()}
-                    user={user}
+                    infoUserShow && <InfoUserComp
+                        show={infoUserShow}
+                        onHide={() => hideModal()}
+                        user={user}
                     />
                 }
-            </div>
+            </>
     )
 }

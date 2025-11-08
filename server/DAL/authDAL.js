@@ -30,6 +30,7 @@ const logInUser = async (userData)=>{
                         userId: user._id
                     }, process.env.SECRET_KEY,
                     { expiresIn: "10h" });
+                    console.log("token:", token);
                     return {user, token};
                 } catch (error) {
                     return "Error while creating token!";

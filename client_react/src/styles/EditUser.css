@@ -1,0 +1,397 @@
+/* Modern Edit User Modal Styles */
+
+/* Modal Container */
+.modern-edit-user-modal .modal-content {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+/* Modal Header */
+.modern-edit-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    padding: 1.5rem 2rem;
+    border-radius: 16px 16px 0 0;
+}
+
+.modern-edit-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+}
+
+.modern-edit-header .btn-close {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    opacity: 1;
+    padding: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.modern-edit-header .btn-close:hover {
+    background-color: white;
+    transform: rotate(90deg);
+}
+
+/* Modal Body */
+.modern-edit-body {
+    padding: 0;
+    background-color: #F9FAFB;
+}
+
+.edit-user-container {
+    padding: 2rem;
+}
+
+/* Edit Sections */
+.edit-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    animation: fadeInUp 0.5s ease-out backwards;
+}
+
+.edit-section:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.edit-section:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.edit-section:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.edit-section-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 1.25rem 0;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #E5E7EB;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.section-icon {
+    color: #667eea;
+    font-size: 1.125rem;
+}
+
+/* Form Grid */
+.edit-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-field.full-width {
+    grid-column: 1 / -1;
+}
+
+/* Field Labels */
+.field-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.field-label svg {
+    color: #667eea;
+    font-size: 0.875rem;
+}
+
+/* Modern Inputs */
+.modern-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.9375rem;
+    border: 2px solid #E5E7EB;
+    border-radius: 10px;
+    background-color: white;
+    color: #374151;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.modern-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.modern-input::placeholder {
+    color: #9CA3AF;
+}
+
+.modern-input:hover {
+    border-color: #D1D5DB;
+}
+
+/* Input Validation States */
+.modern-input.valid {
+    border-color: #10B981;
+}
+
+.modern-input.valid:focus {
+    border-color: #10B981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.modern-input.invalid {
+    border-color: #EF4444;
+}
+
+.modern-input.invalid:focus {
+    border-color: #EF4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* Password Hint Box */
+.password-hint-box {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    background: #FEF3C7;
+    border-left: 4px solid #F59E0B;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.password-hint-box svg {
+    color: #F59E0B;
+    font-size: 1.125rem;
+    flex-shrink: 0;
+}
+
+.password-hint-box span {
+    font-size: 0.875rem;
+    color: #92400E;
+    font-weight: 500;
+}
+
+/* Password Feedback */
+.password-feedback {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.password-feedback.success {
+    color: #10B981;
+}
+
+.password-feedback.error {
+    color: #EF4444;
+}
+
+.password-feedback svg {
+    font-size: 1rem;
+}
+
+/* Action Buttons */
+.edit-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    padding-top: 1rem;
+    animation: fadeInUp 0.5s ease-out backwards;
+    animation-delay: 0.4s;
+}
+
+.modern-edit-btn {
+    padding: 0.875rem 2rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-family: inherit;
+}
+
+.modern-edit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.modern-edit-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cancel-btn {
+    background: #F3F4F6;
+    color: #374151;
+}
+
+.cancel-btn:hover {
+    background: #E5E7EB;
+}
+
+.save-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.save-btn:hover {
+    background: linear-gradient(135deg, #5a6fd9 0%, #6a4290 100%);
+}
+
+/* Modal Animation */
+.modern-edit-user-modal .modal-dialog {
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Scrollbar Styling */
+.modern-edit-body {
+    max-height: 75vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #667eea #F3F4F6;
+}
+
+.modern-edit-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modern-edit-body::-webkit-scrollbar-track {
+    background: #F3F4F6;
+    border-radius: 10px;
+}
+
+.modern-edit-body::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 10px;
+}
+
+.modern-edit-body::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #5a6fd9 0%, #6a4290 100%);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .edit-user-container {
+        padding: 1rem;
+    }
+
+    .edit-section {
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .edit-form-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .form-field {
+        grid-column: 1 / -1;
+    }
+
+    .edit-actions {
+        flex-direction: column;
+    }
+
+    .modern-edit-btn {
+        width: 100%;
+    }
+
+    .modern-edit-title {
+        font-size: 1.25rem;
+    }
+
+    .edit-section-title {
+        font-size: 1rem;
+    }
+}
+
+/* Focus Visible for Accessibility */
+.modern-input:focus-visible,
+.modern-edit-btn:focus-visible {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
+/* Disabled State */
+.modern-edit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.modern-input:disabled {
+    background-color: #F3F4F6;
+    cursor: not-allowed;
+}
+
+/* Number Input Styling */
+.modern-input[type="number"]::-webkit-inner-spin-button,
+.modern-input[type="number"]::-webkit-outer-spin-button {
+    opacity: 1;
+}

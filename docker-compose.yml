@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  # MongoDB Service
+  mongodb:
+    image: mongo:7.0
+    container_name: fullstack-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: FullStack_Final_Project
+    volumes:
+      - mongodb_data:/data/db
+      - mongodb_config:/data/configdb
+    networks:
+      - fullstack-network
+
+  # Node.js Server Service
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: fullstack-server
+    restart: unless-stopped
+    ports:
+      - "3300:3300"
+      - "3301:3301"
+    environment:
+      - APP_PORT=3300
+      - HTTP_PORT=3301
+      - SECRET_KEY=WhoLetTheDogsOut
+      - MONGODB_URI=mongodb://mongodb:27017/FullStack_Final_Project
+      - SERVER_NAME=http://localhost:
+      - REACT_PORT=5173
+      - OPENAI_KEY=${OPENAI_KEY}
+    depends_on:
+      - mongodb
+    networks:
+      - fullstack-network
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+
+networks:
+  fullstack-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+  mongodb_config:

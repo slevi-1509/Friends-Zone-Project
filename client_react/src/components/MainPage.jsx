@@ -1,18 +1,20 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { io } from "socket.io-client"
 import { useDispatch, useSelector } from "react-redux"
-import { Link, Outlet, useNavigate } from "react-router-dom"
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom"
 import { Stack } from "@mui/material"
 import { useCookies } from "react-cookie";
 import { SocketChatComp } from "./Socket_Comps/SocketChatComp"
 import { EditUserComp } from './Users_Comps/CurrUserEditComp'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserPen, faTrashCan, faWebAwesome } from '@fortawesome/free-solid-svg-icons'
+import { faUserPen, faTrashCan, faWebAwesome, faUsers, faNewspaper, faComments, faRightFromBracket, faCrown } from '@fortawesome/free-solid-svg-icons'
 import Tooltip from '@mui/material/Tooltip';
 import Swal from 'sweetalert2'
+import { SpinnerComp } from "./Error_Comps/SpinnerComp"
 import AppContext from './appContext';
-import noImage from '../data/noImage.png'; 
+import noImage from '../data/noImage.png';
 import Axios from './helpers'
+import '../styles/MainPage.css'
 
 export const MainPage = () => {
     const dispatch = useDispatch();
@@ -20,6 +22,7 @@ export const MainPage = () => {
     const currUser = useSelector(state => state.currUser);
     const token = useSelector(state => state.token);
     const socket = useSelector(state => state.socket);
+    const [displaySpinner, setDisplaySpinner] = useState("none")
     const [showChat, setShowChat] = useState(false);
     const [modalShow, setModalShow] = useState(false);
     const [cookies] = useCookies({});
@@ -86,7 +89,8 @@ export const MainPage = () => {
         try {
             await Axios ("logout", AppContext.SERVER_IP+AppContext.APP_PORT+"/logout")
             // Object.keys(socket).length>0?socket.disconnect():"";
-            navigate("/error/"+title);
+            // navigate("/error/"+title);
+            setDisplaySpinner("block");
             setTimeout(() => {
                 navigate("/login");
             }, 1000);
@@ -125,66 +129,123 @@ export const MainPage = () => {
     };
 
     return (
-        <div style={{margin: "0 0 0 1rem"}}>
-             <Stack spacing={1} direction="column" 
-                justifyContent="center"
-                >
-                <p className="creepster-regular"><span>Welcome to FriendZone</span></p>
-                <Stack spacing={2} direction="row" fontSize="1.5rem" style={{margin:"1.5rem 0 0.5rem 0"}}>
-                    <Link to={'users'}>
-                        Users
-                    </Link>
-                    <Link to={'posts'}>
-                        Posts
-                    </Link>
-                    <button id="socketMsgBtn" className="navBtn" onClick={()=>setShowChat(true)}>Chat</button>
-                    <button id="logoutBtn" className="navBtn" type="submit" onClick={()=>logoutUser("Logging out...\nSorry to see you go")}>Logout</button>
-                </Stack>
-                {/* <CurrUserDetails logoutUserFunc={logoutUser}/> */}
-                <div>
-                    <div id="currUserCard" className="list-item" data-id="19">
-                        <div className="d-flex flex-column">
-                            <div id="adminIcon" title="Admin">{currUser.role_name=="Admin" && <FontAwesomeIcon icon={faWebAwesome}/>}</div>                     
-                            <a href="#" data-abc="true"><img src={currUser.imageURL} style={{width:"90px", height: "90px", margin: "0 0 1rem 0.5rem"}} 
-                                className="avatar gd-warning" onError={(e) => e.target.src = noImage}></img></a>
+        <div className="main-page-container">
+            {/* Modern Navigation Header */}
+            <header className="main-header">
+                <div className="header-content">
+                    <div className="brand-section">
+                        <h1 className="brand-title">FriendZone</h1>
+                        <p className="brand-subtitle">Connect. Share. Engage.</p>
+                    </div>
+
+                    <nav className="main-navigation">
+                        <NavLink
+                            to={'users'}
+                            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                        >
+                            <FontAwesomeIcon icon={faUsers} />
+                            <span>Users</span>
+                        </NavLink>
+                        <NavLink
+                            to={'posts'}
+                            className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                        >
+                            <FontAwesomeIcon icon={faNewspaper} />
+                            <span>Posts</span>
+                        </NavLink>
+                        <button className="nav-link nav-button" onClick={()=>setShowChat(true)}>
+                            <FontAwesomeIcon icon={faComments} />
+                            <span>Chat</span>
+                        </button>
+                        <button className="nav-link nav-button logout-btn" onClick={()=>logoutUser("Logging out...\nSorry to see you go")}>
+                            <FontAwesomeIcon icon={faRightFromBracket} />
+                            <span>Logout</span>
+                        </button>
+                    </nav>
+                </div>
+            </header>
+
+            {/* Main Content Area */}
+            <div className="main-content-wrapper">
+                {/* Sidebar - Current User Profile */}
+                <aside className="sidebar-profile">
+                    <div className="profile-card">
+                        <div className="profile-card-header">
+                            {currUser.role_name === "Admin" && (
+                                <div className="admin-badge">
+                                    <FontAwesomeIcon icon={faCrown} />
+                                    <span>Admin</span>
+                                </div>
+                            )}
                         </div>
-                        <div className="d-flex flex-row">
-                            <div id="currUserName" className="d-flex flex-column">
-                                <a href="#" className="userDetails item-author text-color fw-bold fs-4" data-abc="true">{currUser.fname} {currUser.lname}</a>
-                                <p className="userDetails item-except fs-4">Age: {currUser.age}</p>
-                                <p className="userDetails fs-5">{currUser.email}</p>
-                                <p className="userDetails fs-5">{currUser.address}</p>
+
+                        <div className="profile-card-body">
+                            <div className="profile-avatar-section">
+                                <img
+                                    src={currUser.imageURL}
+                                    className="profile-avatar-main"
+                                    alt={`${currUser.fname} ${currUser.lname}`}
+                                    onError={(e) => e.target.src = noImage}
+                                />
                             </div>
-                            
-                            <div id="actions" className="dark d-flex flex-row">
-                                <Tooltip title={<p style={{fontSize:"1rem", margin: "0", padding: "0"}}>Edit my profile</p>}>
-                                    <button id="editUserBtn" className="button-17" onClick={() => setModalShow(true)}>
-                                        <i><FontAwesomeIcon icon={faUserPen}/></i></button>
-                                </Tooltip>  
-                                <Tooltip title={<p style={{fontSize:"1rem", margin: "0", padding: "0"}}>Delete my profile</p>}>
-                                    <button id="deleteUserBtn" className="button-17" data-placement="top" 
-                                    onClick={() => deleteMyProfile()}><i><FontAwesomeIcon icon={faTrashCan}/></i></button>
-                                </Tooltip>  
-                                
+
+                            <div className="profile-info-section">
+                                <h2 className="profile-name">{currUser.fname} {currUser.lname}</h2>
+
+                                <div className="profile-details">
+                                    <div className="profile-detail-item">
+                                        <span className="detail-icon">🎂</span>
+                                        <span className="detail-text">Age: {currUser.age}</span>
+                                    </div>
+                                    <div className="profile-detail-item">
+                                        <span className="detail-icon">📧</span>
+                                        <span className="detail-text">{currUser.email}</span>
+                                    </div>
+                                    <div className="profile-detail-item">
+                                        <span className="detail-icon">📍</span>
+                                        <span className="detail-text">{currUser.address}</span>
+                                    </div>
+                                </div>
+
+                                <div className="profile-actions">
+                                    <Tooltip title={<span style={{fontSize:"0.875rem"}}>Edit my profile</span>}>
+                                        <button className="profile-action-btn edit-btn" onClick={() => setModalShow(true)}>
+                                            <FontAwesomeIcon icon={faUserPen} />
+                                            <span>Edit Profile</span>
+                                        </button>
+                                    </Tooltip>
+                                    <Tooltip title={<span style={{fontSize:"0.875rem"}}>Delete my profile</span>}>
+                                        <button className="profile-action-btn delete-btn" onClick={() => deleteMyProfile()}>
+                                            <FontAwesomeIcon icon={faTrashCan} />
+                                            <span>Delete</span>
+                                        </button>
+                                    </Tooltip>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    {
-                    modalShow && <EditUserComp
-                        show={modalShow}
-                        onHide={() => setModalShow(false)}
-                        // user={user}
-                    />
-                    }
-                </div>
-                <Outlet/>
-            </Stack>
-            {  
+                </aside>
+
+                {/* Main Content */}
+                <main className="main-content">
+                    <Outlet/>
+                </main>
+            </div>
+
+            {/* Modals */}
+            {
+                modalShow && <EditUserComp
+                    show={modalShow}
+                    onHide={() => setModalShow(false)}
+                />
+            }
+            {
                 showChat && <SocketChatComp
                     show={showChat}
                     onHide={()=>setShowChat(false)}
-                />                
+                />
             }
-        </div>    
+            {displaySpinner === "block" && <SpinnerComp />}
+        </div>
     )
 }

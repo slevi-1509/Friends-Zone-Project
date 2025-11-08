@@ -4,7 +4,10 @@ const mongoose = require('mongoose');
 
 const connectDB = () => {
     try {
-        mongoose.connect('mongodb://localhost:27017/FullStack_Final_Project').then(()=>{
+        // mongoose.connect('mongodb://localhost:27017/FullStack_Final_Project').then(()=>{
+        //     console.log('Database connection established')
+        const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/FullStack_Final_Project';
+        mongoose.connect(mongoURI).then(()=>{
             console.log('Database connection established')
         });
     } catch (error) {

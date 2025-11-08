@@ -90,42 +90,82 @@ export const UsersComp = () => {
     }
 
     return (
-        <div>
-            <div id="myFriendsDiv">
-                <input id="myFriendsCheck" type="checkbox" onChange={()=>setShowMyFriends(!showMyFriends)}></input>
-                <label htmlFor="myFriendsCheck"> Show Friends & Friend Requests</label>
-                {/* <button onClick={()=>dispatch({ type: "REFRESH_USERS", payload: !refreshUsers })} id="refreshBtn" title='Refresh Users'><i><FontAwesomeIcon icon={faArrowsRotate}/></i></button> */}
+        <div className="users-page-container">
+            <div className="users-header">
+                <h1 className="users-title">Users</h1>
+                <p className="users-subtitle">Connect with people in your network</p>
             </div>
-            <section id="sortUsers">
-                <label htmlFor="sortSelect">Sort by:</label>
-                <select id="sortSelect" value={sortSelect} onChange={(e)=>{setSortSelect(e.target.value)}}>
-                    <option value="fname">Name</option>
-                    <option value="age">Age</option>
-                    <option value="gender">Gender</option>
-                </select>
-                
-                <Button
-                    variant="contained" 
-                    size="small"
-                    sx={{
-                        height:"1.8rem",
-                        minWidth:"0",
-                        width:"2rem",
-                        margin: "0 1rem 0 0"
-                    }} 
-                    // size="small"
-                    onClick={()=>setSortAsc(!sortAsc)}
-                >
-                    {sortAsc?<ArrowUpwardIcon/>:<ArrowDownwardIcon/>}
-                </Button>
-                <button className="usersBtn" onClick={sortUsers}>Apply</button>
-                <button className="usersBtn" onClick={clearFilters}>Clear</button>
-                <button onClick={refreshUsersList} id="refreshUsersBtn" title='Refresh Users List'><i><RefreshIcon/></i></button>
-                
-            </section>
+
+            <div className="users-controls">
+                <div className="filter-section">
+                    <div className="checkbox-container">
+                        <input
+                            id="myFriendsCheck"
+                            type="checkbox"
+                            onChange={()=>setShowMyFriends(!showMyFriends)}
+                            className="modern-checkbox"
+                        />
+                        <label htmlFor="myFriendsCheck" className="checkbox-label">
+                            Show Friends & Friend Requests
+                        </label>
+                    </div>
+                </div>
+
+                <div className="sort-section">
+                    <div className="sort-controls">
+                        <label htmlFor="sortSelect" className="sort-label">Sort by:</label>
+                        <select
+                            id="sortSelect"
+                            value={sortSelect}
+                            onChange={(e)=>{setSortSelect(e.target.value)}}
+                            className="modern-select"
+                        >
+                            <option value="fname">Name</option>
+                            <option value="age">Age</option>
+                            <option value="gender">Gender</option>
+                        </select>
+
+                        <Button
+                            variant="contained"
+                            size="small"
+                            className="sort-direction-btn"
+                            sx={{
+                                height:"2.5rem",
+                                minWidth:"2.5rem",
+                                width:"2.5rem",
+                                borderRadius:"8px",
+                                backgroundColor:"#4F46E5",
+                                '&:hover': {
+                                    backgroundColor: "#4338CA"
+                                }
+                            }}
+                            onClick={()=>setSortAsc(!sortAsc)}
+                        >
+                            {sortAsc?<ArrowUpwardIcon/>:<ArrowDownwardIcon/>}
+                        </Button>
+                    </div>
+
+                    <div className="action-buttons">
+                        <button className="modern-btn primary-btn" onClick={sortUsers}>
+                            Apply
+                        </button>
+                        <button className="modern-btn secondary-btn" onClick={clearFilters}>
+                            Clear
+                        </button>
+                        <button
+                            onClick={refreshUsersList}
+                            className="modern-btn icon-btn"
+                            title='Refresh Users List'
+                        >
+                            <RefreshIcon/>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             {
-                usersList.length > 0 && 
-                    <div id="usersBody" ref={scrollDemoRef}>
+                usersList.length > 0 &&
+                    <div className="users-grid" ref={scrollDemoRef}>
                         {
                             usersList.map((user)=>{
                                 return (<UserComp user={user} key={user._id}/>);
@@ -134,7 +174,10 @@ export const UsersComp = () => {
                     </div>
             }
             {
-                usersList.length === 0 && <ErrorComp errMsg='No friends to show yet...'></ErrorComp>
+                usersList.length === 0 &&
+                    <div className="empty-state">
+                        <ErrorComp errMsg='No friends to show yet...'/>
+                    </div>
             }
         </div>
     )

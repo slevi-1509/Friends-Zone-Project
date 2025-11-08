@@ -4,6 +4,7 @@ const sessionModel = require('../models/sessionModel');
 
 const validateToken = async (req, res, next) => {
     let token = req.headers['x-access-token'];
+    console.log("Validating token:", req.query);
     if (!token) {
         res.send('No token provided.');
     } else {

@@ -6,20 +6,20 @@ import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
 import { SpinnerComp } from "./Error_Comps/SpinnerComp"
 import { Button, TextField, FormControl, Stack } from "@mui/material"
-// import Button from "@mui/material/Button"
-// import TextField from "@mui/material/TextField"
-// import FormControl from "@mui/material/FormControl"
-// import Stack from "@mui/material/Stack"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser, faLock, faEye, faEyeSlash, faRightToBracket, faUserPlus } from '@fortawesome/free-solid-svg-icons'
 import AppContext from './appContext';
 import Axios from './helpers'
 import "../styles/logIn.css"
+import "../styles/Auth.css"
 
 export const LoginComp = () => {
     const authURL = AppContext.AUTH_URL+"/login";
     const [displaySpinner, setDisplaySpinner] = useState("none")
     const [userLogin, setUserLogin] = useState({username: '', password: ''})
+    const [showPassword, setShowPassword] = useState(false)
     const [cookies, setCookie] = useCookies([]);
-    
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -69,54 +69,81 @@ export const LoginComp = () => {
     }
 
     return (
-        <div id="loginContainer">
-            <div id="loginBody">
-                <h1 id="loginTitle"><span>Login to FriendZone</span></h1>
-                {/* <input type="text" id="username" name="username" placeholder="Username" onChange={setUserDetails} required/> */}
-                <FormControl variant="filled">
-                    <TextField
-                        // id="outlined-uncontrolled"
-                        label="User Name:"
-                        defaultValue=""
-                        name="username"
-                        onChange={setUserDetails} 
-                        required
-                        sx={{
-                            mb: "1rem"
-                        }}
-                    />
-                    <TextField
-                        // id="outlined-uncontrolled"
-                        label="Password:"
-                        defaultValue=""
-                        name="password"
-                        onChange={setUserDetails} 
-                        type="password"
-                        required
-                        sx={{
-                            mb: "1rem",
-                        }}
-                    />
-                    {/* <input type="password" id="password" name="password" placeholder="Password" onChange={setUserDetails} required/> */}
-                    {/* <button id="logInBtn" className="btn" onClick={() => loginUserFunc()}>Login</button> */}
-                    <Button 
-                        // type="submit"
-                        variant="contained" 
-                        size="large" 
-                        onClick={onFormSubmit}
-                        sx={{
-                            fontSize: "1.2rem",
-                        }} 
-                    >
-                    Login
-                    </Button>
-                </FormControl>
-                <section id="registerPage">
-                    <span>Not registered? </span>
-                    <Link id="registerLink" to={'/register'}>Register</Link>
-                </section>
+        <div className="auth-page-container">
+            <div className="auth-background-overlay"></div>
+
+            <div className="auth-card-container">
+                <div className="auth-card">
+                    {/* Header */}
+                    <div className="auth-header">
+                        <div className="auth-logo">
+                            <div className="logo-icon">FZ</div>
+                        </div>
+                        <h1 className="auth-title">Welcome Back</h1>
+                        <p className="auth-subtitle">Sign in to continue to FriendZone</p>
+                    </div>
+
+                    {/* Form */}
+                    <div className="auth-form">
+                        <div className="form-field-group">
+                            <label className="field-label">
+                                <FontAwesomeIcon icon={faUser} />
+                                Username
+                            </label>
+                            <input
+                                type="text"
+                                name="username"
+                                className="modern-auth-input"
+                                placeholder="Enter your username"
+                                onChange={setUserDetails}
+                                required
+                            />
+                        </div>
+
+                        <div className="form-field-group">
+                            <label className="field-label">
+                                <FontAwesomeIcon icon={faLock} />
+                                Password
+                            </label>
+                            <div className="password-input-wrapper">
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    name="password"
+                                    className="modern-auth-input"
+                                    placeholder="Enter your password"
+                                    onChange={setUserDetails}
+                                    required
+                                />
+                                <button
+                                    type="button"
+                                    className="password-toggle-btn"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                >
+                                    <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                                </button>
+                            </div>
+                        </div>
+
+                        <button className="auth-submit-btn" onClick={onFormSubmit}>
+                            <FontAwesomeIcon icon={faRightToBracket} />
+                            <span>Sign In</span>
+                        </button>
+                    </div>
+
+                    {/* Footer */}
+                    <div className="auth-footer">
+                        <p className="auth-footer-text">
+                            Don't have an account?
+                            <Link to="/register" className="auth-link">
+                                <FontAwesomeIcon icon={faUserPlus} />
+                                Sign Up
+                            </Link>
+                        </p>
+                    </div>
+                </div>
             </div>
-            {displaySpinner=="block" && <SpinnerComp />}
+
+            {displaySpinner === "block" && <SpinnerComp />}
         </div>
     )
 }

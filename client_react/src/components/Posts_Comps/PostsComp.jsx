@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom"
 import { Button, Stack, Divider } from "@mui/material"
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faSearch, faFilter, faSortAmountDown, faRobot, faFileImport, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 import { PostComp } from "./PostComp"
 import { NewPostComp } from "./NewPostComp"
 import { ErrorComp } from "../Error_Comps/ErrorComp"
@@ -90,91 +92,149 @@ export const PostsComp = () => {
         filterAndSortPosts();
     }
 
-    return ( 
-        <div id="postsContainer" className="bd-highlight mb-3">
-            <section id="postsPageHeader">
-                {/* <div id="navbar">
-                    <button className="navBtn"><Link id="postsLink" to={'/users'}>Users</Link></button>
-                    <button className="navBtn" onClick={()=>setOpenAiShow(true)}>OpenAI</button>
-                    <button id="importPostsgBtn" className="navBtn" onClick={importPosts}>Import posts</button>
-                </div> */}
-                <div id="myPostsDiv">
-                    <input id="myPostsCheck" type="checkbox" onChange={()=>{setShowMyPosts(!showMyPosts)}}/>
-                    <label htmlFor="myPostsCheck" style={{color: "yellow"}}> Show only my posts</label>
-                    <button className="postsBtn" style={{margin:'0 0.8rem 0 3rem'}} onClick={importPosts}>Import</button>
-                    <button className="postsBtn" onClick={()=>setOpenAiShow(true)}>OpenAI</button>
+    return (
+        <div className="modern-posts-container">
+            {/* Header with Actions */}
+            <div className="posts-header-section">
+                <div className="posts-actions-bar">
+                    <button className="new-post-btn" onClick={()=>setPostModalShow(true)}>
+                        <FontAwesomeIcon icon={faPlus} />
+                        <span>New Post</span>
+                    </button>
+
+                    <div className="utility-buttons">
+                        {/* <button className="utility-btn" onClick={()=>setOpenAiShow(true)}>
+                            <FontAwesomeIcon icon={faRobot} />
+                            <span>OpenAI</span>
+                        </button> */}
+                        <button className="utility-btn import-btn" onClick={importPosts}>
+                            <FontAwesomeIcon icon={faFileImport} />
+                            <span>Import</span>
+                        </button>
+                    </div>
                 </div>
-                <button className="postsBtn" style={{margin:'0.5rem 0 0.5rem 0',backgroundColor:'lightgreen',color:'blue',fontSize:'2rem'}} 
-                    onClick={()=>setPostModalShow(true)}>New Post
-                </button>
-                <div id="utilitySection">
-                    {/* <p id="postsTitle" className="creepster-regular text-left">Posts</p> */}
-                    <div id="searchAndSortDiv">                               
-                        <section id="sortPosts">
-                            <label htmlFor="sortSelect">Sort by:</label>
-                            <select id="sortSelect" value={sortSelect} onChange={(e)=>{setSortSelect(e.target.value)}}>
+
+                {/* Filter Controls Card */}
+                <div className="filter-controls-card">
+                    <div className="filter-section-row">
+                        {/* My Posts Toggle */}
+                        <div className="my-posts-toggle">
+                            <input
+                                id="myPostsCheck"
+                                type="checkbox"
+                                className="modern-checkbox"
+                                onChange={()=>{setShowMyPosts(!showMyPosts)}}
+                            />
+                            <label htmlFor="myPostsCheck" className="checkbox-label">
+                                {/* <FontAwesomeIcon icon={faCheckSquare} /> */}
+                                Show only my posts
+                            </label>
+                        </div>
+                    </div>
+
+                    <div className="filter-section-row">
+                        {/* Sort Controls */}
+                        <div className="control-group">
+                            <label className="control-label">
+                                <FontAwesomeIcon icon={faSortAmountDown} />
+                                Sort by:
+                            </label>
+                            <select
+                                className="modern-select"
+                                value={sortSelect}
+                                onChange={(e)=>{setSortSelect(e.target.value)}}
+                            >
                                 <option value="date">Date</option>
                                 <option value="username">User Name</option>
                                 <option value="title">Title</option>
                                 <option value="body">Body</option>
                             </select>
-                            
+
                             <Button
-                                variant="contained" 
+                                variant="contained"
                                 size="small"
+                                className="sort-direction-btn"
                                 sx={{
-                                    height:"1.7rem",
-                                    minWidth:"0",
-                                    width:"2rem"
-                                }} 
+                                    height:"2.5rem",
+                                    minWidth:"2.5rem",
+                                    width:"2.5rem",
+                                    borderRadius:"8px",
+                                    backgroundColor:"#4F46E5",
+                                    '&:hover': {
+                                        backgroundColor: "#4338CA"
+                                    }
+                                }}
                                 onClick={()=>setSortAsc(!sortAsc)}
                             >
                                 {sortAsc?<ArrowUpwardIcon/>:<ArrowDownwardIcon/>}
                             </Button>
+                        </div>
 
-                            <button className="postsBtn" style={{margin:'0 0 0 2rem'}} onClick={filterAndSortPosts}>Apply</button>
-                            <button className="postsBtn" onClick={clearFilters}>Clear</button>
-                        </section>
-                        <section id="searchPosts">
-                            <label htmlFor="srchSelect">Search in:</label>
-                            <select id="srchSelect" value={srchSelect} onChange={(e)=>{setSrchSelect(e.target.value)}}>
+                        {/* Search Controls */}
+                        <div className="control-group">
+                            <label className="control-label">
+                                <FontAwesomeIcon icon={faSearch} />
+                                Search:
+                            </label>
+                            <select
+                                className="modern-select"
+                                value={srchSelect}
+                                onChange={(e)=>{setSrchSelect(e.target.value)}}
+                            >
                                 <option value="none">None</option>
                                 <option value="username">User Name</option>
                                 <option value="title">Title</option>
                                 <option value="body">Body</option>
                             </select>
-                            <input type="text" id="searchInput" value={searchInput} placeholder="for text..." onChange={(e)=>{setSearchInput(e.target.value)}}/>
-                        </section>
-                        
+                            <input
+                                type="text"
+                                className="modern-search-input"
+                                value={searchInput}
+                                placeholder="Search text..."
+                                onChange={(e)=>{setSearchInput(e.target.value)}}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="filter-actions">
+                        <button className="filter-btn apply-btn" onClick={filterAndSortPosts}>
+                            Apply Filters
+                        </button>
+                        <button className="filter-btn clear-btn" onClick={clearFilters}>
+                            Clear All
+                        </button>
                     </div>
                 </div>
-            </section>
-            {  
-                openAiShow && <OpenAiComp
+            </div>
+
+            {/* Posts Feed */}
+            {postsToShow.length > 0 && (
+                <div className="posts-feed" ref={scrollDemoRef} onScroll={handleScroll}>
+                    {postsToShow.map((post)=>{
+                        return (<PostComp deletePost={deletePost} post={post} key={post._id}/>)
+                    })}
+                </div>
+            )}
+
+            {/* Empty State */}
+            {postsToShow.length === 0 && (
+                <div className="empty-posts-state">
+                    <ErrorComp errMsg="No posts to show"/>
+                </div>
+            )}
+
+            {/* Modals */}
+            {openAiShow && (
+                <OpenAiComp
                     show={openAiShow}
                     onHide={()=>setOpenAiShow(false)}
-                />                
-            }
-            {
-                postsToShow.length > 0 && 
-                    <div id="postsBody" ref={scrollDemoRef} onScroll={handleScroll}>
-                        {
-                            postsToShow.map((post)=>{
-                                return (<PostComp deletePost={deletePost} post={post} key={post._id}/>)
-                            })
-                        }
-                    </div>
-            }
-
-            {
-                <NewPostComp
-                    show={postModalShow}
-                    onHide={() => setPostModalShow(false)}
                 />
-            }
-            {
-                postsToShow.length === 0 && <ErrorComp errMsg = "No posts to show !!!"/>
-            }
+            )}
+
+            <NewPostComp
+                show={postModalShow}
+                onHide={() => setPostModalShow(false)}
+            />
         </div>
     );
 };
