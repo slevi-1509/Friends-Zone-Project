@@ -40,6 +40,7 @@ export const LoginComp = () => {
             return;
         } else {
             try { 
+                setDisplaySpinner("block");
                 await Axios("post", authURL, "", {username: userLogin.username, password: userLogin.password}).then((response=>{
                     if (typeof response == "string"){
                         alert(response);
@@ -54,10 +55,11 @@ export const LoginComp = () => {
                         dispatch({ type: "GET_TOKEN", payload: response.token });
                         // dispatch({ type: "GET_SOCKET", payload: io (AppContext.SERVER_IP+AppContext.HTTP_PORT) });
                         
-                        setDisplaySpinner("block");
-                        setTimeout(() => {
-                            navigate("/main");
-                        }, 1000);
+                        // setDisplaySpinner("block");
+                        navigate("/main");
+                        // setTimeout(() => {
+                        //     navigate("/main");
+                        // }, 1000);
                     }
                 }))
             } catch (e) {

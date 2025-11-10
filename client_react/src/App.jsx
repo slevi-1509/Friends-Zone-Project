@@ -16,12 +16,12 @@ function App() {
   AppContext.HTTP_PORT = 3301;
   // AppContext.SERVER_IP = "http://192.168.1.94:";
   // AppContext.SERVER_IP = "http://77.137.66.52:";
-  AppContext.SERVER_IP = "http://localhost:";
+  // AppContext.SERVER_IP = "http://localhost:";
+  AppContext.SERVER_IP = "http://54.166.160.8:";
   AppContext.AUTH_URL = AppContext.SERVER_IP+AppContext.APP_PORT+"/api/auth";
   AppContext.USERS_URL = AppContext.SERVER_IP+AppContext.APP_PORT+"/api/users";
   AppContext.POSTS_URL = AppContext.SERVER_IP+AppContext.APP_PORT+"/api/posts";
   AppContext.MESSAGES_URL = AppContext.SERVER_IP+AppContext.APP_PORT+"/api/messages";
-  AppContext.OPENAI_API_KEY = "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"
 
   return (
     <div className="appBody">
