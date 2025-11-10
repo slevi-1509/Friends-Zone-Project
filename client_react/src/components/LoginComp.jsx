@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faLock, faEye, faEyeSlash, faRightToBracket, faUserPlus } from '@fortawesome/free-solid-svg-icons'
 import AppContext from './appContext';
 import Axios from './helpers'
-import "../styles/logIn.css"
+import "../styles/LogIn.css"
 import "../styles/Auth.css"
 
 export const LoginComp = () => {
