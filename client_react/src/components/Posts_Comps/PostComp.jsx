@@ -115,19 +115,6 @@ export const PostComp = ({ deletePost, post }) => {
                             </span>
                         </div>
                     </div>
-
-                    <div className="post-actions">
-                        <button className="post-action-btn reply-btn" onClick={() => setReplyModalShow(true)}>
-                            <FontAwesomeIcon icon={faReply} />
-                            <span>Reply</span>
-                        </button>
-                        {currUser.username === post.username && (
-                            <button className="post-action-btn delete-btn" onClick={() => deletePost(post._id)}>
-                                <FontAwesomeIcon icon={faTrash} />
-                                <span>Delete</span>
-                            </button>
-                        )}
-                    </div>
                 </div>
 
                 {/* Post Content */}
@@ -149,14 +136,26 @@ export const PostComp = ({ deletePost, post }) => {
 
                 {/* Replies Section */}
                 <div className="post-replies-section">
-                    <button className="replies-toggle-btn" onClick={(e) => repliesToShowFunc(e.currentTarget)}>
-                        <FontAwesomeIcon icon={faCommentDots} />
-                        <span>{repliesText}</span>
-                        <FontAwesomeIcon
-                            icon={repliesText === "Show less" ? faChevronUp : faChevronDown}
-                            className="toggle-icon"
-                        />
-                    </button>
+                    <div className="post-actions">
+                        <button className="replies-toggle-btn" onClick={(e) => repliesToShowFunc(e.currentTarget)}>
+                            <FontAwesomeIcon icon={faCommentDots} />
+                            <span>{repliesText}</span>
+                            <FontAwesomeIcon
+                                icon={repliesText === "Show less" ? faChevronUp : faChevronDown}
+                                className="toggle-icon"
+                            />
+                        </button>
+                        <button className="post-action-btn reply-btn" onClick={() => setReplyModalShow(true)}>
+                            <FontAwesomeIcon icon={faReply} />
+                            <span>Reply</span>
+                        </button>
+                        {currUser.username === post.username && (
+                            <button className="post-action-btn delete-btn last-item" onClick={() => deletePost(post._id)}>
+                                <FontAwesomeIcon icon={faTrash} />
+                                <span>Delete</span>
+                            </button>
+                        )}
+                    </div>
 
                     {repliesToShow.length > 0 && (
                         <div className="replies-container">

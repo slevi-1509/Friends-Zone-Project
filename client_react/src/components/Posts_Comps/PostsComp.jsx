@@ -101,17 +101,16 @@ export const PostsComp = () => {
                         <FontAwesomeIcon icon={faPlus} />
                         <span>New Post</span>
                     </button>
-
-                    <div className="utility-buttons">
-                        {/* <button className="utility-btn" onClick={()=>setOpenAiShow(true)}>
+                    {/* <div className="utility-buttons">
+                        <button className="utility-btn" onClick={()=>setOpenAiShow(true)}>
                             <FontAwesomeIcon icon={faRobot} />
                             <span>OpenAI</span>
-                        </button> */}
+                        </button>
                         <button className="utility-btn import-btn" onClick={importPosts}>
                             <FontAwesomeIcon icon={faFileImport} />
                             <span>Import</span>
                         </button>
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* Filter Controls Card */}

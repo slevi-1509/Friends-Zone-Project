@@ -47,10 +47,10 @@ export const RegisterComp = () => {
     const registerUserFunc = async () => {
         debugger;
         if (user.userName==""||user.fname==""||user.lname==""||user.address==""||user.age==""||user.email==""||user.password==""||user.confirmPassword==""
-                ||user.gender==""||user.role=="") {
+                ||user.gender==""||user.role_name=="") {
                 alert ('Missing information required for registration');
-        } else if (!(password.value==confirmPassword.value)) {
-            alert ('Passwords do not match!');
+        // } else if (!(password.value==confirmPassword.value)) {
+        //     alert ('Passwords do not match!');
         } else {
             const newUser = {
                 fname: user.fname,
