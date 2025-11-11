@@ -35,9 +35,36 @@ const options = {
 const httpsServer = https.createServer(options, app);
 const httpServer = http.createServer(app);
 
+const allowedOrigins = [
+  "http://localhost:5173",  // React dev server
+  "https://friends-zone-project.vercel.app/",   // Production domain
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (e.g., curl or Postman)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
+
+// app.use(cors({
+//     cors: {
+//         origin: allowedOrigins,
+//         methods: ["GET", "POST"]
+//     }
+// })) ;
+
 const io = new Server(httpServer, {
     cors: {
-        origin: process.env.SERVER_NAME+process.env.REACT_PORT,
+        origin: allowedOrigins,
         methods: ["GET", "POST"]
     }
 });
@@ -45,12 +72,6 @@ const io = new Server(httpServer, {
 app.use(cookieParser())
 app.use(express.json());
 
-app.use(cors({
-    cors: {
-        origin: process.env.SERVER_NAME+process.env.APP_PORT,
-        methods: ["GET", "POST"]
-    }
-})) ;
 
 app.post('/logout', async (req, res, next) => {
     try {
