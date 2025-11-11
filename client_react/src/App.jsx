@@ -12,12 +12,13 @@ import AppContext from './components/appContext';
 
 function App() {
 
-  AppContext.APP_PORT = 3300;
+  // AppContext.APP_PORT = 3300;
+  AppContext.APP_PORT = 5000;
   AppContext.HTTP_PORT = 3301;
   // AppContext.SERVER_IP = "http://192.168.1.94:";
   // AppContext.SERVER_IP = "http://77.137.66.52:";
-  // AppContext.SERVER_IP = "http://localhost:";
-  AppContext.SERVER_IP = "http://54.166.160.8:";
+  AppContext.SERVER_IP = "https://localhost:";
+  // AppContext.SERVER_IP = "http://54.166.160.8:";
   AppContext.AUTH_URL = AppContext.SERVER_IP+AppContext.APP_PORT+"/api/auth";
   AppContext.USERS_URL = AppContext.SERVER_IP+AppContext.APP_PORT+"/api/users";
   AppContext.POSTS_URL = AppContext.SERVER_IP+AppContext.APP_PORT+"/api/posts";

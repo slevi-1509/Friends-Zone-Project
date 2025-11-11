@@ -4,13 +4,16 @@ const authRouter = require('./routers/authRouter');
 const postsRouter = require('./routers/postsRouter');
 const messagesRouter = require('./routers/messagesRouter');
 const messagesBLL = require('./BLL/messagesBLL');
+const fs = require("fs");
 const http = require('http');
+const https = require('https');
+const path = require("path");
+const express = require('express');
+const cors = require('cors');
 const { Server } = require('socket.io');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const mongoDBSession = require('connect-mongodb-session')(session);
-const express = require('express');
-const cors = require('cors');
 const connectDB = require('./configs/connectDB');
 let chatMessages = [];
 let rooms = [];
@@ -23,9 +26,16 @@ const store = new mongoDBSession({
     collection:'sessions'
 })
 
-const server = http.createServer(app);
+// SSL certificate options
+const options = {
+  key: fs.readFileSync(path.join(__dirname, "cert/server.key")),
+  cert: fs.readFileSync(path.join(__dirname, "cert/server.cert")),
+};
 
-const io = new Server(server, {
+const httpsServer = https.createServer(options, app);
+const httpServer = http.createServer(app);
+
+const io = new Server(httpServer, {
     cors: {
         origin: process.env.SERVER_NAME+process.env.REACT_PORT,
         methods: ["GET", "POST"]
@@ -36,10 +46,10 @@ app.use(cookieParser())
 app.use(express.json());
 
 app.use(cors({
-    // cors: {
-    //     origin: process.env.SERVER_NAME+process.env.APP_PORT,
-    //     methods: ["GET", "POST"]
-    // }
+    cors: {
+        origin: process.env.SERVER_NAME+process.env.APP_PORT,
+        methods: ["GET", "POST"]
+    }
 })) ;
 
 app.post('/logout', async (req, res, next) => {
@@ -188,11 +198,11 @@ io.of("/").adapter.on("delete-room", (room) => {
 });
 
 // server start
-app.listen(process.env.APP_PORT, () => {
+httpsServer.listen(process.env.APP_PORT, () => {
     console.log(`Server is running on port ${process.env.APP_PORT}`);
 });
 
-server.listen(process.env.HTTP_PORT, () => {
+httpServer.listen(process.env.HTTP_PORT, () => {
     console.log(`server is running on port ${process.env.HTTP_PORT}`);
 });
 
