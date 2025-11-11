@@ -44,6 +44,7 @@ export const LoginComp = () => {
                 await Axios("post", authURL, "", {username: userLogin.username, password: userLogin.password}).then((response=>{
                     if (typeof response == "string"){
                         alert(response);
+                        setDisplaySpinner("none");
                     } else {
                         setCookie(response.user._id, response.token, {
                             path: "/",

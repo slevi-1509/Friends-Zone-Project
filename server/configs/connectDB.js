@@ -6,7 +6,7 @@ const connectDB = () => {
     try {
         // mongoose.connect('mongodb://localhost:27017/FullStack_Final_Project').then(()=>{
         //     console.log('Database connection established')
-        const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/FullStack_Final_Project';
+        const mongoURI = process.env.MONGODB_URI || 'mongodb://fullstack-mongodb:27017/FullStack_Final_Project';
         mongoose.connect(mongoURI).then(()=>{
             console.log('Database connection established')
         });

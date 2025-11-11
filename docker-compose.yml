@@ -28,8 +28,8 @@ services:
       - APP_PORT=3300
       - HTTP_PORT=3301
       - SECRET_KEY=WhoLetTheDogsOut
-      - MONGODB_URI=mongodb://mongodb:27017/FullStack_Final_Project
-      - SERVER_NAME="http://localhost:"
+      - MONGODB_URI=mongodb://fullstack-mongodb:27017/FullStack_Final_Project
+      # - SERVER_NAME="http://localhost:"
       - REACT_PORT=5173
     depends_on:
       - mongodb
