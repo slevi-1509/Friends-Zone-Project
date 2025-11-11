@@ -10,7 +10,8 @@ const Axios = async (action, serverURL, userDetails, data) => {
                 "Content-Type": "application/json"},
             params: {
                 "username":userDetails[1],
-            }
+            },
+            withCredentials: true
         })
     }
     switch (action) {

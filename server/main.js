@@ -37,7 +37,7 @@ const httpServer = http.createServer(app);
 
 const allowedOrigins = [
   "http://localhost:5173",  // React dev server
-  "https://friends-zone-project.vercel.app/",   // Production domain
+  "https://friends-zone-project.vercel.app",   // Production domain
 ];
 
 app.use(
@@ -90,6 +90,10 @@ app.use("/api/users", usersRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/posts", postsRouter);
 app.use("/api/messages", messagesRouter)
+
+app.get("/", (req, res) => {
+    res.send("Server is up and running!");
+});
 
 io.on("connection", (socket) => {
     console.log("New client connected " + socket.id);
