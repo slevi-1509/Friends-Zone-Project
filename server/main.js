@@ -13,7 +13,7 @@ const cors = require('cors');
 const { Server } = require('socket.io');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
-const mongoDBSession = require('connect-mongodb-session')(session);
+// const mongoDBSession = require('connect-mongodb-session')(session);
 const connectDB = require('./configs/connectDB');
 let chatMessages = [];
 let rooms = [];
@@ -21,10 +21,10 @@ let currRoom = "";
 const chatUsers = [];
 const app = express();
 
-const store = new mongoDBSession({
-    uri: process.env.mongoURI,
-    collection:'sessions'
-})
+// const store = new mongoDBSession({
+//     uri: process.env.mongoURI,
+//     collection:'sessions'
+// })
 
 // SSL certificate options
 const options = {
