@@ -32,37 +32,38 @@ const options = {
   cert: fs.readFileSync(path.join(__dirname, "cert/server.cert")),
 };
 
-const httpsServer = https.createServer(options, app);
+// const httpsServer = https.createServer(options, app);
 const httpServer = http.createServer(app);
+const ioServer = require('http').createServer(app);
 
 const allowedOrigins = [
   "http://localhost:5173",  // React dev server
   "https://friends-zone-project.vercel.app",   // Production domain
 ];
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      // Allow requests with no origin (e.g., curl or Postman)
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      } else {
-        return callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: function (origin, callback) {
+//       // Allow requests with no origin (e.g., curl or Postman)
+//       if (!origin) return callback(null, true);
+//       if (allowedOrigins.includes(origin)) {
+//         return callback(null, true);
+//       } else {
+//         return callback(new Error("Not allowed by CORS"));
+//       }
+//     },
+//     credentials: true,
+//   })
+// );
 
-// app.use(cors({
-//     cors: {
-//         origin: allowedOrigins,
-//         methods: ["GET", "POST"]
-//     }
-// })) ;
+app.use(cors({
+    cors: {
+        origin: allowedOrigins,
+        methods: ["GET", "POST"]
+    }
+})) ;
 
-const io = new Server(httpServer, {
+const io = new Server(ioServer, {
     cors: {
         origin: allowedOrigins,
         methods: ["GET", "POST"]
@@ -223,11 +224,11 @@ io.of("/").adapter.on("delete-room", (room) => {
 });
 
 // server start
-httpsServer.listen(process.env.APP_PORT, () => {
+httpServer.listen(process.env.APP_PORT, () => {
     console.log(`Server is running on port ${process.env.APP_PORT}`);
 });
 
-httpServer.listen(process.env.HTTP_PORT, () => {
+ioServer.listen(process.env.HTTP_PORT, () => {
     console.log(`server is running on port ${process.env.HTTP_PORT}`);
 });
 

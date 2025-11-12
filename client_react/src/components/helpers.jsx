@@ -1,5 +1,6 @@
 import axios from 'axios'
 import AppContext from './appContext';
+// import https from 'https';
 
 const Axios = async (action, serverURL, userDetails, data) => {
     // debugger;
@@ -11,9 +12,13 @@ const Axios = async (action, serverURL, userDetails, data) => {
             params: {
                 "username":userDetails[1],
             },
-            withCredentials: true
-        })
+            })
     }
+
+    // const agent = new https.Agent({
+    //     rejectUnauthorized: false
+    // });
+
     switch (action) {
         case "get":
             try {
