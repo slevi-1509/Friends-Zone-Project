@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { io } from "socket.io-client"
 import 'bootstrap/dist/css/bootstrap.css'; 
 import Modal from 'react-bootstrap/Modal';
@@ -57,8 +57,7 @@ export const SocketChatComp=(props) => {
         });
 
         socketObj.on("response", (messages, myRooms, currRoom) => {
-            // debugger;
-            if (messages.length > 0 ) { // && (roomSelectElement.current == undefined || messages[0].room == roomSelectElement.current.value)){
+            if (messages.length > 0 ) {
                 let tempArr = messages.map(message=>{
                     if(message.replyTo!=null){
                         let replyToMsg = messages.find(msg => msg._id == message.replyTo);
@@ -106,7 +105,6 @@ export const SocketChatComp=(props) => {
         
         socketObj.on("leave_room", (myRooms) => {
             setRooms([...myRooms]);
-            // roomSelect(myRooms[0]);
             return () => socketObj.off('leave_room');
         }); 
         
@@ -171,7 +169,6 @@ export const SocketChatComp=(props) => {
     }
 
     const roomSelect = (room) => {
-        // debugger;
         setSelectedRoom(room);
         socket.emit("roomSelect", currUser.username, room);
         setReplyCloneShow(false);
@@ -244,7 +241,6 @@ export const SocketChatComp=(props) => {
                                 <section id="roomSection">
                                     <input id="chatRoom" className="" type="text" name="chatroom" placeholder="Room name:" value={chatRoom} onChange={e=>{setChatRoom(e.target.value)}}></input>
                                     <button id="joinBtn" onClick={()=>{joinRoom(chatRoom)}}>Join</button>
-                                    {/* <button id="leaveAllBtn" onClick={leaveAllRooms}>Leave All</button> */}
                                 </section>
                                 <Modal.Title id="modalTitle">
                                     <section>                               

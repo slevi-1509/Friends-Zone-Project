@@ -6,7 +6,6 @@ import reducer from "../src/components/redux/reducer.jsx"
 import { legacy_createStore as createStore } from "redux"
 import { Provider } from "react-redux"
 import App from './App.jsx'
-// import './index.css'
 const appStore = createStore(reducer);
 
 createRoot(document.getElementById('root')).render(

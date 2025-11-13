@@ -5,12 +5,14 @@ require("dotenv").config();
 
 const getAllPosts = async() => {
     try {
-        let posts = await postModel.find({});
-        if (posts.length > 0) {
-            return posts;
-        } else {
-            return "No posts found";
-        }
+        let posts = []
+        posts = await postModel.find({});
+        // if (posts.length > 0) {
+        //     return posts;
+        // } else {
+        //     return "No posts found";
+        // }
+        return posts;
     } catch (error) {
         return(error.message);
     }

@@ -1,14 +1,12 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from "react-redux"
 import 'bootstrap/dist/css/bootstrap.css';
-import { Card, Button, ListGroup, ListGroupItem } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faReply, faTrash, faChevronDown, faChevronUp, faCommentDots, faClock, faUser } from '@fortawesome/free-solid-svg-icons';
 import { ReplyPostComp } from "./ReplyPostComp"
 import AppContext from '../appContext';
 import '../../styles/Posts.css';
-import noImage from '../../data/noImage.png'; 
 
 export const PostComp = ({ deletePost, post }) => {
     const currUser = useSelector(state => state.currUser);
@@ -94,7 +92,6 @@ export const PostComp = ({ deletePost, post }) => {
     };   
 
     const hideModal = () => {
-        // repliesToShowFunc();
         setReplyModalShow(false)   
     }
     

@@ -1,12 +1,7 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import axios from 'axios'
 import { Link, useNavigate  } from "react-router-dom"
-import { Stack } from "@mui/material"
 import { SpinnerComp } from "./Error_Comps/SpinnerComp"
-import FilledInput from "@mui/material/FilledInput"
-import InputLabel from "@mui/material/InputLabel"
-import FormControl from "@mui/material/FormControl"
-import Box from "@mui/material/Box"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faLock, faEnvelope, faLocationDot, faCakeCandles, faImage, faEye, faEyeSlash, faUserPlus, faRightToBracket, faFileImport, faVenusMars, faUserTag } from '@fortawesome/free-solid-svg-icons'
 
@@ -45,12 +40,9 @@ export const RegisterComp = () => {
     // Checking if Admin role exists (Only one user can be Admin)
 
     const registerUserFunc = async () => {
-        debugger;
         if (user.userName==""||user.fname==""||user.lname==""||user.address==""||user.age==""||user.email==""||user.password==""||user.confirmPassword==""
                 ||user.gender==""||user.role_name=="") {
                 alert ('Missing information required for registration');
-        // } else if (!(password.value==confirmPassword.value)) {
-        //     alert ('Passwords do not match!');
         } else {
             const newUser = {
                 fname: user.fname,

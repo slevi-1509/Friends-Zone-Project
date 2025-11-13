@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { useDispatch, useSelector } from "react-redux"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faReply, faTimes, faUser, faClock, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import '../../styles/Posts.css';

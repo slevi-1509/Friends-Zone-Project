@@ -3,7 +3,6 @@ import AppContext from './appContext';
 // import https from 'https';
 
 const Axios = async (action, serverURL, userDetails, data) => {
-    // debugger;
     const requestHeader =  () => {
         return({
             headers: {
@@ -14,10 +13,6 @@ const Axios = async (action, serverURL, userDetails, data) => {
             },
             })
     }
-
-    // const agent = new https.Agent({
-    //     rejectUnauthorized: false
-    // });
 
     switch (action) {
         case "get":

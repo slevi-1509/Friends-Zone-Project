@@ -17,18 +17,14 @@ import '../../styles/Posts.css';
 
 export const PostsComp = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const currUser = useSelector(state => state.currUser);
     const token = useSelector(state => state.token);
     const posts = useSelector(state => state.posts);
-    // const postsToShow = useSelector(state => state.postsToShow);
-    // const refreshPosts = useSelector(state => state.refreshPosts);
     const [ postModalShow, setPostModalShow ] = useState(false);
     const [ showMyPosts, setShowMyPosts ] = useState(false);
     const [ postsToShow, setPostsToShow ] = useState([]);
     const [ sortSelect, setSortSelect ] = useState("date");
     const [ sortAsc, setSortAsc ] = useState (false);
-    // const [ sortDir, setSortDir ] = useState("d");
     const [ srchSelect, setSrchSelect ] = useState("none");
     const [ searchInput, setSearchInput ] = useState("");
     const [ openAiShow, setOpenAiShow ] = useState(false);
@@ -55,6 +51,8 @@ export const PostsComp = () => {
                 tempPostsArr = tempPostsArr.filter((post)=>{return post[srchSelect].toLowerCase().includes(searchInput.toLowerCase())})
             };
             setPostsToShow([...tempPostsArr]);
+        } else {
+            setPostsToShow([]);
         }
     }
 
@@ -96,23 +94,6 @@ export const PostsComp = () => {
         <div className="modern-posts-container">
             {/* Header with Actions */}
             <div className="posts-header-section">
-                <div className="posts-actions-bar">
-                    <button className="new-post-btn" onClick={()=>setPostModalShow(true)}>
-                        <FontAwesomeIcon icon={faPlus} />
-                        <span>New Post</span>
-                    </button>
-                    {/* <div className="utility-buttons">
-                        <button className="utility-btn" onClick={()=>setOpenAiShow(true)}>
-                            <FontAwesomeIcon icon={faRobot} />
-                            <span>OpenAI</span>
-                        </button>
-                        <button className="utility-btn import-btn" onClick={importPosts}>
-                            <FontAwesomeIcon icon={faFileImport} />
-                            <span>Import</span>
-                        </button>
-                    </div> */}
-                </div>
-
                 {/* Filter Controls Card */}
                 <div className="filter-controls-card">
                     <div className="filter-section-row">
@@ -125,9 +106,12 @@ export const PostsComp = () => {
                                 onChange={()=>{setShowMyPosts(!showMyPosts)}}
                             />
                             <label htmlFor="myPostsCheck" className="checkbox-label">
-                                {/* <FontAwesomeIcon icon={faCheckSquare} /> */}
                                 Show only my posts
                             </label>
+                            <button className="new-post-btn last-item" onClick={()=>setPostModalShow(true)}>
+                                <FontAwesomeIcon icon={faPlus} />
+                                <span>New Post</span>
+                            </button>
                         </div>
                     </div>
 
@@ -218,7 +202,7 @@ export const PostsComp = () => {
             {/* Empty State */}
             {postsToShow.length === 0 && (
                 <div className="empty-posts-state">
-                    <ErrorComp errMsg="No posts to show"/>
+                    <h1>No posts to show</h1>
                 </div>
             )}
 

@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from "react-redux"
-import axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.css';
 import Modal from 'react-bootstrap/Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,7 +18,6 @@ export const EditUserComp=(props) => {
         age: currUser.age, email: currUser.email, imageURL: currUser.imageURL
     });
     const [passwordsMatch, setPasswordsMatch] = useState(true);
-    const [showPasswordHint, setShowPasswordHint] = useState(false);
     const params = {
         headers: {
             "x-access-token": token,
@@ -57,12 +55,6 @@ export const EditUserComp=(props) => {
                     dispatch({ type: "GET_USERS", payload: response });
                     props.onHide();
                 });
-                // await axios.put(AppContext.USERS_URL+"/"+currUser._id, user, params).then(({data:response}) => {
-                //     dispatch({ type: "GET_USERS", payload: response });
-                //     // dispatch({ type: "REFRESH_USERS", payload: !refreshUsers });
-                //     // alert(response);
-                //     props.onHide();
-                // });
             } catch (error) {
                 alert(error.message);
                 return error;

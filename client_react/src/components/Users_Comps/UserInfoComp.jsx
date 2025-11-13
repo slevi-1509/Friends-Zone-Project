@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux"
 import axios from 'axios'
 import 'bootstrap/dist/css/bootstrap.css'; 
@@ -18,10 +18,8 @@ export const InfoUserComp=(props) => {
     const user = props.user;
     const currUser = useSelector(state => state.currUser);
     const token = useSelector(state => state.token);
-    const users = useSelector(state => state.users);
     const refreshUsers = useSelector(state => state.refreshUsers);
     const serverURL = AppContext.USERS_URL;
-    const showChat = useSelector(state => state.showChat);
     const [msgModalShow, setMsgModalShow] = useState(false);
     const [frBtn, setFrBtn] = useState({icon: "faHand", title: `Send Friend Request to ${user.fname} ${user.lname}`})
     const [frBtnStatus, setFrBtnStatus] = useState("button-17 enabled")
@@ -83,10 +81,6 @@ export const InfoUserComp=(props) => {
                         setFrBtnStatus("button-17 disabled");
                         dispatch({ type: "GET_USERS", payload: response });
                     });
-                    // await axios.put(serverURL+"/"+currUser.username+"/frapprove", updatedRcvUser, params);
-                    // await axios.put(serverURL+"/"+SndUserName+"/frapprove", updatedSndUser, params);
-                    // setFrBtn({icon: `faUserGroup`, title: `You and ${user.fname} ${user.lname} are friends`});
-                    // setFrBtnStatus("button-17 disabled");
                 } else if (result.isDenied) {
                     /////// Delete FRI and FRO records /////
                     const frRequest = {snd: user._id};
@@ -96,17 +90,10 @@ export const InfoUserComp=(props) => {
                         dispatch({ type: "GET_USERS", payload: response });
                     });
                     
-                } 
-                // if (!result.isDismissed){
-                //     debugger;
-                //     await axios.put(serverURL+"/frdelete", updatedRcvUser, params);
-                //     // await axios.put(serverURL+"/"+SndUserName+"/frdelete", updatedSndUser, params);
-                //     dispatch({ type: "REFRESH_USERS", payload: !refreshUsers });  
-                // }
+                }
             });
         } else {
             /////// Create FRO and FRI records respectively for Sender and Receiver of FR /////
-            // debugger;
             const frRequest = {rcv: user._id};
             await Axios ("put", AppContext.USERS_URL+"/"+currUser._id+"/frrequest", [token, currUser._id], frRequest).then((response) => {
                 setFrBtn({icon: `faHandshakeSimple`, title: `You sent Friend Request to ${user.fname} ${user.lname}`, class: {frBtnStatus}})

@@ -1,13 +1,11 @@
-import React, { useRef, useEffect, useState } from 'react'
-import { io } from "socket.io-client"
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { Link, NavLink, Outlet, useNavigate } from "react-router-dom"
-import { Stack } from "@mui/material"
+import { NavLink, Outlet, useNavigate } from "react-router-dom"
 import { useCookies } from "react-cookie";
 import { SocketChatComp } from "./Socket_Comps/SocketChatComp"
 import { EditUserComp } from './Users_Comps/CurrUserEditComp'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserPen, faTrashCan, faWebAwesome, faUsers, faNewspaper, faComments, faRightFromBracket, faCrown } from '@fortawesome/free-solid-svg-icons'
+import { faUserPen, faTrashCan, faUsers, faNewspaper, faComments, faRightFromBracket, faCrown } from '@fortawesome/free-solid-svg-icons'
 import Tooltip from '@mui/material/Tooltip';
 import Swal from 'sweetalert2'
 import { SpinnerComp } from "./Error_Comps/SpinnerComp"
@@ -29,7 +27,6 @@ export const MainPage = () => {
 
     useEffect (() => {
         const getUserData = async () => {
-            // debugger;
             if (token=="") {
                 if (Object.keys(cookies).length > 0){
                     try {
@@ -48,10 +45,6 @@ export const MainPage = () => {
                                     dispatch({ type: "GET_POSTS", payload: allPosts });
                                 }  
                             })
-                            // if(Object.keys(socket).length == 0){
-                            //     dispatch({ type: "GET_SOCKET", payload: io (AppContext.SERVER_IP+AppContext.HTTP_PORT) });
-                            // }
-                            // navigate("/main/users");
                         }
                     } catch (error) {
                         navigate("/error/"+"No Credentials were found, Back to login!");
@@ -78,7 +71,6 @@ export const MainPage = () => {
                         }  
                     })
                     navigate("/main/users");
-                    // dispatch({ type: "GET_CURRUSER", payload: response.find(user=>{return user.username == currUser.username}) });
                 } 
             }
         }
@@ -88,8 +80,6 @@ export const MainPage = () => {
     const logoutUser = async (title) => {
         try {
             await Axios ("logout", AppContext.SERVER_IP+AppContext.APP_PORT+"/logout")
-            // Object.keys(socket).length>0?socket.disconnect():"";
-            // navigate("/error/"+title);
             setDisplaySpinner("block");
             setTimeout(() => {
                 navigate("/login");

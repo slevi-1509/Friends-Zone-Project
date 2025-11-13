@@ -9,7 +9,6 @@ const inintialState = {
     refreshUsers: false,
     refreshPosts: false,
     replyFlag: false,
-    // socket: {},
     rooms: []
 };
 const reducer = (state = inintialState, action) => {
@@ -43,9 +42,6 @@ const reducer = (state = inintialState, action) => {
         case "ADD_NEW_MESSAGE":
             state = {...state, myMessages: [...state.myMessages, action.payload]}
             return state
-        // case "SHOW_MY_FRIENDS":
-        //     state = {...state, showMyFriends: action.payload}
-        //     return state
         case "REFRESH_USERS":
             state = {...state, refreshUsers: action.payload}
             return state
@@ -55,9 +51,6 @@ const reducer = (state = inintialState, action) => {
         case "REPLY_FLAG":
             state = {...state, replyFlag: action.payload}
             return state
-        // case "GET_SOCKET":
-        //     state = {...state, socket: action.payload}
-        //     return state
         case "GET_ROOMS":
             state = {...state, rooms: [...action.payload]}
             return state

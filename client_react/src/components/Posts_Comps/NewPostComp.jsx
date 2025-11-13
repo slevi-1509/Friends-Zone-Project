@@ -12,7 +12,6 @@ export const NewPostComp=(props) => {
     const dispatch = useDispatch();
     const currUser = useSelector(state => state.currUser);
     const token = useSelector(state => state.token);
-    // const refreshPosts = useSelector(state => state.refreshPosts);
     const serverURL = AppContext.SERVER_IP+AppContext.APP_PORT+"/api/posts/";
     const [post, setPost] = useState({});
     const params = {
@@ -44,9 +43,6 @@ export const NewPostComp=(props) => {
             try {
                 await axios.post(serverURL, newPost, params).then(({data:response}) => {
                     dispatch({ type: "GET_POSTS", payload: response });
-                    // if (response != "New post created successfully!") {
-                    //     alert(response);
-                    // };
                 });
             } catch (error) {
                 alert(error.message)

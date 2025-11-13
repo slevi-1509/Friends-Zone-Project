@@ -1,11 +1,8 @@
-import React, { useState } from 'react'
-import axios from 'axios'
-import { io } from "socket.io-client"
+import { useState } from 'react'
 import { CookiesProvider, useCookies } from 'react-cookie'
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
 import { SpinnerComp } from "./Error_Comps/SpinnerComp"
-import { Button, TextField, FormControl, Stack } from "@mui/material"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faLock, faEye, faEyeSlash, faRightToBracket, faUserPlus } from '@fortawesome/free-solid-svg-icons'
 import AppContext from './appContext';
@@ -26,15 +23,12 @@ export const LoginComp = () => {
     const setUserDetails = (e) => {
         let { value, name } = e.target;
         setUserLogin({...userLogin, [name]: value})
-        // console.log(userLogin)
     }
 
      // Check for login name and passwaord and in case of approval creates a cookie with the token.
      // Updates the reducers parameters.
 
     const onFormSubmit = async () => {
-        // console.log("render login")
-        // debugger;
         if (userLogin.username == "" || userLogin.password == ""){
             alert ("Missing username or password!");
             return;
@@ -54,13 +48,7 @@ export const LoginComp = () => {
                           }); 
                         dispatch({ type: "GET_CURRUSER", payload: response.user });
                         dispatch({ type: "GET_TOKEN", payload: response.token });
-                        // dispatch({ type: "GET_SOCKET", payload: io (AppContext.SERVER_IP+AppContext.HTTP_PORT) });
-                        
-                        // setDisplaySpinner("block");
                         navigate("/main");
-                        // setTimeout(() => {
-                        //     navigate("/main");
-                        // }, 1000);
                     }
                 }))
             } catch (e) {

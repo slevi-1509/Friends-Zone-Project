@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from "react-redux"
 import 'bootstrap/dist/css/bootstrap.css'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,16 +10,12 @@ import noImage from '../../data/noImage.png';
 
 export const UserComp = ({ user }) => {
     const currUser = useSelector(state => state.currUser);
-    // const token = useSelector(state => state.token);
     const [infoUserShow, setInfoUserShow] = useState(false);
-    // const [frStatus, setFrStatus] = useState();
-    // const [frRefresh, setFrRefresh] = useState(false);
 
     useEffect (() => {
     }, []);
 
     const hideModal = () => {
-        // setFrRefresh(!frRefresh);
         setInfoUserShow(false);
     }
 

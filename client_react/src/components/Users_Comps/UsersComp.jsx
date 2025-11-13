@@ -1,24 +1,20 @@
-import React, { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { Link, useNavigate } from "react-router-dom"
-import { Button, Stack, Divider } from "@mui/material"
+import { useNavigate } from "react-router-dom"
+import { Button } from "@mui/material"
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { UserComp } from "./UserComp"
-import { ErrorComp } from "./../Error_Comps/ErrorComp"
 import "../../styles/Users.css"
 import AppContext from '../appContext';
 import Axios from '../helpers'
 
 export const UsersComp = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const currUser = useSelector(state => state.currUser);
     const token = useSelector(state => state.token);
     const users = useSelector(state => state.users);
-    const refreshUsers = useSelector(state => state.refreshUsers);
-    const socket = useSelector(state => state.socket);
     const [ sortSelect, setSortSelect ] = useState("fname");
     const [ sortAsc, setSortAsc ] = useState (true);
     const [showMyFriends, setShowMyFriends] = useState(false);
@@ -33,7 +29,6 @@ export const UsersComp = () => {
     }, [showMyFriends, users])
     
     const sortUsers = () => {
-        // debugger;
         let tempArr = [];
         if (!showMyFriends){
             tempArr = users.toSpliced(users.findIndex((user) => user._id == currUser._id),1);
@@ -176,7 +171,7 @@ export const UsersComp = () => {
             {
                 usersList.length === 0 &&
                     <div className="empty-state">
-                        <ErrorComp errMsg='No friends to show yet...'/>
+                        <h1>No friends to show yet...</h1>
                     </div>
             }
         </div>
