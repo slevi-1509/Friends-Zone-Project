@@ -100,14 +100,15 @@ io.on("connection", (socket) => {
     console.log("New client connected " + socket.id);
 
     socket.on("get_rooms", () => {
-        rooms = Array.from(socket.rooms).toSpliced(0,1);
+        rooms = Array.from(socket.rooms)
+        rooms.shift();
         io.to(socket.id).emit("get_rooms", rooms);
     });
 
     // socket.on("join_private", async ( username, room ) => {
     //     socket.username=username;
     //         socket.join(room);
-    //         rooms = Array.from(socket.rooms).toSpliced(0,1);
+    //         rooms = Array.from(socket.rooms).shift();
     //         console.log(username + " join room " + room);
     //         let message = ({
     //             sendName: "CHAT_BOT", 
@@ -124,7 +125,10 @@ io.on("connection", (socket) => {
         socket.username=username;
         if (!socket.rooms.has(room)){
             socket.join(room);
-            rooms = Array.from(socket.rooms).toSpliced(0,1);
+            console.log(socket.rooms);
+            rooms = Array.from(socket.rooms)
+            rooms.shift();
+            console.log("rooms after join", rooms);
             console.log(username + " join room " + room);
             let message = ({
                 sendName: "CHAT_BOT", 
@@ -132,7 +136,7 @@ io.on("connection", (socket) => {
                 sendDate: Date.now(),
             });
             await messagesBLL.getRoomMessages(room).then((response) => {
-                chatMessages=[...response];
+                chatMessages = [...response];
                 io.to(socket.id).emit("join_room", chatMessages, rooms);
             });
             
@@ -144,8 +148,8 @@ io.on("connection", (socket) => {
 
     socket.on("roomSelect",  async (username, room) => {
             await messagesBLL.getRoomMessages(room).then((response) => {
-                chatMessages=[...response];
-                currRoom=room;
+                chatMessages = [...response];
+                currRoom = room;
             });
             io.to(socket.id).emit("response", chatMessages, rooms, room);
     });
@@ -153,7 +157,7 @@ io.on("connection", (socket) => {
     socket.on("send_message", async ( message , username, room ) => {
         await messagesBLL.createNewMessage(message)
         await messagesBLL.getRoomMessages(room).then((response) => {
-            chatMessages=[...response];
+            chatMessages = [...response];
         });
         io.in(room).emit("response", chatMessages, rooms, room); 
     });
@@ -161,7 +165,8 @@ io.on("connection", (socket) => {
     socket.on("leave_room", async ( room, username ) => {
         if (socket.rooms.has(room)){
             socket.leave(room);
-            rooms = Array.from(socket.rooms).toSpliced(0,1);
+            rooms = Array.from(socket.rooms)
+            rooms.shift();
             console.log(username + " left room " + room);
             // let message = ({
             //     sendName: "CHAT_BOT", 
@@ -170,7 +175,7 @@ io.on("connection", (socket) => {
             //     room: room
             // });
             await messagesBLL.getRoomMessages(rooms[0]).then((response) => {
-                chatMessages=[...response];
+                chatMessages = [...response];
             });
             io.to(socket.id).emit("response", chatMessages, rooms, rooms[0]);
             // io.to(socket.id).emit("leave_room", rooms);
@@ -180,18 +185,19 @@ io.on("connection", (socket) => {
     socket.on("delete_room", async ( room, username ) => {
         if (socket.rooms.has(room)){
             socket.leave(room);
-            rooms = Array.from(socket.rooms).toSpliced(0,1);
+            rooms = Array.from(socket.rooms)
+            rooms.shift();
             await messagesBLL.deleteRoom(room).then((response) => {
-                console.log("room "+room+" is closed!");
+                console.log("room " + room + " is closed!");
             });
             await messagesBLL.getRoomMessages(rooms[0]).then((response) => {
-                chatMessages=[...response];
+                chatMessages = [...response];
             });
             io.to(socket.id).emit("response", chatMessages, rooms, rooms[0]);
         }
 
         // io.in(room).socketsLeave(room);
-        // rooms = Array.from(socket.rooms).toSpliced(0,1);
+        // rooms = Array.from(socket.rooms).shift();
         // await messagesBLL.deleteRoom(room).then((response) => {
         //     console.log("room "+room+" is closed!");
         // });
@@ -200,10 +206,17 @@ io.on("connection", (socket) => {
     
     socket.on("leave_all_rooms", () => {
         console.log("User disconnected from all rooms")
-        rooms = Array.from(socket.rooms).toSpliced(0,1);
-        rooms.forEach((room)=>{
-            socket.leave(room);
-        })
+        console.log("Before leaving rooms:", socket.rooms);
+        rooms = Array.from(socket.rooms)
+        rooms.shift();
+        console.log("rooms", rooms, typeof rooms);
+        if (typeof rooms === 'string') {
+            socket.leave(rooms);
+        } else if (rooms.length > 0) {
+            rooms.forEach((room)=>{
+                socket.leave(room);
+            })
+        }
         io.to(socket.id).emit("leave_all_rooms");
     });
 
