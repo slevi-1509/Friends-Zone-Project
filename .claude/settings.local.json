@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cp:*)",
+      "Bash(copy /Y \"D:\\OneDrive\\Fullstack\\Friends-Zone-Project\\client_react\\src\\components\\Socket_Comps\\SocketChatComp.backup.jsx\" \"D:\\OneDrive\\Fullstack\\Friends-Zone-Project\\client_react\\src\\components\\Socket_Comps\\SocketChatComp.jsx\")",
+      "Bash(copy /Y \"D:\\OneDrive\\Fullstack\\Friends-Zone-Project\\client_react\\src\\components\\Socket_Comps\\SocketMsgComp.backup.jsx\" \"D:\\OneDrive\\Fullstack\\Friends-Zone-Project\\client_react\\src\\components\\Socket_Comps\\SocketMsgComp.jsx\")",
+      "Bash(copy /Y \"D:\\OneDrive\\Fullstack\\Friends-Zone-Project\\client_react\\src\\styles\\Socket.backup.css\" \"D:\\OneDrive\\Fullstack\\Friends-Zone-Project\\client_react\\src\\styles\\Socket.css\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

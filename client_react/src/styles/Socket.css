@@ -201,7 +201,9 @@
 }
 
 #replyChatImage {
-    margin: 0 0 0 0;  
+    margin: 0 0 0 0;
+    height: 3.5rem;
+    max-width: 3rem;
 }
 
 #replyChatSender{

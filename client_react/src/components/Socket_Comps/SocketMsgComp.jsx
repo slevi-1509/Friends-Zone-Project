@@ -63,7 +63,7 @@ export const SocketMsgComp=({ message, onReply }) => {
                                 </div>
                                 {
                                     (message.replyMsgImage != undefined && message.replyMsgImage.replace(/ /g, '') != "") && 
-                                        <img id="replyChatImage" style={{border: msgType.border, backgroundColor: msgType.replyColor, height: "2.2rem"}} src={message.replyMsgImage} onError={(e) => e.target.src = noImage} />
+                                        <img id="replyChatImage" style={{border: msgType.border, backgroundColor: msgType.replyColor}} src={message.replyMsgImage} onError={(e) => e.target.src = noImage} />
                                 } 
                             </div>
                     }
